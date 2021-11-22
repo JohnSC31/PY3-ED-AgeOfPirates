@@ -75,6 +75,9 @@ public class ClientThread extends Thread{
                 mainController.getLobbyController().addPlayerLobby(playerId, host);
                 
                 break;
+            case 2: // pasar a la pantalla de configuracion
+                mainController.startConfigSea(mainController.getLobbyView());
+                break;
             default:
                 System.out.println("Option " + option +" en lobby inexistente");
                 break;

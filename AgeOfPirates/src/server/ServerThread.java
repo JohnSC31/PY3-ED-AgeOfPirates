@@ -112,6 +112,12 @@ public class ServerThread extends Thread{
                     players.get(i).outputStream.writeBoolean(this.host);
                 }
                 break;
+            case 2: // inicia el juego para todos los jugadores conectados
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).outputStream.writeInt(1);
+                    players.get(i).outputStream.writeInt(2);
+                }
+                break;
             default:
                 System.out.println("Option " + option +" en lobby inexistente");
                 break;
