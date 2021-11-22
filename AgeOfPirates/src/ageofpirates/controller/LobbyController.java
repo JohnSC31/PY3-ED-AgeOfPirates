@@ -11,26 +11,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class LobbyController implements ActionListener{
+public class LobbyController extends Controller{
     
-    private LobbyWindow view;
-    private Game game;
-    private MainController mainController;
-    private DataOutputStream outputStream;
+    LobbyWindow view;
 
     public LobbyController(LobbyWindow view, Game game, MainController mainController) {
+        super(game, mainController);
         this.view = view;
-        this.game = game;
-        this.mainController = mainController;
-        this.outputStream = game.getPlayer().getOutputStream();
-        
         _init_();
     }
     
     // ----------------------------------------------- METODOS ----------------------------------------------------------------
-    
-   
-    private void _init_(){
+    public void _init_(){
         
         view.getBtnStartGame().addActionListener(this);
         view.getBtnStartGame().setEnabled(this.game.getPlayer().isHost());  // solo disponible para el host
@@ -79,7 +71,7 @@ public class LobbyController implements ActionListener{
             outputStream.writeInt(2); // subopcion de lobby
             
         } catch (IOException ex) {
-                    Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
