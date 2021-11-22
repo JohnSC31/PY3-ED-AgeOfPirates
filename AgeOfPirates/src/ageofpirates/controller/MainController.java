@@ -49,9 +49,14 @@ public class MainController {
         this.lobbyController = new LobbyController(this.lobbyView, this.game, this);
         showWindow(lobbyView);
     }
-    
-    
-    
+   
     
     // ----------------------------------------- GETTERS AND SETTERS -----------------------------------------------------------
+
+    public LobbyController getLobbyController() {
+        return lobbyController;
+    }
+    
+    
+    
 }

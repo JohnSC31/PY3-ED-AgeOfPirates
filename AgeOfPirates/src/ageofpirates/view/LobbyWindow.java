@@ -2,6 +2,8 @@
 package ageofpirates.view;
 
 import interfaces.iWindow;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 
 public class LobbyWindow extends javax.swing.JFrame implements iWindow{
@@ -18,7 +20,7 @@ public class LobbyWindow extends javax.swing.JFrame implements iWindow{
         pnlBackground = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaLobbyPlayers = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        btnStartGame = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -29,7 +31,7 @@ public class LobbyWindow extends javax.swing.JFrame implements iWindow{
         txtaLobbyPlayers.setRows(5);
         jScrollPane1.setViewportView(txtaLobbyPlayers);
 
-        jButton1.setText("Comenzar");
+        btnStartGame.setText("Comenzar");
 
         javax.swing.GroupLayout pnlBackgroundLayout = new javax.swing.GroupLayout(pnlBackground);
         pnlBackground.setLayout(pnlBackgroundLayout);
@@ -42,7 +44,7 @@ public class LobbyWindow extends javax.swing.JFrame implements iWindow{
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlBackgroundLayout.createSequentialGroup()
                         .addGap(164, 164, 164)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnStartGame, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
         pnlBackgroundLayout.setVerticalGroup(
@@ -51,7 +53,7 @@ public class LobbyWindow extends javax.swing.JFrame implements iWindow{
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnStartGame, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(80, Short.MAX_VALUE))
         );
 
@@ -71,7 +73,7 @@ public class LobbyWindow extends javax.swing.JFrame implements iWindow{
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnStartGame;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBackground;
     private javax.swing.JTextArea txtaLobbyPlayers;
@@ -81,4 +83,18 @@ public class LobbyWindow extends javax.swing.JFrame implements iWindow{
     public void setVisibility(boolean visible) {
         this.setVisible(visible);
     }
+    
+    // ----------------------- GETTERS AND SETTERS
+
+    public JButton getBtnStartGame() {
+        return btnStartGame;
+    }
+
+    public JTextArea getTxtaLobbyPlayers() {
+        return txtaLobbyPlayers;
+    }
+    
+    
+    
+    
 }

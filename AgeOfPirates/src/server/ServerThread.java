@@ -104,6 +104,14 @@ public class ServerThread extends Thread{
             case 0:
                 inputStream.readInt(); // ejemplificacion (no ha nada)
                 break;
+            case 1: // se une un nuego jugador al lobby
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).outputStream.writeInt(1);
+                    players.get(i).outputStream.writeInt(1);
+                    players.get(i).outputStream.writeInt(this.playerId);
+                    players.get(i).outputStream.writeBoolean(this.host);
+                }
+                break;
             default:
                 System.out.println("Option " + option +" en lobby inexistente");
                 break;

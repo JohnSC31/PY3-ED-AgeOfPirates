@@ -68,6 +68,13 @@ public class ClientThread extends Thread{
             case 0:
                 inputStream.readInt(); // ejemplificacion (no hace nada)
                 break;
+            case 1:
+                int playerId = inputStream.readInt();
+                boolean host = inputStream.readBoolean();
+                
+                mainController.getLobbyController().addPlayerLobby(playerId, host);
+                
+                break;
             default:
                 System.out.println("Option " + option +" en lobby inexistente");
                 break;
