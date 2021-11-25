@@ -11,6 +11,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 
 
@@ -36,6 +39,9 @@ public class ConfigController extends Controller implements MouseListener{
         view.getBtnMoveEaste().addActionListener(this);
         view.getBtnMoveWest().addActionListener(this);
         displaySea();
+        
+        view.getBtnStartGame().addActionListener(this);
+        view.getBtnStartGame().setEnabled(game.getPlayer().isHost());
         
     }
 
@@ -66,6 +72,11 @@ public class ConfigController extends Controller implements MouseListener{
             }
         }
         
+        if(e.getSource().equals(view.getBtnStartGame())){
+            startGame();
+        }
+            
+        
     }
     
     @Override
@@ -73,12 +84,11 @@ public class ConfigController extends Controller implements MouseListener{
         if(e.getSource().getClass().equals(SeaCell.class)){
             SeaCell clickedLabel = (SeaCell) e.getSource();
             if(clickedLabel.getGElement() != null){
-                System.out.println("element");
                 view.getLblSelectedElement().setText(clickedLabel.getGElement().getName());
                 this.selectedElement = clickedLabel.getGElement();
+                // setear la accion
             }else{
                 view.getLblSelectedElement().setText("Selecciona un elemento");
-                System.out.println("Not element");
                 this.selectedElement = null;
             }
         }
@@ -117,6 +127,18 @@ public class ConfigController extends Controller implements MouseListener{
         }
         
         game.initGraph();
+    }
+    
+    public void startGame(){
+        
+        try {
+            outputStream.writeInt(2); // opcion del config sea
+            outputStream.writeInt(1); // subopcion de config sea
+            
+        } catch (IOException ex) {
+                    Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }
     
     // ---------------------------------------------------------- GETTERS AND SETTERS ------------------------------------------

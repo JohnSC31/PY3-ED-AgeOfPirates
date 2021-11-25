@@ -14,6 +14,7 @@ public class MainController {
     // vistas del juego
     private LobbyWindow lobbyView;
     private ConfigWindow configView;
+    private GameWindow gameView;
     
     // modelo principal del juego
     private Game game;
@@ -21,6 +22,7 @@ public class MainController {
     // subcontroladores del juego
     private LobbyController lobbyController;
     private ConfigController configController;
+    private GameController gameController;
     
     // colores
                                      // Rich black          Police Blue             verdigris               Diamond                     Caramel                 Saddle Brown
@@ -60,6 +62,12 @@ public class MainController {
         this.configView = new ConfigWindow();
         this.configController = new ConfigController(this.configView, this.game, this);
         changeWindow(fromWindow, configView);
+    }
+    
+    public void startGame(){
+        this.gameView = new GameWindow();
+        this.gameController = new GameController(gameView, this.game, this);
+        changeWindow(configView, gameView);
     }
    
     
