@@ -15,12 +15,12 @@ public class TestComponent extends GraphicElement{
     // arreglo de imageicon
 
     public TestComponent(int i, int j, int xDimension, int yDimension, String name) {
-        super(i, j, new ArrayList<ImageIcon>(), xDimension, yDimension);
+        super(i, j, new ArrayList<ImageIcon>(), xDimension, yDimension, name);
         this.name = name;
     }
     
     public TestComponent(int i, int j, int xDimension, int yDimension, String name, ArrayList<ImageIcon> icons){
-        super(i,j, icons, xDimension, yDimension);
+        super(i,j, icons, xDimension, yDimension, name);
         this.name = name;
     }
     

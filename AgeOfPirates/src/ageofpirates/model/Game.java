@@ -48,7 +48,7 @@ public class Game {
     public void initGraph(){
         System.out.println("Create vertexes");
         Vertex powerVertex = createVertex("Fuente", 2,2);
-        Vertex market = createVertex("Mercado", 2,1);
+        Vertex market = createVertex("Mercado", 1,2);
         Vertex connMarketPower = createVertex("connector", 1,1);
         
 //        createArista(powerVertex, connMarketPower);
@@ -93,17 +93,15 @@ public class Game {
         }
     }
     
-    private void setSeaComponentPosition(TestComponent element){
+    private void setSeaComponentPosition(GraphicElement element){
         try{
             int iPos = element.getiPos(), jPos = element.getjPos();
             int iconCounter = 0; // posicion para recuperar la imagen
             for(int yDimension = 0; yDimension < element.getyDimension(); yDimension++){
                 for(int xDimension = 0; xDimension < element.getxDimension(); xDimension++){
                     sea[iPos][jPos].setIcon(MainController.resizeIcon(element.getIcons().get(iconCounter), CELL_SIZE, CELL_SIZE));
-                    sea[iPos][jPos].setBackground(Color.blue);
                     sea[iPos][jPos].setOccupied(true);
                     sea[iPos][jPos].setGElement(element);
-//                    sea[iPos][jPos].repaint();
                     iPos++;
                     iconCounter++;
                 }
@@ -117,13 +115,34 @@ public class Game {
         }
     }
     
+    // quita el elemento grafico actual
+    private void unsetSeaComponentPosition(GraphicElement element){
+        try{
+            int iPos = element.getiPos(), jPos = element.getjPos();
+            for(int yDimension = 0; yDimension < element.getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < element.getxDimension(); xDimension++){
+                    sea[iPos][jPos].setIcon(null);
+                    sea[iPos][jPos].setOccupied(false);
+                    sea[iPos][jPos].setGElement(null);
+                    iPos++;
+                }
+                iPos = element.getiPos();
+                jPos++;
+            }
+
+
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Set component invalid index");
+        }
+    }
+    
     // valida que el componente de dimensiones x y y se pueda colocar en la posicion i, j
-    public boolean validSeaComponentPosition(int i, int j, int dimensionRows, int dimensionCols){
+    public boolean validSeaComponentPosition(int i, int j, int xDimension, int yDimension){
         try{
             int iPos = i, jPos = j;
-            for(int dimensionRow = 0; dimensionRow < dimensionRows; dimensionRow++){
-                for(int dimensionCol = 0; dimensionCol < dimensionCols; dimensionCol++){
-                    if(this.sea[i][j].isOccupied()) return false;
+            for(int dimensionRow = 0; dimensionRow < yDimension; dimensionRow++){
+                for(int dimensionCol = 0; dimensionCol < xDimension; dimensionCol++){
+                    if(this.sea[iPos][jPos].isOccupied()) return false;
 
                     iPos++;
                 }
@@ -139,26 +158,46 @@ public class Game {
     }
     
     // mueve el componente hacia la direccion especificada
-    public void moveLeftComponent(){
-    
-    }
-    
-    public void moveRightComponent(){
+    public void moveLeftComponent(GraphicElement element){
+        unsetSeaComponentPosition(element);
+        if(validSeaComponentPosition(element.getiPos(), element.getjPos() - 1, element.getxDimension(), element.getyDimension())){
+            element.setjPos(element.getjPos() - 1);
+        }
         
+        setSeaComponentPosition(element);
     }
     
-    public void moveUpComponent(){
+    public void moveRightComponent(GraphicElement element){
+        unsetSeaComponentPosition(element);
+        if(validSeaComponentPosition(element.getiPos(), element.getjPos() + 1, element.getxDimension(), element.getyDimension())){
+            element.setjPos(element.getjPos() + 1);
+        }
         
+        setSeaComponentPosition(element);
     }
     
-    public void moveDownComponent(){
+    public void moveUpComponent(GraphicElement element){
+        unsetSeaComponentPosition(element);
+        if(validSeaComponentPosition(element.getiPos(), element.getiPos() - 1, element.getxDimension(), element.getyDimension())){
+            element.setiPos(element.getiPos() - 1);
+        }
+        
+        setSeaComponentPosition(element);
+    }
     
+    public void moveDownComponent(GraphicElement element){
+        unsetSeaComponentPosition(element);
+            if(validSeaComponentPosition(element.getiPos() + 1, element.getjPos(), element.getxDimension(), element.getyDimension())){
+                element.setiPos(element.getiPos() + 1);
+            }
+
+            setSeaComponentPosition(element);
     }
     
     
     // --------------- CARGAR LAS IMAGENES PARA LOS ELEMENTOS -------------------------
     private void loadTestComponentIcons(TestComponent element){
-        File iconFile = new File("./src/media/testComponent");
+        File iconFile = new File("./src/media/testComponent.jpg");
         for(int i = 0; i < element.getyDimension(); i++){
             for(int j = 0; j < element.getxDimension(); j++){
                 try {

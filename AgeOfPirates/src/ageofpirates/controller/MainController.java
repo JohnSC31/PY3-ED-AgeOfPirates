@@ -4,6 +4,7 @@ package ageofpirates.controller;
 import ageofpirates.view.*; // se importan todas las vistas
 import ageofpirates.model.*; // se importan todos los modelos
 import interfaces.iWindow;
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -20,6 +21,10 @@ public class MainController {
     // subcontroladores del juego
     private LobbyController lobbyController;
     private ConfigController configController;
+    
+    // colores
+                                     // Rich black          Police Blue             verdigris               Diamond                     Caramel                 Saddle Brown
+    public static final Color[] PALLETE = {new Color(1, 3, 7), new Color(57, 84, 97), new Color(68, 159, 175), new Color(177, 244, 252), new Color(244, 212, 153), new Color(131, 82, 17)};
     
     public MainController(){
         this.game = new Game(this);

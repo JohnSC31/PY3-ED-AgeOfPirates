@@ -14,13 +14,15 @@ abstract public class GraphicElement {
     private ArrayList<ImageIcon> icons;
     private int xDimension; // dimesiones en columnas
     private int yDimension; // dimensiones en filas
+    private String name;
 
-    public GraphicElement(int iPos, int jPos, ArrayList<ImageIcon> icons, int xDimension, int yDimension) {
+    public GraphicElement(int iPos, int jPos, ArrayList<ImageIcon> icons, int xDimension, int yDimension, String name) {
         this.iPos = iPos;
         this.jPos = jPos;
         this.icons = icons;
         this.xDimension = xDimension;
         this.yDimension = yDimension;
+        this.name = name;
     }
     
     
@@ -68,6 +70,12 @@ abstract public class GraphicElement {
     public void setyDimension(int yDimension) {
         this.yDimension = yDimension;
     }
+
+    public String getName() {
+        return name;
+    }
+    
+    
     
     
 }

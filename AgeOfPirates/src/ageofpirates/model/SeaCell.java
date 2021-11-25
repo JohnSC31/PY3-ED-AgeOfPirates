@@ -1,6 +1,9 @@
 
 package ageofpirates.model;
 
+import static ageofpirates.controller.MainController.PALLETE;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -10,12 +13,16 @@ public class SeaCell extends JLabel{
     private int j;
     private boolean occupied;
     private ImageIcon icon;
-    private GraphicElement element = null; //(sera nullo hasta que lo ocupe)
+    private GraphicElement element; //(sera nullo hasta que lo ocupe)
 
     public SeaCell(int i, int j) {
         this.i = i;
         this.j = j;
         this.occupied = false;
+        this.element = null;
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        this.setBackground(PALLETE[1]);
+        this.setOpaque(true);
     }
     
     
@@ -41,10 +48,10 @@ public class SeaCell extends JLabel{
     }
     
     public void setGElement(GraphicElement newElement){
-        this.element = element;
+        this.element = newElement;
     }
     
-    public GraphicElement getElement(){
+    public GraphicElement getGElement(){
         return element;
     }
     
