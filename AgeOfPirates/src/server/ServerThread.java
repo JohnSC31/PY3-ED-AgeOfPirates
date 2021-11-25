@@ -64,6 +64,10 @@ public class ServerThread extends Thread{
                     case 1: // lobby
                         lobby(inputStream.readInt());
                         break;
+                        
+                    case 2: // configuracion del oceano
+                        configSea(inputStream.readInt());
+                        break;
                 
                 }
             }
@@ -124,7 +128,24 @@ public class ServerThread extends Thread{
         }
     }
     
+    public void configSea(int option) throws IOException{
     
+        switch(option){
+            case 0:
+                inputStream.readInt(); // ejemplificacion (no ha nada)
+                break;
+            case 1: // pasar a todos los jugadores a la pantalla de juego
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).outputStream.writeInt(2);
+                    players.get(i).outputStream.writeInt(1);
+                }
+                break;
+            default:
+                System.out.println("Option " + option +" en configSea inexistente");
+                break;
+        }
+    
+    }
     
     
     

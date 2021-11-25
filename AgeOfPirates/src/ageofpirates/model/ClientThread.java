@@ -45,6 +45,9 @@ public class ClientThread extends Thread{
                     case 1: // lobby
                         lobby(inputStream.readInt());
                         break;
+                    case 2: //Config sea
+                        configSea(inputStream.readInt());
+                        break;
                     
                 } 
             }
@@ -80,6 +83,23 @@ public class ClientThread extends Thread{
                 break;
             default:
                 System.out.println("Option " + option +" en lobby inexistente");
+                break;
+        }
+    }
+    
+    public void configSea(int option) throws IOException{
+        
+        switch(option){
+            case 0:
+                inputStream.readInt(); // ejemplificacion (no hace nada)
+                break;
+            case 1: // pasar a la pantalla de juego
+                
+                mainController.startGame();
+                
+                break;
+            default:
+                System.out.println("Option " + option +" en configSea inexistente");
                 break;
         }
     }
