@@ -10,7 +10,7 @@ public class SeaCell extends JLabel{
     private int j;
     private boolean occupied;
     private ImageIcon icon;
-    // private Component component = null; (sera nullo hasta que lo ocupe)
+    private GraphicElement element = null; //(sera nullo hasta que lo ocupe)
 
     public SeaCell(int i, int j) {
         this.i = i;
@@ -21,13 +21,6 @@ public class SeaCell extends JLabel{
     
     
     // ---------------------------------------------- METODOS ------------------------------------------------
-    public void setIcon(ImageIcon icon){
-        this.setIcon(icon);
-    }
-    
-    public void usetIcon(){
-        this.setIcon(null);
-    }
     
     // -------------------------------------- GETTERS AND SETTERS -----------------------------------------------
 
@@ -47,5 +40,12 @@ public class SeaCell extends JLabel{
         this.occupied = occupied;
     }
     
+    public void setGElement(GraphicElement newElement){
+        this.element = element;
+    }
+    
+    public GraphicElement getElement(){
+        return element;
+    }
     
 }

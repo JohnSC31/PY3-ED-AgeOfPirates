@@ -41,7 +41,7 @@ public class ConfigController extends Controller{
             for(int j = 0; j < SEA_SIZE; j++){
                 this.game.getSea()[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
                 this.game.getSea()[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                this.game.getSea()[i][j].setBackground(Color.cyan);
+                this.game.getSea()[i][j].setBackground(Color.orange);
                 this.game.getSea()[i][j].setOpaque(true);
                 view.getPnlSea().add(this.game.getSea()[i][j]);
                 
@@ -49,6 +49,19 @@ public class ConfigController extends Controller{
             }
             x = 0;
             y += CELL_SIZE;
+        }
+        
+        game.initGraph();
+        this.view.getPnlSea().repaint();
+        System.out.println("Sea updated x4");
+//        updateSea();
+    }
+    
+    public void updateSea(){
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                this.game.getSea()[i][j].repaint();
+            }
         }
     }
     
