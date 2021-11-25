@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -19,7 +21,6 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         
         // icono de la brujula
         try {
-            System.out.println("Se setea icono");
             ImageIcon icon = new ImageIcon(new File("./src/media/compass.png").getCanonicalPath());
             this.lblCompass.setIcon(MainController.resizeIcon(icon, this.lblCompass.getWidth(), this.lblCompass.getHeight()));
             
@@ -36,7 +37,7 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         jLabel1 = new javax.swing.JLabel();
         pnlSea = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblSelectedElement = new javax.swing.JLabel();
         btnMoveNorth = new javax.swing.JButton();
         btnMoveSouth = new javax.swing.JButton();
         btnMoveEaste = new javax.swing.JButton();
@@ -66,10 +67,10 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Selecciona un elemento");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 160, -1));
+        lblSelectedElement.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSelectedElement.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSelectedElement.setText("Selecciona un elemento");
+        jPanel2.add(lblSelectedElement, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 160, -1));
 
         btnMoveNorth.setText("N");
         jPanel2.add(btnMoveNorth, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
@@ -153,10 +154,10 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JButton btnMoveWest;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblCompass;
+    private javax.swing.JLabel lblSelectedElement;
     private javax.swing.JPanel pnlSea;
     // End of variables declaration//GEN-END:variables
 
@@ -170,5 +171,27 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
     public JPanel getPnlSea() {
         return pnlSea;
     }
+
+    public JButton getBtnMoveEaste() {
+        return btnMoveEaste;
+    }
+
+    public JButton getBtnMoveNorth() {
+        return btnMoveNorth;
+    }
+
+    public JButton getBtnMoveSouth() {
+        return btnMoveSouth;
+    }
+
+    public JButton getBtnMoveWest() {
+        return btnMoveWest;
+    }
+
+    public JLabel getLblSelectedElement() {
+        return lblSelectedElement;
+    }
+    
+    
     
 }
