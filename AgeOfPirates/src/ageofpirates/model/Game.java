@@ -44,6 +44,18 @@ public class Game {
         }
     }
     
+    // nuevas funciones para la adminsitracion del grafo y del oceano
+    // addVertex(specificElement) agrega un nuevo vertice al grafo
+    // addArista(vertexOrigin, vertexDestiny) genera una arista entre los vertices dados en el grafo
+    
+    // pasar la matriz de labels para la pantalla y tener una referencia en el la clase game para hacer display a los vertices y aristas
+    // displayVertex(graphicElement) pinta el elemento de las dimensiones estitupulada con los iconos cargados
+    // displayArista(Arista) toma los elementos de las aristas encuentra las celdas correspondientes y digbuja una linea encima para conectarlos
+    // displaySea(graph) recorre el los vertices del grafo y cada uno de sus aristas y las representa en la matriz de labels
+    // displayEnemySea(graph) toma un grafo enemigo y lo pinta en el oceano correspondiente
+    // tener un arreglo de visibilidad con el id de los jugadores que pueden ver el elemento en el oceano enemigo
+    // para facilitar el barco fantasma las desconexiones de la fuente de poder y destrucciones totales
+    
     // se setean los componentes iniicales del grafo
     public void initGraph(){
         System.out.println("Create vertexes");
