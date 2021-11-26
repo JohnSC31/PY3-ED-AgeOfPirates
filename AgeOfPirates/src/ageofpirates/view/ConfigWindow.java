@@ -2,6 +2,7 @@
 package ageofpirates.view;
 
 import ageofpirates.controller.MainController;
+import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
 import java.io.File;
 import java.io.IOException;
@@ -14,10 +15,15 @@ import javax.swing.JPanel;
 
 
 public class ConfigWindow extends javax.swing.JFrame implements iWindow{
-
     
+    public static final int SEA_SIZE = 20; // matriz cuadrada de 20x20
+    public static final int CELL_SIZE = 25; // cada celda sera de 25x25
+    
+    private SeaCell[][] playerSea; // matriz de labels que reprensentan el oceano
+        
     public ConfigWindow() {
         initComponents();
+        initSea();
         
         // icono de la brujula
         try {
@@ -28,6 +34,23 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
             Logger.getLogger(ConfigWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    // se inicializa el oceano y sus labels
+    private void initSea(){
+        int x = 0, y = 0;
+        this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                this.playerSea[i][j] = new SeaCell(i, j);
+                this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
+                this.pnlSea.add(this.playerSea[i][j]);
+                
+                x += CELL_SIZE;
+            }
+            x = 0;
+            y += CELL_SIZE;
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -209,6 +232,10 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
 
     public JButton getBtnStartGame() {
         return btnStartGame;
+    }
+    
+    public SeaCell[][] getPlayerSea(){
+        return playerSea;
     }
     
     

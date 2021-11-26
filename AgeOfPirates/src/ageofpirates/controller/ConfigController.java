@@ -2,19 +2,17 @@
 package ageofpirates.controller;
 
 import ageofpirates.model.Game;
-import static ageofpirates.model.Game.CELL_SIZE;
-import static ageofpirates.model.Game.SEA_SIZE;
-import ageofpirates.model.GraphicElement;
+import ageofpirates.model.Island;
+import ageofpirates.model.PowerSource;
 import ageofpirates.model.SeaCell;
 import ageofpirates.view.ConfigWindow;
-import java.awt.Color;
+import static ageofpirates.view.ConfigWindow.SEA_SIZE;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 
 
 public class ConfigController extends Controller implements MouseListener{
@@ -22,7 +20,7 @@ public class ConfigController extends Controller implements MouseListener{
     private ConfigWindow view;
     
     // variables
-    private GraphicElement selectedElement;
+    private Island selectedElement;
     
     public ConfigController(ConfigWindow view, Game game, MainController mainController) {
         super(game, mainController);
@@ -38,37 +36,43 @@ public class ConfigController extends Controller implements MouseListener{
         view.getBtnMoveSouth().addActionListener(this);
         view.getBtnMoveEaste().addActionListener(this);
         view.getBtnMoveWest().addActionListener(this);
-        displaySea();
         
         view.getBtnStartGame().addActionListener(this);
         view.getBtnStartGame().setEnabled(game.getPlayer().isHost());
         
+        // listener al oceano
+        addMouseListenerSea();
+        
+        game.initGameGraph();
+        setInitialGraph();
     }
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource().equals(view.getBtnMoveNorth())){
             if(this.selectedElement != null){
-                game.moveUpComponent(this.selectedElement);
+                game.moveUpIsland(view.getPlayerSea(), this.selectedElement);
             }
         }
         
         if(e.getSource().equals(view.getBtnMoveSouth())){
             if(this.selectedElement != null){
-                game.moveDownComponent(this.selectedElement);
+                game.moveDownIsland(view.getPlayerSea(), this.selectedElement);
             }
         }
         
         if(e.getSource().equals(view.getBtnMoveEaste())){
             if(this.selectedElement != null){
-                game.moveRightComponent(this.selectedElement);
+                game.moveRightIsland(view.getPlayerSea(), this.selectedElement);
             }
         }
         
         if(e.getSource().equals(view.getBtnMoveWest())){
             if(this.selectedElement != null){
-                game.moveLeftComponent(this.selectedElement);
+                game.moveLeftIsland(view.getPlayerSea(), this.selectedElement);
             }
         }
         
@@ -83,9 +87,9 @@ public class ConfigController extends Controller implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         if(e.getSource().getClass().equals(SeaCell.class)){
             SeaCell clickedLabel = (SeaCell) e.getSource();
-            if(clickedLabel.getGElement() != null){
-                view.getLblSelectedElement().setText(clickedLabel.getGElement().getName());
-                this.selectedElement = clickedLabel.getGElement();
+            if(clickedLabel.getIsland() != null){
+                view.getLblSelectedElement().setText(clickedLabel.getIsland().getName());
+                this.selectedElement = clickedLabel.getIsland();
                 // setear la accion
             }else{
                 view.getLblSelectedElement().setText("Selecciona un elemento");
@@ -111,22 +115,21 @@ public class ConfigController extends Controller implements MouseListener{
     }
     
     // ----------------------------------------------------------- METODOS -----------------------------------------------------
-    // se inicia el oceano en la ventana (se setean los labels en el panel)
-    private void displaySea(){
-        int x = 0, y = 0;
+    // se agregan los mouse listeners al oceano
+    private void addMouseListenerSea(){
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
-                this.game.getSea()[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
-                this.game.getSea()[i][j].addMouseListener(this);
-                view.getPnlSea().add(this.game.getSea()[i][j]); 
-                
-                x += CELL_SIZE;
+                view.getPlayerSea()[i][j].addMouseListener(this);
             }
-            x = 0;
-            y += CELL_SIZE;
         }
-        
-        game.initGraph();
+    }
+
+
+// setea las islas iniciales de forma aleatoria en el oceano
+    private void setInitialGraph(){
+        for(int i = 0; i < game.getGraph().size(); i++){
+            game.setIslandRandomPosition(view.getPlayerSea(), game.getGraph().get(i).getIsland());
+        }
     }
     
     public void startGame(){

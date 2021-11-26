@@ -2,6 +2,8 @@
 package ageofpirates.model;
 
 import ageofpirates.controller.MainController;
+import static ageofpirates.view.ConfigWindow.CELL_SIZE;
+import static ageofpirates.view.ConfigWindow.SEA_SIZE;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -13,33 +15,94 @@ import javax.swing.ImageIcon;
 
 
 public class Game {
-    
-    // parametros para los tamanos de la matriz
-    public static final int SEA_SIZE = 20; // matriz cuadrada de 20x20
-    public static final int CELL_SIZE = 25; // cada celda sera de 25x25
-    
-    
+
     private Player player;
     private MainController mainController;
-    private SeaCell[][] sea; // la parte del mar que le corresponde al jugador
     // private Grafo<Component> components (estructuras del jugador)
     private Graph graph; // grafo de los componentes del mar
+    
+    private ArrayList<ImageIcon> sourcePowerIcons;
+    private ArrayList<ImageIcon> connectorIcons;
+    private ArrayList<ImageIcon> marketIcons;
+    private ArrayList<ImageIcon> mineIcons;
+    private ArrayList<ImageIcon> templeIcons;
+    private ArrayList<ImageIcon> armoryIcons;
+    private ArrayList<ImageIcon> swirlIcons;
 
     public Game(MainController mainController) {
         this.mainController = mainController;
         this.player = new Player(this.mainController); // se le pasa el controlador principal
-        initSea();
-//        initGraph();
         this.graph = new Graph();
+        loadIcons();
     }
     
     // ------------------------------------------------- METODOS ------------------------------------------------------------------------
-    // realiza una inicializacion de la matriz para el oceano
-    private void initSea(){
-        this.sea = new SeaCell[SEA_SIZE][SEA_SIZE];
-        for(int i = 0; i < SEA_SIZE; i++){
+    // carga los iconos para las islas
+    private void loadIcons(){
+        sourcePowerIcons = new ArrayList<>();
+        connectorIcons = new ArrayList<>();
+        marketIcons = new ArrayList<>();
+        mineIcons = new ArrayList<>();
+        templeIcons = new ArrayList<>();
+        armoryIcons = new ArrayList<>();
+        swirlIcons = new ArrayList<>();
+        
+        File folder = new File("./src/media");
+        ImageIcon cardIcon;
+        for(File subFolder: folder.listFiles()){
+            if(subFolder.isDirectory() && !subFolder.getName().replaceFirst("[.][^.]+$", "").equals("backupImg")){
+                for(File file: subFolder.listFiles()){
+                    try{
+                        ImageIcon icon = new ImageIcon(file.getCanonicalPath());
+                        if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("sourcePower")){
+                            sourcePowerIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("connector")){
+                            connectorIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("market")){
+                            marketIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("mine")){
+                            mineIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("temple")){
+                            templeIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("armory")){
+                            armoryIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("swirl")){
+                            swirlIcons.add(icon);
+                        }
+                        
+                    }catch(IOException e){
+                        System.out.println("Error al cargar personaje");
+                    }
+                }
+                
+ 
+            }
+        }
+    }
+    
+    // crea un mercado, funete de poder y un connector y los setea en la matriz dada
+    public void initGameGraph(){
+        PowerSource power = new PowerSource(-1,-1, sourcePowerIcons);
+        Market market = new Market(-1, -1, marketIcons);
+        Connector connector = new Connector(-1, -1, connectorIcons);
+        createVertex(power);
+        createVertex(market);
+        createVertex(connector);
+    }
+    
+    public void setSea(SeaCell[][] playerSea, Graph graph){
+        for(int i = 0; i < graph.size(); i++){
+            setIsland(playerSea, graph.get(i).getIsland());
+            // dibujar las aristas
+        }
+    }
+    
+    // elimina todas las islas del oceano
+    public void unSetSea(SeaCell[][] playerSea){
+        for(int i = 0; i < SEA_SIZE ;i++){
             for(int j = 0; j < SEA_SIZE; j++){
-                this.sea[i][j] = new SeaCell(i, j);
+                playerSea[i][j].setIsland(null);
+                playerSea[i][j].setIcon(null);
             }
         }
     }
@@ -56,90 +119,70 @@ public class Game {
     // tener un arreglo de visibilidad con el id de los jugadores que pueden ver el elemento en el oceano enemigo
     // para facilitar el barco fantasma las desconexiones de la fuente de poder y destrucciones totales
     
-    // se setean los componentes iniicales del grafo
-    public void initGraph(){
-        System.out.println("Create vertexes");
-        Vertex powerVertex = createVertex("Fuente", 2,2);
-        Vertex market = createVertex("Mercado", 1,2);
-        Vertex connMarketPower = createVertex("connector", 1,1);
-        
-//        createArista(powerVertex, connMarketPower);
-//        createArista(connMarketPower, market);
+    public Vertex createVertex(Island newIsland){
+        Vertex newVertex = new Vertex(newIsland);
+        this.graph.add(newVertex);
+        return newVertex;
     }
     
-    public Vertex createVertex(String name, int xDimension, int yDimension){
-        // asegurar que tenga un espacio en la matriz del oceano
+    public Arista createArista(Vertex origin, Vertex destiny){
+        Arista newArista = new Arista(origin, destiny);
+        return newArista;
+    }
+    
+    // sea una issla de forma aleatoria en el oceano dado
+    public void setIslandRandomPosition(SeaCell[][]  playerSea, Island island){
         int iSea = 0, jSea = 0;
         boolean posRight = false;
         while(!posRight){
             // crea randoms y verifica que la posicion sea correcta
             iSea = new Random().nextInt(SEA_SIZE);
             jSea = new Random().nextInt(SEA_SIZE); // random entre 0 y 19
-            if(validSeaComponentPosition(iSea, jSea, xDimension, yDimension)){
+            if(validIslandPosition(playerSea, iSea, jSea, island.getxDimension(), island.getyDimension())){
                 posRight = true;
+                island.setiPos(iSea);
+                island.setjPos(jSea);
             }
         }
         
-        Vertex newVertex = new Vertex(new TestComponent(iSea, jSea, xDimension, yDimension, name));
-        loadTestComponentIcons(newVertex.getComponent()); // carga las imagenes del componente grafico
-        this.graph.add(newVertex);
-        setSeaComponentPosition(newVertex.getComponent());
-        
-        return newVertex;
+        setIsland(playerSea, island);
     }
     
-    public void createArista(Vertex location, Vertex destiny){
-        //uno de los 2 debe ser connector
-//        if(location.getComponent().getName() == "connector" || destiny.getComponent().getName() == "connector"){
-//            location.createArista(destiny);
-//        }else{
-//            System.out.println("Creacion de arista invalida");
-//        }
-    }
-    
-    // VALIDACIONES PARA EL OCEANOS
-    // representa el grafo en la pantalla del jugador
-    public void printGraph(){
-        for(int i = 0; i < this.graph.size(); i++){
-            
-        }
-    }
-    
-    private void setSeaComponentPosition(GraphicElement element){
+    // setea la isla en la ubicacion correspondiente
+    public void setIsland(SeaCell[][] playerSea, Island island){
         try{
-            int iPos = element.getiPos(), jPos = element.getjPos();
+            int iPos = island.getiPos(), jPos = island.getjPos();
             int iconCounter = 0; // posicion para recuperar la imagen
-            for(int yDimension = 0; yDimension < element.getyDimension(); yDimension++){
-                for(int xDimension = 0; xDimension < element.getxDimension(); xDimension++){
-                    sea[iPos][jPos].setIcon(MainController.resizeIcon(element.getIcons().get(iconCounter), CELL_SIZE, CELL_SIZE));
-                    sea[iPos][jPos].setOccupied(true);
-                    sea[iPos][jPos].setGElement(element);
-                    iPos++;
+            for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
+                    playerSea[iPos][jPos].setIcon(MainController.resizeIcon(island.getIcons().get(iconCounter), CELL_SIZE, CELL_SIZE));
+                    playerSea[iPos][jPos].setIsland(island);
+                    jPos++;
                     iconCounter++;
                 }
-                iPos = element.getiPos();
-                jPos++;
+                jPos = island.getjPos();
+                iPos++;
             }
 
 
         }catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Set component invalid index");
         }
+        
     }
     
     // quita el elemento grafico actual
-    private void unsetSeaComponentPosition(GraphicElement element){
+    private void unSetIsland(SeaCell[][] playerSea, Island island){
         try{
-            int iPos = element.getiPos(), jPos = element.getjPos();
-            for(int yDimension = 0; yDimension < element.getyDimension(); yDimension++){
-                for(int xDimension = 0; xDimension < element.getxDimension(); xDimension++){
-                    sea[iPos][jPos].setIcon(null);
-                    sea[iPos][jPos].setOccupied(false);
-                    sea[iPos][jPos].setGElement(null);
-                    iPos++;
+            int iPos = island.getiPos(), jPos = island.getjPos();
+            for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
+                    playerSea[iPos][jPos].setIcon(null);
+                    playerSea[iPos][jPos].setIsland(null);
+                    jPos++;
                 }
-                iPos = element.getiPos();
-                jPos++;
+                jPos = island.getjPos();
+                iPos++;
             }
 
 
@@ -149,17 +192,17 @@ public class Game {
     }
     
     // valida que el componente de dimensiones x y y se pueda colocar en la posicion i, j
-    public boolean validSeaComponentPosition(int i, int j, int xDimension, int yDimension){
+    public boolean validIslandPosition(SeaCell[][] playerSea, int i, int j, int xDimension, int yDimension){
         try{
             int iPos = i, jPos = j;
             for(int dimensionRow = 0; dimensionRow < yDimension; dimensionRow++){
                 for(int dimensionCol = 0; dimensionCol < xDimension; dimensionCol++){
-                    if(this.sea[iPos][jPos].isOccupied()) return false;
+                    if(playerSea[iPos][jPos].getIsland() != null) return false;
 
-                    iPos++;
+                    jPos++;
                 }
-                iPos = i;
-                jPos++;
+                jPos = i;
+                iPos++;
             }
             return true;
         }catch(ArrayIndexOutOfBoundsException e){
@@ -169,56 +212,53 @@ public class Game {
 
     }
     
+    // dibuja una linea entre las islas dadas
+    public void setArista(Vertex location, Vertex destiny){
+    //uno de los 2 debe ser connector
+    //        if(location.getComponent().getName() == "connector" || destiny.getComponent().getName() == "connector"){
+    //            location.createArista(destiny);
+    //        }else{
+    //            System.out.println("Creacion de arista invalida");
+    //        }
+    }
+    
+    
+    
     // mueve el componente hacia la direccion especificada
-    public void moveLeftComponent(GraphicElement element){
-        unsetSeaComponentPosition(element);
-        if(validSeaComponentPosition(element.getiPos(), element.getjPos() - 1, element.getxDimension(), element.getyDimension())){
-            element.setjPos(element.getjPos() - 1);
+    public void moveLeftIsland(SeaCell[][] playerSea, Island island){
+        unSetIsland(playerSea, island);
+        if(validIslandPosition(playerSea, island.getiPos(), island.getjPos() - 1, island.getxDimension(), island.getyDimension())){
+            island.setjPos(island.getjPos() - 1);
         }
         
-        setSeaComponentPosition(element);
+        setIsland(playerSea, island);
     }
     
-    public void moveRightComponent(GraphicElement element){
-        unsetSeaComponentPosition(element);
-        if(validSeaComponentPosition(element.getiPos(), element.getjPos() + 1, element.getxDimension(), element.getyDimension())){
-            element.setjPos(element.getjPos() + 1);
+    public void moveRightIsland(SeaCell[][] playerSea, Island island){
+        unSetIsland(playerSea, island);
+        if(validIslandPosition(playerSea, island.getiPos(), island.getjPos() + 1, island.getxDimension(), island.getyDimension())){
+            island.setjPos(island.getjPos() + 1);
         }
         
-        setSeaComponentPosition(element);
+        setIsland(playerSea, island);
     }
     
-    public void moveUpComponent(GraphicElement element){
-        unsetSeaComponentPosition(element);
-        if(validSeaComponentPosition(element.getiPos(), element.getiPos() - 1, element.getxDimension(), element.getyDimension())){
-            element.setiPos(element.getiPos() - 1);
+    public void moveUpIsland(SeaCell[][] playerSea, Island island){
+        unSetIsland(playerSea, island);
+        if(validIslandPosition(playerSea, island.getiPos(), island.getiPos() - 1, island.getxDimension(), island.getyDimension())){
+            island.setiPos(island.getiPos() - 1);
         }
         
-        setSeaComponentPosition(element);
+        setIsland(playerSea, island);
     }
     
-    public void moveDownComponent(GraphicElement element){
-        unsetSeaComponentPosition(element);
-            if(validSeaComponentPosition(element.getiPos() + 1, element.getjPos(), element.getxDimension(), element.getyDimension())){
-                element.setiPos(element.getiPos() + 1);
+    public void moveDownIsland(SeaCell[][] playerSea, Island island){
+        unSetIsland(playerSea, island);
+            if(validIslandPosition(playerSea, island.getiPos() + 1, island.getjPos(), island.getxDimension(), island.getyDimension())){
+                island.setiPos(island.getiPos() + 1);
             }
 
-            setSeaComponentPosition(element);
-    }
-    
-    
-    // --------------- CARGAR LAS IMAGENES PARA LOS ELEMENTOS -------------------------
-    private void loadTestComponentIcons(TestComponent element){
-        File iconFile = new File("./src/media/testComponent.jpg");
-        for(int i = 0; i < element.getyDimension(); i++){
-            for(int j = 0; j < element.getxDimension(); j++){
-                try {
-                    element.getIcons().add(new ImageIcon(iconFile.getCanonicalPath()));
-                } catch (IOException ex) {
-                    Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
+            setIsland(playerSea, island);
     }
     
     // ------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------
@@ -227,9 +267,39 @@ public class Game {
         return player;
     }
 
-    public SeaCell[][] getSea() {
-        return sea;
+    public Graph getGraph() {
+        return graph;
     }
+
+    public ArrayList<ImageIcon> getSourcePowerIcons() {
+        return sourcePowerIcons;
+    }
+
+    public ArrayList<ImageIcon> getConnectorIcons() {
+        return connectorIcons;
+    }
+
+    public ArrayList<ImageIcon> getMarketIcons() {
+        return marketIcons;
+    }
+
+    public ArrayList<ImageIcon> getMineIcons() {
+        return mineIcons;
+    }
+
+    public ArrayList<ImageIcon> getTempleIcons() {
+        return templeIcons;
+    }
+
+    public ArrayList<ImageIcon> getArmoryIcons() {
+        return armoryIcons;
+    }
+
+    public ArrayList<ImageIcon> getSwirlIcons() {
+        return swirlIcons;
+    }
+    
+    
     
     
     
