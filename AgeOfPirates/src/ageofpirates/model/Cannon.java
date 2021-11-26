@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ageofpirates.model;
 
-/**
- *
- * @author PC
- */
-public class Cannon extends Arma{
-    public Cannon(){
-        super.grafico="";
-        super.precio=500;
+public class Cannon extends Weapon{
+
+    public Cannon() {
+        super(500, "Cannon");
     }
+
     @Override
-    public void disparar(){
-        System.out.println("Se dispara la bomba");
+    public void attack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

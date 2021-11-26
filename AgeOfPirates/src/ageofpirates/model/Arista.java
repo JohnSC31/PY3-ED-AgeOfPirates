@@ -10,6 +10,7 @@ public class Arista {
     public Arista(Vertex location, Vertex destiny) {
         this.location = location;
         this.destiny = destiny;
+        location.getAristas().add(this);
     }
     
     

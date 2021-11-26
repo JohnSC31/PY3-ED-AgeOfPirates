@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class Vertex {
     
-    private TestComponent component;
+    private Island island;
     private ArrayList<Arista> aristas;
     
-    public Vertex(TestComponent component){
-        this.component = component;
+    public Vertex(Island island){
+        this.island = island;
         this.aristas = new ArrayList<>();
     }
     
@@ -22,12 +22,12 @@ public class Vertex {
         destiny.getAristas().add(newArista);
     }
     
-    public void removeArista(Arista deleteArista){
-        this.aristas.remove(deleteArista);
+    public void removeArista(Arista arista){
+        this.aristas.remove(arista);
     }
 
-    public TestComponent getComponent() {
-        return component;
+    public Island getIsland() {
+        return island;
     }
 
     public ArrayList<Arista> getAristas() {
