@@ -88,6 +88,15 @@ public class MainController {
     public ConfigController getConfigController() {
         return configController;
     }
+
+    public GameWindow getGameView() {
+        return gameView;
+    }
+
+    public GameController getGameController() {
+        return gameController;
+    }
+    
     
     
     // ---------------------------------------------------------- METODOS VARIOS ---------------------------------------------------------------

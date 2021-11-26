@@ -48,6 +48,9 @@ public class ClientThread extends Thread{
                     case 2: //Config sea
                         configSea(inputStream.readInt());
                         break;
+                    case 3: // juego
+                        game(inputStream.readInt());
+                        break;
                     
                 } 
             }
@@ -104,7 +107,24 @@ public class ClientThread extends Thread{
         }
     }
     
-    
+    public void game(int option) throws IOException{
+        
+        switch(option){
+            case 0:
+                inputStream.readInt(); // ejemplificacion (no hace nada)
+                break;
+            case 1: // recibir un mensaje
+                String message = inputStream.readUTF();
+                int playerId = inputStream.readInt();
+                
+                this.mainController.getGameController().recieveMessage(message, playerId);
+                
+                break;
+            default:
+                System.out.println("Option " + option +" en configSea inexistente");
+                break;
+        }
+    }
     
     
     
