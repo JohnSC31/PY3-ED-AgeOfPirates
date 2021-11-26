@@ -2,6 +2,9 @@
 package ageofpirates.view;
 
 import interfaces.iWindow;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class GameWindow extends javax.swing.JFrame implements iWindow{
 
@@ -21,12 +24,12 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         pnlPlayersList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
+        txtfMessage = new javax.swing.JTextField();
         btnSendMessage = new javax.swing.JButton();
         pnlSea = new javax.swing.JPanel();
         pnlEnemySea = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtaChat = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -71,7 +74,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         pnlPlayersList.setLayout(pnlPlayersListLayout);
         pnlPlayersListLayout.setHorizontalGroup(
             pnlPlayersListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 60, Short.MAX_VALUE)
         );
         pnlPlayersListLayout.setVerticalGroup(
             pnlPlayersListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,7 +89,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 530, 500, 120));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, 420, 30));
+        getContentPane().add(txtfMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, 420, 30));
 
         btnSendMessage.setText("Enviar");
         getContentPane().add(btnSendMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 620, -1, 30));
@@ -121,10 +124,10 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
         getContentPane().add(pnlEnemySea, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 500, 500));
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtaChat.setEditable(false);
+        txtaChat.setColumns(20);
+        txtaChat.setRows(5);
+        jScrollPane2.setViewportView(txtaChat);
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 500, 80));
 
@@ -140,15 +143,30 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel pnlEnemySea;
     private javax.swing.JPanel pnlPlayersList;
     private javax.swing.JPanel pnlSea;
+    private javax.swing.JTextArea txtaChat;
+    private javax.swing.JTextField txtfMessage;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void setVisibility(boolean visible) {
         this.setVisible(visible);
     }
+    
+    // ----------------------------------------------------------------------
+
+    public JButton getBtnSendMessage() {
+        return btnSendMessage;
+    }
+
+    public JTextArea getTxtaChat() {
+        return txtaChat;
+    }
+
+    public JTextField getTxtfMessage() {
+        return txtfMessage;
+    }
+    
 }

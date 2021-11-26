@@ -68,6 +68,9 @@ public class ServerThread extends Thread{
                     case 2: // configuracion del oceano
                         configSea(inputStream.readInt());
                         break;
+                    case 3: // opcion del juego
+                        game(inputStream.readInt());
+                        break;
                 
                 }
             }
@@ -148,6 +151,26 @@ public class ServerThread extends Thread{
     }
     
     
+    public void game(int option) throws IOException{
+        
+        switch(option){
+            case 0:
+                inputStream.readInt(); // ejemplificacion (no ha nada)
+                break;
+            case 1: // enviar un mensaje
+                String message = inputStream.readUTF();
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).outputStream.writeInt(3); // opcion del juego
+                    players.get(i).outputStream.writeInt(1); // recibir mensaje
+                    players.get(i).outputStream.writeUTF(message);
+                    players.get(i).outputStream.writeInt(playerId); 
+                }
+                break;
+            default:
+                System.out.println("Option " + option +" en serverHelper inexistente");
+                break;
+        }
+    }
     
     
     
