@@ -15,9 +15,12 @@ public class Server {
     private Socket socketPlayer;
     private boolean start;
     
+    private int playerIndexTurn;
+    
     public Server(){
         this.players = new ArrayList<>();
         this.start = false;
+        this.playerIndexTurn = 0; // siempre comienza el primer jugador o el host
     }
     
     private void runServer(){
@@ -52,14 +55,30 @@ public class Server {
         
     }
     
+    // --------------------------------------- METODOS -------------------------------------------------
+    
     private void startGame(){
         this.start = true;
     }
     
-    
-    
-    
-    
+    // pasa al siguiente turno y retorna el id del nuevo jugador en turno
+    public int passPlayerTurn(){
+        playerIndexTurn++;
+        if(playerIndexTurn >= players.size()){
+            playerIndexTurn = 0;
+        }
+        return players.get(playerIndexTurn).getPlayerId();
+    }
+
+    // ------------------------------------- GETTERS AND SETTERS ----------------------------------------
+    public int getPlayerIndexTurn() {
+        return playerIndexTurn;
+    }
+
+    public void setPlayerIndexTurn(int playerIndexTurn) {
+        this.playerIndexTurn = playerIndexTurn;
+    }
+ 
     
     public static void main(String[] args) {
         Server server = new Server();

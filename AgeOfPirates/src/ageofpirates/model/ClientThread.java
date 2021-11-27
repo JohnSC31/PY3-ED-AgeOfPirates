@@ -41,6 +41,7 @@ public class ClientThread extends Thread{
                  
                 switch(option){
                     case 0: 
+                        helperServer(inputStream.readInt());
                         break;
                     case 1: // lobby
                         lobby(inputStream.readInt());
@@ -70,6 +71,24 @@ public class ClientThread extends Thread{
     
     
     // ----------------------------------------------------- METODOS PARA EL CLIENTE ------------------------------------------------------
+    public void helperServer(int option) throws IOException{
+        
+         switch(option){
+            case 0:
+                inputStream.readInt(); // ejemplificacion (no ha nada)
+                break;
+            case 1: // setear el turno de todos los jugadores
+                boolean playerTurn = inputStream.readBoolean();
+                
+                mainController.getGameController().setPlayerTurn(playerTurn);
+                break;
+            default:
+                System.out.println("Option " + option +" en serverHelper inexistente");
+                break;
+        }
+    }
+    
+    
     public void lobby(int option) throws IOException{
         
         switch(option){
