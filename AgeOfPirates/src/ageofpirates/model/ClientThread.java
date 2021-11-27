@@ -51,16 +51,18 @@ public class ClientThread extends Thread{
                     case 3: // juego
                         game(inputStream.readInt());
                         break;
+                    case 4: // mercado
+                        market(inputStream.readInt());
                     
                 } 
             }
             
         }catch(IOException ex){
             System.out.println("Error en la comunicaci�n "+"Informaci�n para el usuario");
-        }/*catch(ClassNotFoundException ex){
+        }catch(ClassNotFoundException ex){
             System.out.println("No se encontro la clase");
             // catch para errores en el object input/output stream
-        }*/
+        }
         
         // se desconecta del servidor
         System.out.println("se desconecto el servidor");
@@ -121,7 +123,27 @@ public class ClientThread extends Thread{
                 
                 break;
             default:
-                System.out.println("Option " + option +" en configSea inexistente");
+                System.out.println("Option " + option +" en game inexistente");
+                break;
+        }
+    }
+    
+    public void market(int option) throws IOException, ClassNotFoundException{
+        switch(option){
+            case 0:
+                inputStream.readInt(); // ejemplificacion (no hace nada)
+                break;
+            case 1: // actualiza el mercado
+                Inventory marketInventory = (Inventory) objInputStream.readObject();
+                mainController.getGame().setMarketInventory(marketInventory);
+                
+                if(this.mainController.getMarketController() != null){
+                    this.mainController.getMarketController().setMarketInventory();
+                }
+                
+                break;
+            default:
+                System.out.println("Option " + option +" en market inexistente");
                 break;
         }
     }

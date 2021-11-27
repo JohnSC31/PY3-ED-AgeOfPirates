@@ -27,8 +27,6 @@ public class Player {
     private int playerId;
     private boolean host;
     
-    private int budget;
-    
     
     public Player(MainController mainController){
         
@@ -49,7 +47,6 @@ public class Player {
         }
         
         // inicializacion de variables
-        this.budget = 4000; // se inicia con 4000 (dolares)
         
         
         new ClientThread(this, mainController).start();
