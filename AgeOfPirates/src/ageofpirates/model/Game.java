@@ -29,10 +29,45 @@ public class Game {
     private ArrayList<ImageIcon> armoryIcons;
     private ArrayList<ImageIcon> swirlIcons;
 
+    // recursos del jugador
+    private int budget;
+    private Inventory playerInventory;
+    
+    private Inventory marketInventory; // el inventario del mercado
+    
+    // enumerable para los objetos del inventario
+    public enum ItemType{
+        CANNON(1000),
+        MULTIPLE_CANNON(2000),
+        BOMB(4000),
+        RED_BEARD_CANNON(10000),
+        GHOST_SHIP(2500),
+        STEEL(2);
+        
+        private int cost;
+        
+        private ItemType(int cost){
+            this.cost = cost;
+        }
+        
+        public int getCost(){
+            return this.cost;
+        }
+    }
+
     public Game(MainController mainController) {
         this.mainController = mainController;
         this.player = new Player(this.mainController); // se le pasa el controlador principal
         this.graph = new Graph();
+        this.playerInventory = new Inventory();
+        this.marketInventory = new Inventory();
+        
+        this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
+        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
+        this.playerInventory.updateItemAmount(ItemType.STEEL, 100);
+        
+        this.budget = 4000; // se inicia con 4000 (dolares)
+        
         loadIcons();
     }
     
@@ -84,10 +119,8 @@ public class Game {
     public void initGameGraph(){
         PowerSource power = new PowerSource(-1,-1, sourcePowerIcons);
         Market market = new Market(-1, -1, marketIcons);
-        Connector connector = new Connector(-1, -1, connectorIcons);
         createVertex(power);
         createVertex(market);
-        createVertex(connector);
     }
     
     public void setSea(SeaCell[][] playerSea, Graph graph){
@@ -184,8 +217,9 @@ public class Game {
     
     // valida que el componente de dimensiones x y y se pueda colocar en la posicion i, j
     public boolean validIslandPosition(SeaCell[][] playerSea, int i, int j, int xDimension, int yDimension){
+        int iPos = i, jPos = j;
         try{
-            int iPos = i, jPos = j;
+            
             for(int dimensionRow = 0; dimensionRow < yDimension; dimensionRow++){
                 for(int dimensionCol = 0; dimensionCol < xDimension; dimensionCol++){
                     if(playerSea[iPos][jPos].getVertex() != null) return false;
@@ -197,7 +231,7 @@ public class Game {
             }
             return true;
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Error position");
+            System.out.println("Error position " + iPos +":"+ jPos);
             return false;
         }
 
@@ -292,6 +326,28 @@ public class Game {
 
     public ArrayList<ImageIcon> getSwirlIcons() {
         return swirlIcons;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+    
+    
+
+    public Inventory getPlayerInventory() {
+        return playerInventory;
+    }
+    
+    public Inventory getMarketInventory(){
+        return marketInventory;
+    }
+    
+    public void setMarketInventory(Inventory newMarket){
+        this.marketInventory = newMarket;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
     }
     
     

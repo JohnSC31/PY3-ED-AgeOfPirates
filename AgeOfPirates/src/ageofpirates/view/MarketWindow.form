@@ -62,44 +62,45 @@
                       <Component id="jLabel23" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel2" min="-2" pref="184" max="-2" attributes="0"/>
+                              <Component id="lblBudget" min="-2" pref="184" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel25" min="-2" pref="55" max="-2" attributes="0"/>
+                                          <Component id="lblInventorySteel" min="-2" pref="55" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jLabel24" min="-2" pref="165" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel27" min="-2" pref="55" max="-2" attributes="0"/>
+                                          <Component id="lblInventoryCannon" min="-2" pref="55" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jLabel26" min="-2" pref="165" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel29" min="-2" pref="55" max="-2" attributes="0"/>
+                                          <Component id="lblInvetoryMultipleCannon" min="-2" pref="55" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jLabel28" min="-2" pref="165" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel31" min="-2" pref="55" max="-2" attributes="0"/>
+                                          <Component id="lblInventoryBomb" min="-2" pref="55" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jLabel30" min="-2" pref="165" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel33" min="-2" pref="55" max="-2" attributes="0"/>
+                                          <Component id="lblInventoryRBCannon" min="-2" pref="55" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jLabel32" min="-2" pref="165" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jButton16" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
-                                      <Component id="jButton17" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
-                                      <Component id="jButton18" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
-                                      <Component id="jButton19" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
-                                      <Component id="jButton20" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
+                                      <Component id="btnSellSteel" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
+                                      <Component id="btnSellCannon" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
+                                      <Component id="btnSellMultipleCannon" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
+                                      <Component id="btnSellBomb" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
+                                      <Component id="btnSellBRCannon" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Component id="btnClose" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="144" max="32767" attributes="0"/>
                       </Group>
@@ -113,47 +114,49 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBudget" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton16" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel25" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="btnSellSteel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblInventorySteel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jLabel24" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton17" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel27" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="btnSellCannon" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblInventoryCannon" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jLabel26" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton18" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel29" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="btnSellMultipleCannon" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblInvetoryMultipleCannon" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jLabel28" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton19" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel31" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="btnSellBomb" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblInventoryBomb" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jLabel30" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton20" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel33" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="btnSellBRCannon" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblInventoryRBCannon" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jLabel32" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="btnClose" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="lblBudget">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="0" type="rgb"/>
@@ -186,27 +189,27 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel8" min="-2" pref="148" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton6" min="-2" pref="93" max="-2" attributes="0"/>
+                              <Component id="btnBuyArmoryCannon" min="-2" pref="93" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel9" min="-2" pref="148" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton7" max="32767" attributes="0"/>
+                              <Component id="btnBuyArmoryMultipleCannon" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel10" min="-2" pref="148" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton8" max="32767" attributes="0"/>
+                              <Component id="btnBuyArmoryBomb" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel11" min="-2" pref="148" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton9" max="32767" attributes="0"/>
+                              <Component id="btnBuyArmoryBRCannon" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel12" min="-2" pref="148" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton10" max="32767" attributes="0"/>
+                              <Component id="btnBuyGhostShip" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -220,47 +223,47 @@
                               </Group>
                               <EmptySpace min="108" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jButton5" max="32767" attributes="0"/>
-                                  <Component id="jButton4" max="32767" attributes="0"/>
-                                  <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jButton1" alignment="1" pref="93" max="32767" attributes="0"/>
-                                  <Component id="jButton3" max="32767" attributes="0"/>
+                                  <Component id="btnBuyTemple" max="32767" attributes="0"/>
+                                  <Component id="btnBuyMine" max="32767" attributes="0"/>
+                                  <Component id="btnBuyConnector" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="btnBuySourcePower" alignment="1" pref="93" max="32767" attributes="0"/>
+                                  <Component id="btnBuyMarket" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel17" pref="56" max="32767" attributes="0"/>
-                                  <Component id="jLabel16" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel15" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel14" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel13" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblRBCannon" pref="56" max="32767" attributes="0"/>
+                                  <Component id="lblBomb" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblMultipleCannon" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblCannon" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblSteel" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel22" min="-2" pref="86" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton15" max="32767" attributes="0"/>
+                                      <Component id="btnBuyRBCannon" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel21" min="-2" pref="86" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton14" max="32767" attributes="0"/>
+                                      <Component id="btnBuyBomb" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel20" min="-2" pref="86" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton13" max="32767" attributes="0"/>
+                                      <Component id="btnBuyMultipleCannon" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel19" min="-2" pref="86" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton12" max="32767" attributes="0"/>
+                                      <Component id="btnBuyCannon" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel18" min="-2" pref="86" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton11" max="32767" attributes="0"/>
+                                      <Component id="btnBuySteel" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -275,81 +278,81 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuySourcePower" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyConnector" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyMarket" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyMine" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyTemple" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyArmoryCannon" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel9" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyArmoryMultipleCannon" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel10" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyArmoryBomb" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel11" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton9" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyArmoryBRCannon" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel12" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton10" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuyGhostShip" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel13" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnBuySteel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSteel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel18" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton12" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel14" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnBuyCannon" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblCannon" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel19" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton13" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel15" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnBuyMultipleCannon" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblMultipleCannon" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel20" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton14" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel16" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnBuyBomb" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblBomb" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel21" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton15" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel17" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnBuyRBCannon" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblRBCannon" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel22" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="18" max="32767" attributes="0"/>
@@ -363,7 +366,7 @@
                 <Property name="text" type="java.lang.String" value="Fuente de poder"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnBuySourcePower">
               <Properties>
                 <Property name="text" type="java.lang.String" value="12000"/>
               </Properties>
@@ -373,7 +376,7 @@
                 <Property name="text" type="java.lang.String" value="Conector"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="btnBuyConnector">
               <Properties>
                 <Property name="text" type="java.lang.String" value="100"/>
               </Properties>
@@ -383,7 +386,7 @@
                 <Property name="text" type="java.lang.String" value="Mercado"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="btnBuyMarket">
               <Properties>
                 <Property name="text" type="java.lang.String" value="2000"/>
               </Properties>
@@ -393,7 +396,7 @@
                 <Property name="text" type="java.lang.String" value="Mina"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="btnBuyMine">
               <Properties>
                 <Property name="text" type="java.lang.String" value="1000"/>
               </Properties>
@@ -403,12 +406,12 @@
                 <Property name="text" type="java.lang.String" value="Templo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton5">
+            <Component class="javax.swing.JButton" name="btnBuyTemple">
               <Properties>
                 <Property name="text" type="java.lang.String" value="2500"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton6">
+            <Component class="javax.swing.JButton" name="btnBuyArmoryCannon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="1500"/>
               </Properties>
@@ -418,7 +421,7 @@
                 <Property name="text" type="java.lang.String" value="Armeria-Ca&#xf1;on"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton7">
+            <Component class="javax.swing.JButton" name="btnBuyArmoryMultipleCannon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="1500"/>
               </Properties>
@@ -428,7 +431,7 @@
                 <Property name="text" type="java.lang.String" value="Armeria-Ca&#xf1;on Mutiple"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton8">
+            <Component class="javax.swing.JButton" name="btnBuyArmoryBomb">
               <Properties>
                 <Property name="text" type="java.lang.String" value="1500"/>
               </Properties>
@@ -438,7 +441,7 @@
                 <Property name="text" type="java.lang.String" value="Armeria-Bomba"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton9">
+            <Component class="javax.swing.JButton" name="btnBuyArmoryBRCannon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="1500"/>
               </Properties>
@@ -453,18 +456,18 @@
                 <Property name="text" type="java.lang.String" value="Barco Fantasma"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton10">
+            <Component class="javax.swing.JButton" name="btnBuyGhostShip">
               <Properties>
                 <Property name="text" type="java.lang.String" value="2500"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel13">
+            <Component class="javax.swing.JLabel" name="lblSteel">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton11">
+            <Component class="javax.swing.JButton" name="btnBuySteel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="2"/>
               </Properties>
@@ -479,23 +482,23 @@
                 <Property name="text" type="java.lang.String" value="Ca&#xf1;on"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel14">
+            <Component class="javax.swing.JLabel" name="lblCannon">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton12">
+            <Component class="javax.swing.JButton" name="btnBuyCannon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="1000"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton13">
+            <Component class="javax.swing.JButton" name="btnBuyMultipleCannon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="2000"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel15">
+            <Component class="javax.swing.JLabel" name="lblMultipleCannon">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
@@ -506,12 +509,12 @@
                 <Property name="text" type="java.lang.String" value="Ca&#xf1;on multiple"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton14">
+            <Component class="javax.swing.JButton" name="btnBuyBomb">
               <Properties>
                 <Property name="text" type="java.lang.String" value="4000"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel16">
+            <Component class="javax.swing.JLabel" name="lblBomb">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
@@ -522,12 +525,12 @@
                 <Property name="text" type="java.lang.String" value="Bomba"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton15">
+            <Component class="javax.swing.JButton" name="btnBuyRBCannon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="10000"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel17">
+            <Component class="javax.swing.JLabel" name="lblRBCannon">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
@@ -554,18 +557,18 @@
             <Property name="text" type="java.lang.String" value="Acero"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel25">
+        <Component class="javax.swing.JLabel" name="lblInventorySteel">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton16">
+        <Component class="javax.swing.JButton" name="btnSellSteel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Vender"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton17">
+        <Component class="javax.swing.JButton" name="btnSellCannon">
           <Properties>
             <Property name="text" type="java.lang.String" value="Vender"/>
           </Properties>
@@ -575,13 +578,13 @@
             <Property name="text" type="java.lang.String" value="Ca&#xf1;on"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel27">
+        <Component class="javax.swing.JLabel" name="lblInventoryCannon">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton18">
+        <Component class="javax.swing.JButton" name="btnSellMultipleCannon">
           <Properties>
             <Property name="text" type="java.lang.String" value="Vender"/>
           </Properties>
@@ -591,13 +594,13 @@
             <Property name="text" type="java.lang.String" value="Ca&#xf1;on Multiple"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel29">
+        <Component class="javax.swing.JLabel" name="lblInvetoryMultipleCannon">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton19">
+        <Component class="javax.swing.JButton" name="btnSellBomb">
           <Properties>
             <Property name="text" type="java.lang.String" value="Vender"/>
           </Properties>
@@ -607,13 +610,13 @@
             <Property name="text" type="java.lang.String" value="Bomba"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel31">
+        <Component class="javax.swing.JLabel" name="lblInventoryBomb">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton20">
+        <Component class="javax.swing.JButton" name="btnSellBRCannon">
           <Properties>
             <Property name="text" type="java.lang.String" value="Vender"/>
           </Properties>
@@ -623,10 +626,15 @@
             <Property name="text" type="java.lang.String" value="Ca&#xf1;on BR"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel33">
+        <Component class="javax.swing.JLabel" name="lblInventoryRBCannon">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnClose">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Salir"/>
           </Properties>
         </Component>
       </SubComponents>

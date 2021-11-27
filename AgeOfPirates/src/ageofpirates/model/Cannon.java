@@ -1,10 +1,12 @@
 
 package ageofpirates.model;
 
+import ageofpirates.model.Game.ItemType;
+
 public class Cannon extends Weapon{
 
     public Cannon() {
-        super(500, "Cannon");
+        super(500, "Cannon", ItemType.CANNON);
     }
 
     @Override

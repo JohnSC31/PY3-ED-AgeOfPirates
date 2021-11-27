@@ -1,6 +1,7 @@
 
 package server;
 
+import ageofpirates.model.Inventory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -71,15 +72,17 @@ public class ServerThread extends Thread{
                     case 3: // opcion del juego
                         game(inputStream.readInt());
                         break;
+                    case 4: // opcion para el mercado
+                        market(inputStream.readInt());
                 
                 }
             }
         
         } catch (IOException ex) {
             System.out.println("Se termino la conexion");
-        }/*catch(ClassNotFoundException ex){
+        }catch(ClassNotFoundException ex){
             System.out.println("No se encontro la clase");
-        }*/
+        }
         // Excepcion se necesitara cuando se pasen objetos por el servidor
         
         System.out.println("Se removio al cliente");
@@ -172,7 +175,28 @@ public class ServerThread extends Thread{
         }
     }
     
-    
+    public void market(int option) throws IOException, ClassNotFoundException{
+        
+        switch(option){
+            case 0:
+                inputStream.readInt(); // ejemplificacion (no ha nada)
+                break;
+            case 1: // actualizar el mercado
+                
+                Inventory marketInventory = (Inventory) this.objInputStream.readObject();
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).outputStream.writeInt(4); // opcion del market
+                    players.get(i).outputStream.writeInt(1); // recibir inventario
+                    players.get(i).objOutputStream.writeObject(marketInventory);
+
+                }
+                break;
+            default:
+                System.out.println("Option " + option +" en serverHelper inexistente");
+                break;
+        }
+        
+    }
     
     
     

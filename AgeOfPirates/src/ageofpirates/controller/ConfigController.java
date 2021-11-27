@@ -46,6 +46,8 @@ public class ConfigController extends Controller implements MouseListener{
         view.getBtnStartGame().addActionListener(this);
         view.getBtnStartGame().setEnabled(game.getPlayer().isHost());
         
+        view.getBtnMarket().addActionListener(this);
+        
         // listener al oceano
         addMouseListenerSea();
         
@@ -85,6 +87,11 @@ public class ConfigController extends Controller implements MouseListener{
         if(e.getSource().equals(view.getBtnConnectIsland())){
             this.connectIsland = true;
             view.getLblConnectStatus().setText("Conectando...");
+        }
+        
+        if(e.getSource().equals(view.getBtnMarket())){
+            // se abre el mercado
+            mainController.startMarket();
         }
         
         if(e.getSource().equals(view.getBtnStartGame())){

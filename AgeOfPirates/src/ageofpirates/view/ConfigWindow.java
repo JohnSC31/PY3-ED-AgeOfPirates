@@ -68,6 +68,7 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         lblCompass = new javax.swing.JLabel();
         btnConnectIsland = new javax.swing.JButton();
         lblConnectStatus = new javax.swing.JLabel();
+        btnMarket = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnStartGame = new javax.swing.JButton();
 
@@ -117,6 +118,9 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
 
         lblConnectStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel2.add(lblConnectStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 150, 20));
+
+        btnMarket.setText("Mercado");
+        jPanel2.add(btnMarket, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 150, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -177,6 +181,7 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConnectIsland;
+    private javax.swing.JButton btnMarket;
     private javax.swing.JButton btnMoveEaste;
     private javax.swing.JButton btnMoveNorth;
     private javax.swing.JButton btnMoveSouth;
@@ -236,6 +241,10 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
 
     public JLabel getLblConnectStatus() {
         return lblConnectStatus;
+    }
+
+    public JButton getBtnMarket() {
+        return btnMarket;
     }
     
     
