@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 public class PowerSource extends Island{
 
     public PowerSource(int iPos, int jPos, ArrayList<ImageIcon> icons) {
-        super(iPos, jPos, icons, 2, 2, "Fuente de Energia");
+        super(iPos, jPos, icons, 2, 2, "Fuente de Energia", 12000);
     }
 
     @Override

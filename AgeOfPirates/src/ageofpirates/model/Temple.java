@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 public class Temple extends Island{
 
     public Temple(int iPos, int jPos, ArrayList<ImageIcon> icons) {
-        super(iPos, jPos, icons, 1, 2, "Templo");
+        super(iPos, jPos, icons, 1, 2, "Templo", 2500);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Armory extends Island{
     private String weapon;
     
     public Armory(int iPos, int jPos, ArrayList<ImageIcon> icons, String weapon) {
-        super(iPos, jPos, icons, 1, 2, "Armeria");
+        super(iPos, jPos, icons, 1, 2, "Armeria", 1500);
         this.weapon = weapon;
     }
 

@@ -14,14 +14,16 @@ abstract public class Island implements iAction{
     private int yDimension; // dimesiones en columnas
     private int xDimension; // dimensiones en filas
     private String name;
+    private int price;
 
-    public Island(int iPos, int jPos, ArrayList<ImageIcon> icons, int yDimension, int xDimension, String name) {
+    public Island(int iPos, int jPos, ArrayList<ImageIcon> icons, int yDimension, int xDimension, String name, int price) {
         this.iPos = iPos;
         this.jPos = jPos;
         this.icons = icons;
         this.yDimension = yDimension;
         this.xDimension = xDimension;
         this.name = name;
+        this.price = price;
     }
 
     public Island(ArrayList<ImageIcon> icons, int yDimension, int xDimension, String name) {
@@ -69,6 +71,10 @@ abstract public class Island implements iAction{
 
     public ArrayList<ImageIcon> getIcons() {
         return icons;
+    }
+
+    public int getPrice() {
+        return price;
     }
     
     
