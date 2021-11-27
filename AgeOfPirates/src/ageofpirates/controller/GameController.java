@@ -14,10 +14,12 @@ import java.util.logging.Logger;
 public class GameController extends Controller implements KeyListener{
     
     private GameWindow view;
+    private boolean playerTurn;
 
     public GameController(GameWindow view, Game game, MainController mainController) {
         super(game, mainController);
         this.view = view;
+        this.playerTurn = game.getPlayer().isHost();
         _init_();
     }
 
@@ -56,6 +58,7 @@ public class GameController extends Controller implements KeyListener{
         }
     }
     // -------------------------------------------------- METODOS ---------------------------------------------------------------
+    
     private void sendMessage(){
         try {
             outputStream.writeInt(3); // opcion del juego
@@ -73,6 +76,26 @@ public class GameController extends Controller implements KeyListener{
         String player = playerId == game.getPlayer().getPlayerId() ? "Tu: "  : "Jugador " + playerId + ": ";
         
         this.view.getTxtaChat().setText(this.view.getTxtaChat().getText() + player + message + "\n");
+    }
+    
+    // metodos para el manejo del turno
+    public void setPlayerTurn(boolean turn){
+        this.playerTurn = turn;
+        // cambiar labels etc
+    }
+    
+    
+    
+    // termina el turno del jugador actual y avisa al servidor que pase al siguiente
+    public void nextPlayerTurn(){
+        try {
+            outputStream.writeInt(0); // opcion del helper server
+            outputStream.writeInt(1); // subipcion para pasar el siguiente turno
+            
+        } catch(IOException ex) {
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
     }
     
     // ----------------------------------------------- GETTERS AND SETTERS ------------------------------------------------------

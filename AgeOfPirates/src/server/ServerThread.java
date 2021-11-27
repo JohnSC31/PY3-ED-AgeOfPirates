@@ -97,10 +97,17 @@ public class ServerThread extends Thread{
     
     // --------------------------------------------- METODOS PARA LOS SOCKETS ----------------------------------------------------------------
     public void serverHelper(int option) throws IOException{
-        
         switch(option){
             case 0:
                 inputStream.readInt(); // ejemplificacion (no ha nada)
+                break;
+            case 1: // setear el turno de todos los jugadores
+                int playerInTurnId = server.passPlayerTurn();
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).outputStream.writeInt(0);
+                    players.get(i).outputStream.writeInt(1);
+                    players.get(i).outputStream.writeBoolean(playerInTurnId == players.get(i).getPlayerId());
+                }
                 break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");
