@@ -5,6 +5,7 @@ import ageofpirates.model.Game;
 import ageofpirates.model.Island;
 import ageofpirates.model.PowerSource;
 import ageofpirates.model.SeaCell;
+import ageofpirates.model.Vertex;
 import ageofpirates.view.ConfigWindow;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
 import java.awt.event.ActionEvent;
@@ -20,12 +21,14 @@ public class ConfigController extends Controller implements MouseListener{
     private ConfigWindow view;
     
     // variables
-    private Island selectedElement;
+    private Vertex selectedElement;
+    private boolean connectIsland;
     
     public ConfigController(ConfigWindow view, Game game, MainController mainController) {
         super(game, mainController);
         this.view = view;
         this.selectedElement = null;
+        this.connectIsland = false;
         _init_();
     }
 
@@ -36,6 +39,9 @@ public class ConfigController extends Controller implements MouseListener{
         view.getBtnMoveSouth().addActionListener(this);
         view.getBtnMoveEaste().addActionListener(this);
         view.getBtnMoveWest().addActionListener(this);
+        
+        view.getBtnConnectIsland().addActionListener(this);
+        view.getBtnConnectIsland().setEnabled(false);
         
         view.getBtnStartGame().addActionListener(this);
         view.getBtnStartGame().setEnabled(game.getPlayer().isHost());
@@ -76,6 +82,11 @@ public class ConfigController extends Controller implements MouseListener{
             }
         }
         
+        if(e.getSource().equals(view.getBtnConnectIsland())){
+            this.connectIsland = true;
+            view.getLblConnectStatus().setText("Conectando...");
+        }
+        
         if(e.getSource().equals(view.getBtnStartGame())){
             startGame();
         }
@@ -87,12 +98,21 @@ public class ConfigController extends Controller implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         if(e.getSource().getClass().equals(SeaCell.class)){
             SeaCell clickedLabel = (SeaCell) e.getSource();
-            if(clickedLabel.getIsland() != null){
-                view.getLblSelectedElement().setText(clickedLabel.getIsland().getName());
-                this.selectedElement = clickedLabel.getIsland();
-                // setear la accion
+            if(clickedLabel.getVertex() != null){
+                view.getLblSelectedElement().setText(clickedLabel.getVertex().getIsland().getName());
+                if(this.connectIsland){
+                    // quiere decir que se conecta el objeto ya seleccionado con este nuevo que se esta seleccionando
+                    game.createArista(selectedElement, clickedLabel.getVertex());
+                    this.connectIsland = false; // ya se realizo la conexion
+                    view.getLblConnectStatus().setText("");
+                }
+  
+                this.selectedElement = clickedLabel.getVertex();
+                view.getBtnConnectIsland().setEnabled(true);
+                
             }else{
                 view.getLblSelectedElement().setText("Selecciona un elemento");
+                view.getBtnConnectIsland().setEnabled(false);
                 this.selectedElement = null;
             }
         }
@@ -128,7 +148,7 @@ public class ConfigController extends Controller implements MouseListener{
 // setea las islas iniciales de forma aleatoria en el oceano
     private void setInitialGraph(){
         for(int i = 0; i < game.getGraph().size(); i++){
-            game.setIslandRandomPosition(view.getPlayerSea(), game.getGraph().get(i).getIsland());
+            game.setIslandRandomPosition(view.getPlayerSea(), game.getGraph().get(i));
         }
     }
     

@@ -66,9 +66,9 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         btnMoveEaste = new javax.swing.JButton();
         btnMoveWest = new javax.swing.JButton();
         lblCompass = new javax.swing.JLabel();
+        btnConnectIsland = new javax.swing.JButton();
+        lblConnectStatus = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        btnElementAction = new javax.swing.JButton();
         btnStartGame = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,50 +98,46 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         jPanel2.add(lblSelectedElement, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 160, -1));
 
         btnMoveNorth.setText("N");
-        jPanel2.add(btnMoveNorth, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
+        jPanel2.add(btnMoveNorth, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, -1, -1));
 
         btnMoveSouth.setText("S");
-        jPanel2.add(btnMoveSouth, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, -1, -1));
+        jPanel2.add(btnMoveSouth, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, -1, -1));
 
         btnMoveEaste.setText("E");
-        jPanel2.add(btnMoveEaste, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 100, -1, -1));
+        jPanel2.add(btnMoveEaste, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
 
         btnMoveWest.setText("O");
         jPanel2.add(btnMoveWest, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
         lblCompass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(lblCompass, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 72, 72, 72));
+        jPanel2.add(lblCompass, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 70, 60));
+
+        btnConnectIsland.setText("Conectar");
+        jPanel2.add(btnConnectIsland, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 150, -1));
+
+        lblConnectStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel2.add(lblConnectStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 150, 20));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Acciones");
-
-        btnElementAction.setText("jButton1");
+        btnStartGame.setText("Jugar");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnElementAction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnStartGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnElementAction)
-                .addContainerGap(222, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnStartGame, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-
-        btnStartGame.setText("Jugar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,8 +151,7 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnStartGame, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlSea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -169,12 +164,9 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnStartGame, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlSea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -184,17 +176,17 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnElementAction;
+    private javax.swing.JButton btnConnectIsland;
     private javax.swing.JButton btnMoveEaste;
     private javax.swing.JButton btnMoveNorth;
     private javax.swing.JButton btnMoveSouth;
     private javax.swing.JButton btnMoveWest;
     private javax.swing.JButton btnStartGame;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblCompass;
+    private javax.swing.JLabel lblConnectStatus;
     private javax.swing.JLabel lblSelectedElement;
     private javax.swing.JPanel pnlSea;
     // End of variables declaration//GEN-END:variables
@@ -237,6 +229,17 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
     public SeaCell[][] getPlayerSea(){
         return playerSea;
     }
+
+    public JButton getBtnConnectIsland() {
+        return btnConnectIsland;
+    }
+
+    public JLabel getLblConnectStatus() {
+        return lblConnectStatus;
+    }
+    
+    
+    
     
     
     

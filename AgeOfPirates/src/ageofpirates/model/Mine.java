@@ -12,7 +12,7 @@ public class Mine extends Island{
     
     
     public Mine(int iPos, int jPos, ArrayList<ImageIcon> icons) {
-        super(iPos, jPos, icons, 1, 2, "Mina");
+        super(iPos, jPos, icons, 1, 2, "Mina", 1000);
         this.steelPerTime = 50;
         this.time = 60; 
     }

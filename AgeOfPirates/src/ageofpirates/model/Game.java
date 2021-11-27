@@ -92,7 +92,7 @@ public class Game {
     
     public void setSea(SeaCell[][] playerSea, Graph graph){
         for(int i = 0; i < graph.size(); i++){
-            setIsland(playerSea, graph.get(i).getIsland());
+            setIsland(playerSea, graph.get(i));
             // dibujar las aristas
         }
     }
@@ -101,23 +101,11 @@ public class Game {
     public void unSetSea(SeaCell[][] playerSea){
         for(int i = 0; i < SEA_SIZE ;i++){
             for(int j = 0; j < SEA_SIZE; j++){
-                playerSea[i][j].setIsland(null);
+                playerSea[i][j].setVertex(null);
                 playerSea[i][j].setIcon(null);
             }
         }
     }
-    
-    // nuevas funciones para la adminsitracion del grafo y del oceano
-    // addVertex(specificElement) agrega un nuevo vertice al grafo
-    // addArista(vertexOrigin, vertexDestiny) genera una arista entre los vertices dados en el grafo
-    
-    // pasar la matriz de labels para la pantalla y tener una referencia en el la clase game para hacer display a los vertices y aristas
-    // displayVertex(graphicElement) pinta el elemento de las dimensiones estitupulada con los iconos cargados
-    // displayArista(Arista) toma los elementos de las aristas encuentra las celdas correspondientes y digbuja una linea encima para conectarlos
-    // displaySea(graph) recorre el los vertices del grafo y cada uno de sus aristas y las representa en la matriz de labels
-    // displayEnemySea(graph) toma un grafo enemigo y lo pinta en el oceano correspondiente
-    // tener un arreglo de visibilidad con el id de los jugadores que pueden ver el elemento en el oceano enemigo
-    // para facilitar el barco fantasma las desconexiones de la fuente de poder y destrucciones totales
     
     public Vertex createVertex(Island newIsland){
         Vertex newVertex = new Vertex(newIsland);
@@ -131,8 +119,9 @@ public class Game {
     }
     
     // sea una issla de forma aleatoria en el oceano dado
-    public void setIslandRandomPosition(SeaCell[][]  playerSea, Island island){
+    public void setIslandRandomPosition(SeaCell[][]  playerSea, Vertex vertex){
         int iSea = 0, jSea = 0;
+        Island island = vertex.getIsland();
         boolean posRight = false;
         while(!posRight){
             // crea randoms y verifica que la posicion sea correcta
@@ -145,18 +134,19 @@ public class Game {
             }
         }
         
-        setIsland(playerSea, island);
+        setIsland(playerSea, vertex);
     }
     
     // setea la isla en la ubicacion correspondiente
-    public void setIsland(SeaCell[][] playerSea, Island island){
+    public void setIsland(SeaCell[][] playerSea, Vertex vertex){
         try{
+            Island island = vertex.getIsland();
             int iPos = island.getiPos(), jPos = island.getjPos();
             int iconCounter = 0; // posicion para recuperar la imagen
             for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
                 for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
                     playerSea[iPos][jPos].setIcon(MainController.resizeIcon(island.getIcons().get(iconCounter), CELL_SIZE, CELL_SIZE));
-                    playerSea[iPos][jPos].setIsland(island);
+                    playerSea[iPos][jPos].setVertex(vertex);
                     jPos++;
                     iconCounter++;
                 }
@@ -172,13 +162,14 @@ public class Game {
     }
     
     // quita el elemento grafico actual
-    private void unSetIsland(SeaCell[][] playerSea, Island island){
+    private void unSetIsland(SeaCell[][] playerSea, Vertex vertex){
         try{
+            Island island = vertex.getIsland();
             int iPos = island.getiPos(), jPos = island.getjPos();
             for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
                 for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
                     playerSea[iPos][jPos].setIcon(null);
-                    playerSea[iPos][jPos].setIsland(null);
+                    playerSea[iPos][jPos].setVertex(null);
                     jPos++;
                 }
                 jPos = island.getjPos();
@@ -197,7 +188,7 @@ public class Game {
             int iPos = i, jPos = j;
             for(int dimensionRow = 0; dimensionRow < yDimension; dimensionRow++){
                 for(int dimensionCol = 0; dimensionCol < xDimension; dimensionCol++){
-                    if(playerSea[iPos][jPos].getIsland() != null) return false;
+                    if(playerSea[iPos][jPos].getVertex() != null) return false;
 
                     jPos++;
                 }
@@ -225,40 +216,44 @@ public class Game {
     
     
     // mueve el componente hacia la direccion especificada
-    public void moveLeftIsland(SeaCell[][] playerSea, Island island){
-        unSetIsland(playerSea, island);
+    public void moveLeftIsland(SeaCell[][] playerSea, Vertex vertex){
+        unSetIsland(playerSea, vertex);
+        Island island = vertex.getIsland();
         if(validIslandPosition(playerSea, island.getiPos(), island.getjPos() - 1, island.getxDimension(), island.getyDimension())){
             island.setjPos(island.getjPos() - 1);
         }
         
-        setIsland(playerSea, island);
+        setIsland(playerSea, vertex);
     }
     
-    public void moveRightIsland(SeaCell[][] playerSea, Island island){
-        unSetIsland(playerSea, island);
+    public void moveRightIsland(SeaCell[][] playerSea, Vertex vertex){
+        unSetIsland(playerSea, vertex);
+        Island island = vertex.getIsland();
         if(validIslandPosition(playerSea, island.getiPos(), island.getjPos() + 1, island.getxDimension(), island.getyDimension())){
             island.setjPos(island.getjPos() + 1);
         }
         
-        setIsland(playerSea, island);
+        setIsland(playerSea, vertex);
     }
     
-    public void moveUpIsland(SeaCell[][] playerSea, Island island){
-        unSetIsland(playerSea, island);
-        if(validIslandPosition(playerSea, island.getiPos(), island.getiPos() - 1, island.getxDimension(), island.getyDimension())){
+    public void moveUpIsland(SeaCell[][] playerSea, Vertex vertex){
+        unSetIsland(playerSea, vertex);
+        Island island = vertex.getIsland();
+        if(validIslandPosition(playerSea, island.getiPos() - 1, island.getiPos(), island.getxDimension(), island.getyDimension())){
             island.setiPos(island.getiPos() - 1);
         }
         
-        setIsland(playerSea, island);
+        setIsland(playerSea, vertex);
     }
     
-    public void moveDownIsland(SeaCell[][] playerSea, Island island){
-        unSetIsland(playerSea, island);
-            if(validIslandPosition(playerSea, island.getiPos() + 1, island.getjPos(), island.getxDimension(), island.getyDimension())){
-                island.setiPos(island.getiPos() + 1);
-            }
+    public void moveDownIsland(SeaCell[][] playerSea, Vertex vertex){
+        unSetIsland(playerSea, vertex);
+        Island island = vertex.getIsland();
+        if(validIslandPosition(playerSea, island.getiPos() + 1, island.getjPos(), island.getxDimension(), island.getyDimension())){
+            island.setiPos(island.getiPos() + 1);
+        }
 
-            setIsland(playerSea, island);
+            setIsland(playerSea, vertex);
     }
     
     // ------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------

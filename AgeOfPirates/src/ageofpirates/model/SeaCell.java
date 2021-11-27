@@ -12,13 +12,13 @@ public class SeaCell extends JLabel{
     private int i;
     private int j;
     private ImageIcon icon;
-    private Island island; //(sera nullo hasta que lo ocupe)
+    private Vertex vertex; //(sera nullo hasta que lo ocupe)
 
     public SeaCell(int i, int j) {
         this.i = i;
         this.j = j;
 
-        this.island = null;
+        this.vertex = null;
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         this.setBackground(PALLETE[1]);
         this.setOpaque(true);
@@ -36,12 +36,12 @@ public class SeaCell extends JLabel{
         return j;
     }
     
-    public void setIsland(Island island){
-        this.island = island;
+    public void setVertex(Vertex vertex){
+        this.vertex = vertex;
     }
     
-    public Island getIsland(){
-        return island;
+    public Vertex getVertex(){
+        return vertex;
     }
     
 }

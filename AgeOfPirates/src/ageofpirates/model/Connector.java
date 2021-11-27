@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 public class Connector extends Island{
 
     public Connector(int iPos, int jPos, ArrayList<ImageIcon> icons) {
-        super(iPos, jPos, icons, 1, 1, "Conector");
+        super(iPos, jPos, icons, 1, 1, "Conector", 100);
     }
 
     @Override
