@@ -15,6 +15,7 @@ public class MainController {
     private LobbyWindow lobbyView;
     private ConfigWindow configView;
     private GameWindow gameView;
+    private MarketWindow marketView;
     
     // modelo principal del juego
     private Game game;
@@ -23,6 +24,7 @@ public class MainController {
     private LobbyController lobbyController;
     private ConfigController configController;
     private GameController gameController;
+    private MarketController marketController;
     
     // colores
                                      // Rich black          Police Blue             verdigris               Diamond                     Caramel                 Saddle Brown
@@ -69,9 +71,19 @@ public class MainController {
         this.gameController = new GameController(gameView, this.game, this);
         changeWindow(configView, gameView);
     }
+    
+    public void startMarket(){
+        this.marketView = new MarketWindow();
+        this.marketController = new MarketController(this.marketView, this.game, this);
+        showWindow(marketView);
+    }
    
     
     // ----------------------------------------- GETTERS AND SETTERS -----------------------------------------------------------
+
+    public Game getGame() {
+        return game;
+    }
 
     public LobbyController getLobbyController() {
         return lobbyController;
@@ -96,6 +108,16 @@ public class MainController {
     public GameController getGameController() {
         return gameController;
     }
+
+    public MarketWindow getMarketView() {
+        return marketView;
+    }
+
+    public MarketController getMarketController() {
+        return marketController;
+    }
+    
+    
     
     
     

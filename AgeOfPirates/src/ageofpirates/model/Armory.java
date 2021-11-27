@@ -5,17 +5,18 @@
  */
 package ageofpirates.model;
 
+import ageofpirates.model.Game.ItemType;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 
 public class Armory extends Island{
     
-    private String weapon;
+    private ItemType weaponType;
     
-    public Armory(int iPos, int jPos, ArrayList<ImageIcon> icons, String weapon) {
+    public Armory(int iPos, int jPos, ArrayList<ImageIcon> icons, ItemType weapon) {
         super(iPos, jPos, icons, 1, 2, "Armeria", 1500);
-        this.weapon = weapon;
+        this.weaponType = weapon;
     }
 
     @Override
