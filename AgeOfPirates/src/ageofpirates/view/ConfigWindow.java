@@ -68,8 +68,6 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         lblCompass = new javax.swing.JLabel();
         btnConnectIsland = new javax.swing.JButton();
         lblConnectStatus = new javax.swing.JLabel();
-        btnSell = new javax.swing.JButton();
-        lblPrice = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnStartGame = new javax.swing.JButton();
 
@@ -119,13 +117,6 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
 
         lblConnectStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel2.add(lblConnectStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 150, 20));
-
-        btnSell.setText("Vender");
-        jPanel2.add(btnSell, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 150, -1));
-
-        lblPrice.setText("Precio: $0");
-        lblPrice.setToolTipText("");
-        jPanel2.add(lblPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 150, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -190,14 +181,12 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JButton btnMoveNorth;
     private javax.swing.JButton btnMoveSouth;
     private javax.swing.JButton btnMoveWest;
-    private javax.swing.JButton btnSell;
     private javax.swing.JButton btnStartGame;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblCompass;
     private javax.swing.JLabel lblConnectStatus;
-    private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblSelectedElement;
     private javax.swing.JPanel pnlSea;
     // End of variables declaration//GEN-END:variables
@@ -247,14 +236,6 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
 
     public JLabel getLblConnectStatus() {
         return lblConnectStatus;
-    }
-
-    public JButton getBtnSell() {
-        return btnSell;
-    }
-
-    public JLabel getLblPrice() {
-        return lblPrice;
     }
     
     

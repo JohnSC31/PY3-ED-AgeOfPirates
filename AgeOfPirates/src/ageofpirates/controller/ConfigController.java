@@ -43,9 +43,6 @@ public class ConfigController extends Controller implements MouseListener{
         view.getBtnConnectIsland().addActionListener(this);
         view.getBtnConnectIsland().setEnabled(false);
         
-        view.getBtnSell().addActionListener(this);
-        view.getBtnSell().setEnabled(false);
-        
         view.getBtnStartGame().addActionListener(this);
         view.getBtnStartGame().setEnabled(game.getPlayer().isHost());
         
@@ -90,10 +87,6 @@ public class ConfigController extends Controller implements MouseListener{
             view.getLblConnectStatus().setText("Conectando...");
         }
         
-        if(e.getSource().equals(view.getBtnSell())){
-            // se vende el objeto
-        }
-        
         if(e.getSource().equals(view.getBtnStartGame())){
             startGame();
         }
@@ -107,7 +100,6 @@ public class ConfigController extends Controller implements MouseListener{
             SeaCell clickedLabel = (SeaCell) e.getSource();
             if(clickedLabel.getVertex() != null){
                 view.getLblSelectedElement().setText(clickedLabel.getVertex().getIsland().getName());
-                view.getLblPrice().setText("Precio: $" + clickedLabel.getVertex().getIsland().getPrice());
                 if(this.connectIsland){
                     // quiere decir que se conecta el objeto ya seleccionado con este nuevo que se esta seleccionando
                     game.createArista(selectedElement, clickedLabel.getVertex());
@@ -117,11 +109,9 @@ public class ConfigController extends Controller implements MouseListener{
   
                 this.selectedElement = clickedLabel.getVertex();
                 view.getBtnConnectIsland().setEnabled(true);
-                view.getBtnSell().setEnabled(true);
                 
             }else{
                 view.getLblSelectedElement().setText("Selecciona un elemento");
-                view.getLblPrice().setText("Precio: $0");
                 view.getBtnConnectIsland().setEnabled(false);
                 this.selectedElement = null;
             }
