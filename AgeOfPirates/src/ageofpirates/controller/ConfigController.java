@@ -8,6 +8,8 @@ import ageofpirates.model.SeaCell;
 import ageofpirates.model.Vertex;
 import ageofpirates.view.ConfigWindow;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,6 +25,11 @@ public class ConfigController extends Controller implements MouseListener{
     // variables
     private Vertex selectedElement;
     private boolean connectIsland;
+    
+    private int x1=0;
+    private int x2=0;
+    private int y1=0;
+    private int y2=0;
     
     public ConfigController(ConfigWindow view, Game game, MainController mainController) {
         super(game, mainController);
@@ -111,17 +118,30 @@ public class ConfigController extends Controller implements MouseListener{
                     // quiere decir que se conecta el objeto ya seleccionado con este nuevo que se esta seleccionando
                     game.createArista(selectedElement, clickedLabel.getVertex());
                     this.connectIsland = false; // ya se realizo la conexion
-                    view.getLblConnectStatus().setText("");
+                    if(x2==0&y2==0){
+                        x2=clickedLabel.getX();
+                        y2=clickedLabel.getY();
+                    }
+                    Graphics2D g2 =(Graphics2D)view.getPnlSea().getGraphics();
+                    g2.setColor(Color.WHITE);
+                    g2.drawLine(x1, y1, x2, y2);
+                    x1 = x2= y1= y2=0;
+                    //g2.drawLine(0, 0, 100, 100);
                 }
-  
+                if(x1==0&y1==0){
+                    x1=clickedLabel.getX();
+                    y1=clickedLabel.getY();
+                }
                 this.selectedElement = clickedLabel.getVertex();
                 view.getBtnConnectIsland().setEnabled(true);
                 
             }else{
+                x1 = x2= y1= y2=0;
                 view.getLblSelectedElement().setText("Selecciona un elemento");
                 view.getBtnConnectIsland().setEnabled(false);
                 this.selectedElement = null;
             }
+            view.getLblConnectStatus().setText("");
         }
     }
 

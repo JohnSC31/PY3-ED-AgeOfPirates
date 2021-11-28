@@ -20,8 +20,7 @@ public class SeaCell extends JLabel{
 
         this.vertex = null;
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        this.setBackground(PALLETE[1]);
-        this.setOpaque(true);
+        this.setOpaque(false);
     }
 
     // ---------------------------------------------- METODOS ------------------------------------------------
