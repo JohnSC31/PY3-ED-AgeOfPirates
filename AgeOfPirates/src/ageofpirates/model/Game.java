@@ -150,7 +150,11 @@ public class Game {
         Arista newArista = new Arista(origin, destiny);
         return newArista;
     }
-    
+    public Arista createArista(Vertex origin, Vertex destiny, int x1, int y1,
+            int x2, int y2){
+        Arista newArista = new Arista(origin, destiny, x1, y1, x2, y2);
+        return newArista;
+    }
     // sea una issla de forma aleatoria en el oceano dado
     public void setIslandRandomPosition(SeaCell[][]  playerSea, Vertex vertex){
         int iSea = 0, jSea = 0;

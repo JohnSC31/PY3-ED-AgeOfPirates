@@ -115,13 +115,15 @@ public class ConfigController extends Controller implements MouseListener{
             if(clickedLabel.getVertex() != null){
                 view.getLblSelectedElement().setText(clickedLabel.getVertex().getIsland().getName());
                 if(this.connectIsland){
-                    // quiere decir que se conecta el objeto ya seleccionado con este nuevo que se esta seleccionando
-                    game.createArista(selectedElement, clickedLabel.getVertex());
-                    this.connectIsland = false; // ya se realizo la conexion
                     if(x2==0&y2==0){
+                        //System.out.println("X del 2"+clickedLabel.getX());
+                        //System.out.println("Y del 2"+clickedLabel.getY());
                         x2=clickedLabel.getX();
                         y2=clickedLabel.getY();
                     }
+                    // quiere decir que se conecta el objeto ya seleccionado con este nuevo que se esta seleccionando
+                    game.createArista(selectedElement, clickedLabel.getVertex(), x1, y1, x2, y2);
+                    this.connectIsland = false; // ya se realizo la conexion
                     Graphics2D g2 =(Graphics2D)view.getPnlSea().getGraphics();
                     g2.setColor(Color.WHITE);
                     g2.drawLine(x1, y1, x2, y2);
@@ -129,6 +131,8 @@ public class ConfigController extends Controller implements MouseListener{
                     //g2.drawLine(0, 0, 100, 100);
                 }
                 if(x1==0&y1==0){
+                    //System.out.println("X del 1"+clickedLabel.getX());
+                    //System.out.println("Y del 1"+clickedLabel.getY());
                     x1=clickedLabel.getX();
                     y1=clickedLabel.getY();
                 }

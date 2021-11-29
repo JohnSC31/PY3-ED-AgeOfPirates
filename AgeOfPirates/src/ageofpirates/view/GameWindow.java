@@ -1,19 +1,53 @@
 
 package ageofpirates.view;
 
+import static ageofpirates.controller.MainController.PALLETE;
+import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class GameWindow extends javax.swing.JFrame implements iWindow{
-
-
+    public static final int SEA_SIZE = 20; // matriz cuadrada de 20x20
+    public static final int CELL_SIZE = 25; // cada celda sera de 25x25
+    private SeaCell[][] playerSea;
+    private SeaCell[][] enemySea;
     public GameWindow() {
         initComponents();
+        initSeas();
+        this.pnlSea.setBackground(PALLETE[1]);
     }
 
-
+    private void initSeas(){
+        int x = 0, y = 0;
+        this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                this.playerSea[i][j] = new SeaCell(i, j);
+                this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
+                this.pnlSea.add(this.playerSea[i][j]);
+                
+                x += CELL_SIZE;
+            }
+            x = 0;
+            y += CELL_SIZE;
+        }
+        x =y =0;
+        this.enemySea = new SeaCell[SEA_SIZE][SEA_SIZE];
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                this.enemySea[i][j] = new SeaCell(i, j);
+                this.enemySea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
+                this.pnlEnemySea.add(this.enemySea[i][j]);
+                
+                x += CELL_SIZE;
+            }
+            x = 0;
+            y += CELL_SIZE;
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -169,4 +203,11 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         return txtfMessage;
     }
     
+    public SeaCell[][] getPlayerSea(){
+        return playerSea;
+    }
+    
+    public JPanel getPnlSea(){
+        return pnlSea;
+    }
 }
