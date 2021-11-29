@@ -15,6 +15,7 @@ abstract public class Island implements iAction{
     private int xDimension; // dimensiones en filas
     private String name;
     private int price;
+    private boolean destroyed; // determina si todos sus cuadrantes estan destruidos
 
     public Island(int iPos, int jPos, ArrayList<ImageIcon> icons, int yDimension, int xDimension, String name, int price) {
         this.iPos = iPos;
@@ -24,6 +25,7 @@ abstract public class Island implements iAction{
         this.xDimension = xDimension;
         this.name = name;
         this.price = price;
+        this.destroyed = false;
     }
 
     public Island(ArrayList<ImageIcon> icons, int yDimension, int xDimension, String name) {
@@ -76,6 +78,15 @@ abstract public class Island implements iAction{
     public int getPrice() {
         return price;
     }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+    
     
     
 }

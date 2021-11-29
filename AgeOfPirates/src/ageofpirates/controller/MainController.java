@@ -16,6 +16,7 @@ public class MainController {
     private ConfigWindow configView;
     private GameWindow gameView;
     private MarketWindow marketView;
+    private MineWindow mineView;
     
     // modelo principal del juego
     private Game game;
@@ -25,6 +26,7 @@ public class MainController {
     private ConfigController configController;
     private GameController gameController;
     private MarketController marketController;
+    private MineController mineController;
     
     // colores
                                      // Rich black          Police Blue             verdigris               Diamond                     Caramel                 Saddle Brown
@@ -76,6 +78,12 @@ public class MainController {
         this.marketView = new MarketWindow();
         this.marketController = new MarketController(this.marketView, this.game, this);
         showWindow(marketView);
+    }
+    
+    public void startMine(Island island){
+        // se abre la mina seleccionada
+        this.mineView = new MineWindow();
+        this.mineController = new MineController(mineView, this.game, this, island);
     }
    
     

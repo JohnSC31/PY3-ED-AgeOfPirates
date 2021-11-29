@@ -4,14 +4,12 @@ package ageofpirates.model;
 import ageofpirates.controller.MainController;
 import static ageofpirates.view.ConfigWindow.CELL_SIZE;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 
 public class Game {
@@ -62,9 +60,9 @@ public class Game {
         this.playerInventory = new Inventory();
         this.marketInventory = new Inventory();
         
-        this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
-        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
-        this.playerInventory.updateItemAmount(ItemType.STEEL, 100);
+//        this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
+//        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
+//        this.playerInventory.updateItemAmount(ItemType.STEEL, 100);
         
         this.budget = 4000; // se inicia con 4000 (dolares)
         
@@ -124,6 +122,7 @@ public class Game {
     }
     
     public void setSea(SeaCell[][] playerSea, Graph graph){
+        unSetSea(playerSea); // se resetea el mar anterior
         for(int i = 0; i < graph.size(); i++){
             setIsland(playerSea, graph.get(i));
             // dibujar las aristas
@@ -289,6 +288,21 @@ public class Game {
 
             setIsland(playerSea, vertex);
     }
+    
+    
+    // metodo para el inicio de las minas para que comiencen a minar
+    public void startMining(JLabel steelLabel){
+        for(int i = 0; i < graph.size(); i++){
+            if(graph.get(i).getIsland().getName() == "Mina"){
+                // es una mina
+                Mine mine = (Mine) graph.get(i).getIsland();
+                if(mine.getMineThread() == null){
+                    mine.startMining(this, mainController.getGameController());
+                }
+            }
+        }
+    }
+   
     
     // ------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------
 

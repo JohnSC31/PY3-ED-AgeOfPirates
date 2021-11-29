@@ -11,12 +11,13 @@ import javax.swing.JLabel;
 public class SeaCell extends JLabel{
     private int i;
     private int j;
-    private ImageIcon icon;
+    private boolean enemySea; // determina si es mi oceano o el del enemigo
     private Vertex vertex; //(sera nullo hasta que lo ocupe)
 
-    public SeaCell(int i, int j) {
+    public SeaCell(int i, int j, boolean enemySea) {
         this.i = i;
         this.j = j;
+        this.enemySea = enemySea;
 
         this.vertex = null;
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
@@ -43,5 +44,11 @@ public class SeaCell extends JLabel{
     public Vertex getVertex(){
         return vertex;
     }
+
+    public boolean isEnemySea() {
+        return enemySea;
+    }
+    
+    
     
 }

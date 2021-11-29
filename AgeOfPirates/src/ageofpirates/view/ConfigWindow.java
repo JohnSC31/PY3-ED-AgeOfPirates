@@ -42,7 +42,7 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
-                this.playerSea[i][j] = new SeaCell(i, j);
+                this.playerSea[i][j] = new SeaCell(i, j, false);
                 this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
                 this.pnlSea.add(this.playerSea[i][j]);
                 
