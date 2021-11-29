@@ -130,11 +130,9 @@ public class ConfigController extends Controller implements MouseListener{
                         y2=clickedLabel.getY();
                     }
                     // quiere decir que se conecta el objeto ya seleccionado con este nuevo que se esta seleccionando
-                    game.createArista(selectedElement, clickedLabel.getVertex(), x1, y1, x2, y2);
+                    // se crea la arista y la retorna y con ella se pinta en el panel correspondiente
+                    game.setArista(view.getPnlSea(), game.createArista(selectedElement, clickedLabel.getVertex(), x1, y1, x2, y2));
                     this.connectIsland = false; // ya se realizo la conexion
-                    Graphics2D g2 =(Graphics2D)view.getPnlSea().getGraphics();
-                    g2.setColor(Color.WHITE);
-                    g2.drawLine(x1, y1, x2, y2);
                     x1 = x2= y1= y2=0;
                     //g2.drawLine(0, 0, 100, 100);
                 }

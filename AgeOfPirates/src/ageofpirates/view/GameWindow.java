@@ -1,6 +1,7 @@
 
 package ageofpirates.view;
 
+import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     
     private void initSea(){
         int x = 0, y = 0;
+        this.pnlSea.setBackground(PALLETE[1]);
         this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
@@ -44,7 +46,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
-                this.playerSea[i][j] = new SeaCell(i, j);
+                this.playerSea[i][j] = new SeaCell(i, j, false);
                 this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
                 this.pnlSea.add(this.playerSea[i][j]);
                 
@@ -57,7 +59,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         this.enemySea = new SeaCell[SEA_SIZE][SEA_SIZE];
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
-                this.enemySea[i][j] = new SeaCell(i, j);
+                this.enemySea[i][j] = new SeaCell(i, j, true);
                 this.enemySea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
                 this.pnlEnemySea.add(this.enemySea[i][j]);
                 
@@ -476,16 +478,5 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     public JLabel getLblWeaponSelected() {
         return lblWeaponSelected;
     }
-    
-    
-    
-    
-    
-    public SeaCell[][] getPlayerSea(){
-        return playerSea;
-    }
-    
-    public JPanel getPnlSea(){
-        return pnlSea;
-    }
+
 }
