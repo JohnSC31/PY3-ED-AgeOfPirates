@@ -30,6 +30,7 @@ public class Game {
     private ArrayList<ImageIcon> templeIcons;
     private ArrayList<ImageIcon> armoryIcons;
     private ArrayList<ImageIcon> swirlIcons;
+    private ArrayList<ImageIcon> destroyedIcons;
 
     // recursos del jugador
     private int budget;
@@ -70,9 +71,9 @@ public class Game {
         this.playerInventory = new Inventory();
         this.marketInventory = new Inventory();
         
-//        this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
-//        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
-//        this.playerInventory.updateItemAmount(ItemType.STEEL, 100);
+        this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
+        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
+        this.playerInventory.updateItemAmount(ItemType.STEEL, 1000);
         
         this.budget = 4000; // se inicia con 4000 (dolares)
         
@@ -89,6 +90,7 @@ public class Game {
         templeIcons = new ArrayList<>();
         armoryIcons = new ArrayList<>();
         swirlIcons = new ArrayList<>();
+        destroyedIcons = new ArrayList<>();
         
         File folder = new File("./src/media");
         ImageIcon cardIcon;
@@ -111,6 +113,8 @@ public class Game {
                             armoryIcons.add(icon);
                         }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("swirl")){
                             swirlIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("destroyed")){
+                            destroyedIcons.add(icon);
                         }
                         
                     }catch(IOException e){
@@ -206,6 +210,28 @@ public class Game {
             System.out.println("Set component invalid index");
         }
         
+    }
+    
+    public void setDestroyedIsland(SeaCell[][] sea, Vertex vertex){
+        try{
+            Island island = vertex.getIsland();
+            int iPos = island.getiPos(), jPos = island.getjPos();
+            int iconCounter = 0; // posicion para recuperar la imagen
+            for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
+                    sea[iPos][jPos].setIcon(MainController.resizeIcon(destroyedIcons.get(0), CELL_SIZE, CELL_SIZE));
+                    sea[iPos][jPos].setVertex(vertex);
+                    jPos++;
+                    iconCounter++;
+                }
+                jPos = island.getjPos();
+                iPos++;
+            }
+
+
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Set component invalid index");
+        }
     }
     
     public void setArista(JPanel seaPanel, Arista arista){
@@ -325,6 +351,43 @@ public class Game {
         }
     }
    
+    
+    // valida si el vertice dado tiene conexion con la fuente de poder
+    public boolean isConnectedToPower(Vertex vertex){
+        if(vertex.getIsland().getName().equals("Fuente de Energia")) return true;
+        
+        for(int i = 0; i < vertex.getAristas().size(); i++){
+            if(vertex.getAristas().get(i).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
+            
+            for(int j = 0; j < vertex.getAristas().get(i).getDestiny().getAristas().size(); j++){
+                if(vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().equals("Fuente de Energia")) return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    // setea oceano del enemigo
+    public void setEnemySea(SeaCell[][] enemiesSea, SeaCell[][] enemySea, Graph enemyGraph){
+        
+        // se recorre la matriz de celdas del enemigo para ver cual esta destruida y seterla
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                if(enemySea[i][j].isDestroyed()){
+                    enemiesSea[i][j].setIcon(destroyedIcons.get(0));
+                }
+            }
+        }
+        
+        for(int i = 0; i < enemyGraph.size(); i++){
+            if(!isConnectedToPower(enemyGraph.get(i))){
+                setIsland(enemiesSea, enemyGraph.get(i));
+            }else if(enemyGraph.get(i).getIsland().isDestroyed()){
+                setDestroyedIsland(enemiesSea, enemyGraph.get(i));
+            }
+        }
+        
+    }
     
     // ------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------
 

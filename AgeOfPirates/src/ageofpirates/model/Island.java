@@ -2,11 +2,12 @@
 package ageofpirates.model;
 
 import interfaces.iAction;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 
-abstract public class Island implements iAction{
+abstract public class Island implements iAction, Serializable{
     
     private int iPos;
     private int jPos;
