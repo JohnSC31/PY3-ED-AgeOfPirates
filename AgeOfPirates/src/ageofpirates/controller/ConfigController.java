@@ -99,7 +99,7 @@ public class ConfigController extends Controller implements MouseListener{
         if(e.getSource().equals(view.getBtnStartGame())){
             if(view.getBtnStartGame().getText().equals("Guardar")){
                 mainController.closeWindow(view);
-                mainController.getGameController().updateConfigSea();
+                mainController.getGameController().setInitialPlayerSea();
             }else{
                 startGame();
             }

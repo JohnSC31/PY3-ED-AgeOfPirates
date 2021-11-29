@@ -56,7 +56,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         this.view.getBtnOpen().addActionListener(this);
         this.view.getBtnConfig().addActionListener(this);
 
-        game.setSea(view.getPlayerSea(), game.getGraph()); // seteo inicial del mar del jugador actual
+        setInitialPlayerSea();
         setPlayerInventory(); // seteo del inventario inicial
         
         addMouseListenerSea();
@@ -68,6 +68,14 @@ public class GameController extends Controller implements KeyListener, MouseList
                 view.getPlayerSea()[i][j].addMouseListener(this);
             }
         }
+    }
+    
+    // establece el grafo en la matriz y ademas inicia los thread de las minas que no han iniciado
+    public void setInitialPlayerSea(){
+        game.setSea(view.getPlayerSea(), game.getGraph()); // seteo inicial del mar del jugador actual
+        
+        game.startMining(view.getLblSteel(), this);
+        // comenzar el templo
     }
 
     @Override
@@ -141,13 +149,14 @@ public class GameController extends Controller implements KeyListener, MouseList
             // se abre un elemento
             if(this.selectedVertex != null){
                 
-                if(selectedVertex.getIsland().getName() == "Mina"){
+                if(selectedVertex.getIsland().getName().equals("Mina")){
                     // se abre la mina
                     mainController.startMine(selectedVertex.getIsland());
-                }else if(selectedVertex.getIsland().getName() == "Templo"){
+                }else if(selectedVertex.getIsland().getName().equals("Templo")){
                     // se abre el templo
-                }else if(selectedVertex.getIsland().getName() == "Armeria"){
+                }else if(selectedVertex.getIsland().getName().equals("Armeria")){
                     // se abre la armeria
+                    mainController.startArmory(selectedVertex.getIsland());
                 }else{
                     System.out.println("Isla no encontrada");
                 }
