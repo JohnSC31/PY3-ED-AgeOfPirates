@@ -1,10 +1,11 @@
 
 package ageofpirates.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Arista {
+public class Arista implements Serializable{
     
     private Vertex location;
     private Vertex destiny;
@@ -37,5 +38,15 @@ public class Arista {
         coordenadas.add(Yloc);
         return coordenadas;
     }
+
+    public Vertex getLocation() {
+        return location;
+    }
+
+    public Vertex getDestiny() {
+        return destiny;
+    }
+    
+    
     
 }

@@ -5,6 +5,7 @@ import ageofpirates.controller.MainController;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 
 public class ClientThread extends Thread{
@@ -128,7 +129,7 @@ public class ClientThread extends Thread{
         }
     }
     
-    public void game(int option) throws IOException{
+    public void game(int option) throws IOException, ClassNotFoundException{
         
         switch(option){
             case 0:
@@ -139,6 +140,25 @@ public class ClientThread extends Thread{
                 int playerId = inputStream.readInt();
                 
                 this.mainController.getGameController().recieveMessage(message, playerId);
+                
+                break;
+            case 2: // recibir la lista de jugadores para el juego
+                ArrayList enemies = (ArrayList) objInputStream.readObject();
+                this.mainController.getGameController().loadEnemiesButtons(enemies);
+                break;
+            case 3: // enviar mis datos al enemigo
+                int sendTo = inputStream.readInt();
+                
+                this.mainController.getGameController().sendToEnemyMySea(sendTo);
+                
+                
+                break;
+            case 4: // recibir los datos de un jugador y cargarlo
+                
+                SeaCell[][] enemySea = (SeaCell[][]) objInputStream.readObject();
+                Graph enemyGraph = (Graph) objInputStream.readObject();
+                
+                this.mainController.getGameController().setEnemySea(enemySea, enemyGraph);
                 
                 break;
             default:

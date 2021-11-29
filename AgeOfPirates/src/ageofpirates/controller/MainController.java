@@ -17,6 +17,7 @@ public class MainController {
     private GameWindow gameView;
     private MarketWindow marketView;
     private MineWindow mineView;
+    private ArmoryWindow armoryView;
     
     // modelo principal del juego
     private Game game;
@@ -27,6 +28,7 @@ public class MainController {
     private GameController gameController;
     private MarketController marketController;
     private MineController mineController;
+    private ArmoryController armoryController;
     
     // colores
                                      // Rich black          Police Blue             verdigris               Diamond                     Caramel                 Saddle Brown
@@ -84,6 +86,13 @@ public class MainController {
         // se abre la mina seleccionada
         this.mineView = new MineWindow();
         this.mineController = new MineController(mineView, this.game, this, island);
+        showWindow(mineView);
+    }
+    
+    public void startArmory(Island island){
+        this.armoryView = new ArmoryWindow();
+        this.armoryController = new ArmoryController(armoryView, this.game, this, island);
+        showWindow(armoryView);
     }
    
     

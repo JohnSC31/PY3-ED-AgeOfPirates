@@ -109,6 +109,18 @@ public class ServerThread extends Thread{
                     players.get(i).outputStream.writeBoolean(playerInTurnId == players.get(i).getPlayerId());
                 }
                 break;
+            case 2: // envia un arreglo con todos los enemigos del jugador que los pidio
+                ArrayList enemies = new ArrayList<>();
+                for(int i = 0; i < players.size(); i++){
+                    if(players.get(i).getPlayerId() != playerId){
+                        enemies.add(players.get(i).getPlayerId());
+                    }
+                }
+                outputStream.writeInt(3);
+                outputStream.writeInt(2);
+                objOutputStream.writeObject(enemies);
+                
+                break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");
                 break;
@@ -161,7 +173,9 @@ public class ServerThread extends Thread{
     }
     
     
-    public void game(int option) throws IOException{
+    public void game(int option) throws IOException, ClassNotFoundException{
+        
+        int enemyId = 0;
         
         switch(option){
             case 0:
@@ -176,8 +190,29 @@ public class ServerThread extends Thread{
                     players.get(i).outputStream.writeInt(playerId); 
                 }
                 break;
-            case 2:
-                System.out.println("Se accedio a la opcion 2");
+            case 2: // pedir los datos de un enemigo
+                enemyId = inputStream.readInt();
+                
+                for(int i = 0; i < players.size(); i++){
+                    if(players.get(i).getPlayerId() == enemyId){
+                        players.get(i).outputStream.writeInt(3); // opcion del juego
+                        players.get(i).outputStream.writeInt(3); // enviar datos
+                        players.get(i).outputStream.writeInt(playerId);
+                    }
+                }
+                break;
+            case 3: // enviar mis datos a otro jugador
+                enemyId = inputStream.readInt();
+                
+                for(int i = 0; i < players.size(); i++){
+                    if(players.get(i).getPlayerId() == enemyId){
+                        players.get(i).outputStream.writeInt(3); // opcion del juego
+                        players.get(i).outputStream.writeInt(4); // enviar datos
+                        players.get(i).objOutputStream.writeObject(objInputStream.readObject()); // pasa la matriz
+                        players.get(i).objOutputStream.writeObject(objInputStream.readObject()); // pasa el grafo
+                    }
+                }
+                
                 break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");

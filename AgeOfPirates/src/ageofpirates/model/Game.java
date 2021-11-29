@@ -1,15 +1,19 @@
 
 package ageofpirates.model;
 
+import ageofpirates.controller.GameController;
 import ageofpirates.controller.MainController;
 import static ageofpirates.view.ConfigWindow.CELL_SIZE;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 
 public class Game {
@@ -26,6 +30,7 @@ public class Game {
     private ArrayList<ImageIcon> templeIcons;
     private ArrayList<ImageIcon> armoryIcons;
     private ArrayList<ImageIcon> swirlIcons;
+    private ArrayList<ImageIcon> destroyedIcons;
 
     // recursos del jugador
     private int budget;
@@ -35,21 +40,27 @@ public class Game {
     
     // enumerable para los objetos del inventario
     public enum ItemType{
-        CANNON(1000),
-        MULTIPLE_CANNON(2000),
-        BOMB(4000),
-        RED_BEARD_CANNON(10000),
-        GHOST_SHIP(2500),
-        STEEL(2);
+        CANNON(1000, "Cañon"),
+        MULTIPLE_CANNON(2000, "Cañon Multiple"),
+        BOMB(4000, "Bomba"),
+        RED_BEARD_CANNON(10000, "Cañon Barba Roja"),
+        GHOST_SHIP(2500, "Barco Fantasma"),
+        STEEL(2, "Acero");
         
         private int cost;
+        private String name;
         
-        private ItemType(int cost){
+        private ItemType(int cost, String name){
             this.cost = cost;
+            this.name = name;
         }
         
         public int getCost(){
             return this.cost;
+        }
+        
+        public String getName(){
+            return this.name;
         }
     }
 
@@ -60,9 +71,9 @@ public class Game {
         this.playerInventory = new Inventory();
         this.marketInventory = new Inventory();
         
-//        this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
-//        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
-//        this.playerInventory.updateItemAmount(ItemType.STEEL, 100);
+        this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
+        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
+        this.playerInventory.updateItemAmount(ItemType.STEEL, 1000);
         
         this.budget = 4000; // se inicia con 4000 (dolares)
         
@@ -79,6 +90,7 @@ public class Game {
         templeIcons = new ArrayList<>();
         armoryIcons = new ArrayList<>();
         swirlIcons = new ArrayList<>();
+        destroyedIcons = new ArrayList<>();
         
         File folder = new File("./src/media");
         ImageIcon cardIcon;
@@ -101,10 +113,12 @@ public class Game {
                             armoryIcons.add(icon);
                         }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("swirl")){
                             swirlIcons.add(icon);
+                        }else if(subFolder.getName().replaceFirst("[.][^.]+$", "").equals("destroyed")){
+                            destroyedIcons.add(icon);
                         }
                         
                     }catch(IOException e){
-                        System.out.println("Error al cargar personaje");
+                        System.out.println("Error al cargar iconos");
                     }
                 }
                 
@@ -121,11 +135,13 @@ public class Game {
         createVertex(market);
     }
     
-    public void setSea(SeaCell[][] playerSea, Graph graph){
+    public void setSea(JPanel seaPanel, SeaCell[][] playerSea, Graph graph){
         unSetSea(playerSea); // se resetea el mar anterior
         for(int i = 0; i < graph.size(); i++){
             setIsland(playerSea, graph.get(i));
-            // dibujar las aristas
+            for(int j = 0; j < graph.get(i).getAristas().size(); j++){
+                setArista(seaPanel, graph.get(i).getAristas().get(j));
+            }
         }
     }
     
@@ -149,8 +165,7 @@ public class Game {
         Arista newArista = new Arista(origin, destiny);
         return newArista;
     }
-    public Arista createArista(Vertex origin, Vertex destiny, int x1, int y1,
-            int x2, int y2){
+    public Arista createArista(Vertex origin, Vertex destiny, int x1, int y1, int x2, int y2){
         Arista newArista = new Arista(origin, destiny, x1, y1, x2, y2);
         return newArista;
     }
@@ -195,6 +210,35 @@ public class Game {
             System.out.println("Set component invalid index");
         }
         
+    }
+    
+    public void setDestroyedIsland(SeaCell[][] sea, Vertex vertex){
+        try{
+            Island island = vertex.getIsland();
+            int iPos = island.getiPos(), jPos = island.getjPos();
+            int iconCounter = 0; // posicion para recuperar la imagen
+            for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
+                    sea[iPos][jPos].setIcon(MainController.resizeIcon(destroyedIcons.get(0), CELL_SIZE, CELL_SIZE));
+                    sea[iPos][jPos].setVertex(vertex);
+                    jPos++;
+                    iconCounter++;
+                }
+                jPos = island.getjPos();
+                iPos++;
+            }
+
+
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Set component invalid index");
+        }
+    }
+    
+    public void setArista(JPanel seaPanel, Arista arista){
+        Graphics2D g2 =(Graphics2D) seaPanel.getGraphics();
+        g2.setColor(Color.WHITE);
+        g2.drawLine(arista.getCoord().get(0), arista.getCoord().get(1), arista.getCoord().get(2), arista.getCoord().get(3));
+        System.out.println("Se setea arista en :" + arista.getCoord().get(0) +":"+ arista.getCoord().get(1) +":"+ arista.getCoord().get(2) +":"+ arista.getCoord().get(3));
     }
     
     // quita el elemento grafico actual
@@ -295,18 +339,55 @@ public class Game {
     
     
     // metodo para el inicio de las minas para que comiencen a minar
-    public void startMining(JLabel steelLabel){
+    public void startMining(JLabel steelLabel, GameController gameController){
         for(int i = 0; i < graph.size(); i++){
-            if(graph.get(i).getIsland().getName() == "Mina"){
+            if(graph.get(i).getIsland().getName().equals("Mina")){
                 // es una mina
                 Mine mine = (Mine) graph.get(i).getIsland();
                 if(mine.getMineThread() == null){
-                    mine.startMining(this, mainController.getGameController());
+                    mine.startMining(this, gameController);
                 }
             }
         }
     }
    
+    
+    // valida si el vertice dado tiene conexion con la fuente de poder
+    public boolean isConnectedToPower(Vertex vertex){
+        if(vertex.getIsland().getName().equals("Fuente de Energia")) return true;
+        
+        for(int i = 0; i < vertex.getAristas().size(); i++){
+            if(vertex.getAristas().get(i).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
+            
+            for(int j = 0; j < vertex.getAristas().get(i).getDestiny().getAristas().size(); j++){
+                if(vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().equals("Fuente de Energia")) return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    // setea oceano del enemigo
+    public void setEnemySea(SeaCell[][] enemiesSea, SeaCell[][] enemySea, Graph enemyGraph){
+        
+        // se recorre la matriz de celdas del enemigo para ver cual esta destruida y seterla
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                if(enemySea[i][j].isDestroyed()){
+                    enemiesSea[i][j].setIcon(destroyedIcons.get(0));
+                }
+            }
+        }
+        
+        for(int i = 0; i < enemyGraph.size(); i++){
+            if(!isConnectedToPower(enemyGraph.get(i))){
+                setIsland(enemiesSea, enemyGraph.get(i));
+            }else if(enemyGraph.get(i).getIsland().isDestroyed()){
+                setDestroyedIsland(enemiesSea, enemyGraph.get(i));
+            }
+        }
+        
+    }
     
     // ------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------
 
