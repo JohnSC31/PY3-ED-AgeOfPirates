@@ -24,4 +24,11 @@ public class Armory extends Island{
         
     }
     
+    
+    // ----------------------------------- GETTERS AND SETTERS ----------------------------------------------
+
+    public ItemType getWeaponType() {
+        return weaponType;
+    }
+    
 }

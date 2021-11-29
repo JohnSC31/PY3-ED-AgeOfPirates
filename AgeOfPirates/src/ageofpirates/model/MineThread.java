@@ -28,12 +28,11 @@ public class MineThread extends Thread{
                 while(pause){
                     sleep(1000);
                 }
+                sleep(mine.getTime() * 1000); // pasa a milisegundos
                 
                 this.game.getPlayerInventory().updateItemAmount(Game.ItemType.STEEL, mine.getSteelPerTime());
                 this.gameController.setPlayerInventory();
-                
-                sleep(mine.getTime() * 1000); // pasa a milisegundos
-                
+
             } catch(InterruptedException e){
                 
             }

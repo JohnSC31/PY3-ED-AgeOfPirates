@@ -1,6 +1,7 @@
 
 package ageofpirates.model;
 
+import ageofpirates.controller.GameController;
 import ageofpirates.controller.MainController;
 import static ageofpirates.view.ConfigWindow.CELL_SIZE;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
@@ -35,21 +36,27 @@ public class Game {
     
     // enumerable para los objetos del inventario
     public enum ItemType{
-        CANNON(1000),
-        MULTIPLE_CANNON(2000),
-        BOMB(4000),
-        RED_BEARD_CANNON(10000),
-        GHOST_SHIP(2500),
-        STEEL(2);
+        CANNON(1000, "Cañon"),
+        MULTIPLE_CANNON(2000, "Cañon Multiple"),
+        BOMB(4000, "Bomba"),
+        RED_BEARD_CANNON(10000, "Cañon Barba Roja"),
+        GHOST_SHIP(2500, "Barco Fantasma"),
+        STEEL(2, "Acero");
         
         private int cost;
+        private String name;
         
-        private ItemType(int cost){
+        private ItemType(int cost, String name){
             this.cost = cost;
+            this.name = name;
         }
         
         public int getCost(){
             return this.cost;
+        }
+        
+        public String getName(){
+            return this.name;
         }
     }
 
@@ -104,7 +111,7 @@ public class Game {
                         }
                         
                     }catch(IOException e){
-                        System.out.println("Error al cargar personaje");
+                        System.out.println("Error al cargar iconos");
                     }
                 }
                 
@@ -295,13 +302,13 @@ public class Game {
     
     
     // metodo para el inicio de las minas para que comiencen a minar
-    public void startMining(JLabel steelLabel){
+    public void startMining(JLabel steelLabel, GameController gameController){
         for(int i = 0; i < graph.size(); i++){
-            if(graph.get(i).getIsland().getName() == "Mina"){
+            if(graph.get(i).getIsland().getName().equals("Mina")){
                 // es una mina
                 Mine mine = (Mine) graph.get(i).getIsland();
                 if(mine.getMineThread() == null){
-                    mine.startMining(this, mainController.getGameController());
+                    mine.startMining(this, gameController);
                 }
             }
         }
