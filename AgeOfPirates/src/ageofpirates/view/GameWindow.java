@@ -39,7 +39,34 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         }
     }
 
-
+    private void initSeas(){
+        int x = 0, y = 0;
+        this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                this.playerSea[i][j] = new SeaCell(i, j);
+                this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
+                this.pnlSea.add(this.playerSea[i][j]);
+                
+                x += CELL_SIZE;
+            }
+            x = 0;
+            y += CELL_SIZE;
+        }
+        x =y =0;
+        this.enemySea = new SeaCell[SEA_SIZE][SEA_SIZE];
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                this.enemySea[i][j] = new SeaCell(i, j);
+                this.enemySea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
+                this.pnlEnemySea.add(this.enemySea[i][j]);
+                
+                x += CELL_SIZE;
+            }
+            x = 0;
+            y += CELL_SIZE;
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -454,4 +481,11 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     
     
     
+    public SeaCell[][] getPlayerSea(){
+        return playerSea;
+    }
+    
+    public JPanel getPnlSea(){
+        return pnlSea;
+    }
 }
