@@ -2,6 +2,7 @@
 package ageofpirates.view;
 
 import ageofpirates.controller.MainController;
+import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
 import java.io.File;
@@ -33,7 +34,7 @@ public class ConfigWindow extends javax.swing.JFrame implements iWindow{
         } catch (IOException ex) {
             Logger.getLogger(ConfigWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        this.pnlSea.setBackground(PALLETE[1]);
     }
     
     // se inicializa el oceano y sus labels
