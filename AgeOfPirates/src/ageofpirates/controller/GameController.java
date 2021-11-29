@@ -60,6 +60,11 @@ public class GameController extends Controller implements KeyListener, MouseList
         this.view.getBtnOpen().addActionListener(this);
         this.view.getBtnConfig().addActionListener(this);
 
+        //Botones para ver al otro jugador
+        this.view.getBtnPlayerA().addActionListener(this);
+        this.view.getBtnPlayerB().addActionListener(this);
+        this.view.getBtnPlayerC().addActionListener(this);
+        
         game.setSea(view.getPlayerSea(), game.getGraph()); // seteo inicial del mar del jugador actual
         setPlayerInventory(); // seteo del inventario inicial
         
@@ -80,9 +85,6 @@ public class GameController extends Controller implements KeyListener, MouseList
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource().equals(this.view.getBtnSendMessage())){
-            if(game.getGraph()!=null){
-                System.out.println("El grafo tiene contenido");
-            }
             if(!this.view.getTxtfMessage().getText().equals("")){
                 sendMessage();
             }
@@ -168,6 +170,15 @@ public class GameController extends Controller implements KeyListener, MouseList
             // se abre la configuracion
             mainController.showWindow(mainController.getConfigView());
             mainController.getConfigController().udpatePlayerGraph();
+        }
+        if(e.getSource().equals(view.getBtnPlayerA())){
+            showPlayerA();
+        }
+        if(e.getSource().equals(view.getBtnPlayerB())){
+            showPlayerB();
+        }
+        if(e.getSource().equals(view.getBtnPlayerC())){
+            showPlayerC();
         }
         
     }
@@ -295,6 +306,36 @@ public class GameController extends Controller implements KeyListener, MouseList
         this.game.setSea(view.getPlayerSea(), this.game.getGraph());
     }
     
+    //Se muestra la ventana del jugador A
+    public void showPlayerA(){
+        try {
+            outputStream.writeInt(3); // opcion del juego
+            outputStream.writeInt(2); // subopcion de juego
+            System.out.println("Se presiono el boton 1");
+        } catch (IOException ex) {
+            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    //Se muestra la ventana del jugador B
+    public void showPlayerB(){
+        try {
+            outputStream.writeInt(3); // opcion del juego
+            outputStream.writeInt(2); // subopcion de juego
+            System.out.println("Se presiono el boton 2");
+        } catch (IOException ex) {
+            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    //Se muestra la ventana del jugador C
+    public void showPlayerC(){
+        try {
+            outputStream.writeInt(3); // opcion del juego
+            outputStream.writeInt(2); // subopcion de juego
+            System.out.println("Se presiono el boton 3");
+        } catch (IOException ex) {
+            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // --------------------------------------- METODOS PARA LA JUGABILIDAD --------------------------------------------------
     // dependiendo del vertex seleccionado se ejecutara una cosa u otra (abrir mercado, mina, templo, armerias)
     private void openIsland(){

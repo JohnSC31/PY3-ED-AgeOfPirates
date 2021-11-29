@@ -1,8 +1,10 @@
 
 package ageofpirates.view;
 
+import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
+import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +23,8 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     public GameWindow() {
         initComponents();
         initSea();
+        this.pnlSea.setBackground(PALLETE[1]);
+        this.pnlEnemySea.setBackground(PALLETE[1]);
     }
     
     private void initSea(){
@@ -39,21 +43,9 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         }
     }
 
-    private void initSeas(){
-        int x = 0, y = 0;
-        this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
-        for(int i = 0; i < SEA_SIZE; i++){
-            for(int j = 0; j < SEA_SIZE; j++){
-                this.playerSea[i][j] = new SeaCell(i, j);
-                this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
-                this.pnlSea.add(this.playerSea[i][j]);
-                
-                x += CELL_SIZE;
-            }
-            x = 0;
-            y += CELL_SIZE;
-        }
-        x =y =0;
+/*    private void initSeas(){
+        int x =0;
+        int y =0;
         this.enemySea = new SeaCell[SEA_SIZE][SEA_SIZE];
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
@@ -66,7 +58,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
             x = 0;
             y += CELL_SIZE;
         }
-    }
+    }*/
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -75,6 +67,9 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         jPanel3 = new javax.swing.JPanel();
         lblPlayerTurn = new javax.swing.JLabel();
         pnlPlayersList = new javax.swing.JPanel();
+        btnJugadorA = new javax.swing.JButton();
+        btnJugadorB = new javax.swing.JButton();
+        btnJugadorC = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         txtfMessage = new javax.swing.JTextField();
@@ -145,17 +140,24 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         getContentPane().add(lblPlayerTurn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 500, 20));
 
         pnlPlayersList.setBackground(new java.awt.Color(204, 204, 255));
+        pnlPlayersList.setLayout(null);
 
-        javax.swing.GroupLayout pnlPlayersListLayout = new javax.swing.GroupLayout(pnlPlayersList);
-        pnlPlayersList.setLayout(pnlPlayersListLayout);
-        pnlPlayersListLayout.setHorizontalGroup(
-            pnlPlayersListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-        pnlPlayersListLayout.setVerticalGroup(
-            pnlPlayersListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
+        btnJugadorA.setText("Jugador A");
+        btnJugadorA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJugadorAActionPerformed(evt);
+            }
+        });
+        pnlPlayersList.add(btnJugadorA);
+        btnJugadorA.setBounds(0, 80, 84, 25);
+
+        btnJugadorB.setText("Jugador B");
+        pnlPlayersList.add(btnJugadorB);
+        btnJugadorB.setBounds(0, 170, 83, 25);
+
+        btnJugadorC.setText("Jugador C");
+        pnlPlayersList.add(btnJugadorC);
+        btnJugadorC.setBounds(0, 260, 83, 25);
 
         getContentPane().add(pnlPlayersList, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, 60, 500));
 
@@ -347,6 +349,10 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnJugadorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugadorAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnJugadorAActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAttack;
@@ -355,6 +361,9 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JButton btnComodin;
     private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnGhostShip;
+    private javax.swing.JButton btnJugadorA;
+    private javax.swing.JButton btnJugadorB;
+    private javax.swing.JButton btnJugadorC;
     private javax.swing.JButton btnMultipleCannon;
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnRBCannon;
@@ -477,15 +486,15 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         return lblWeaponSelected;
     }
     
-    
-    
-    
-    
-    public SeaCell[][] getPlayerSea(){
-        return playerSea;
+    public JButton getBtnPlayerA(){
+        return btnJugadorA;
     }
     
-    public JPanel getPnlSea(){
-        return pnlSea;
+    public JButton getBtnPlayerB(){
+        return btnJugadorB;
+    }
+    
+    public JButton getBtnPlayerC(){
+        return btnJugadorC;
     }
 }

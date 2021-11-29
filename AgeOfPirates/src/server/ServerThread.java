@@ -176,6 +176,9 @@ public class ServerThread extends Thread{
                     players.get(i).outputStream.writeInt(playerId); 
                 }
                 break;
+            case 2:
+                System.out.println("Se accedio a la opcion 2");
+                break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");
                 break;
