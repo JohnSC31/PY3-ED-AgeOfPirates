@@ -5,12 +5,15 @@ import ageofpirates.controller.GameController;
 import ageofpirates.controller.MainController;
 import static ageofpirates.view.ConfigWindow.CELL_SIZE;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 
 public class Game {
@@ -128,11 +131,13 @@ public class Game {
         createVertex(market);
     }
     
-    public void setSea(SeaCell[][] playerSea, Graph graph){
+    public void setSea(JPanel seaPanel, SeaCell[][] playerSea, Graph graph){
         unSetSea(playerSea); // se resetea el mar anterior
         for(int i = 0; i < graph.size(); i++){
             setIsland(playerSea, graph.get(i));
-            // dibujar las aristas
+            for(int j = 0; j < graph.get(i).getAristas().size(); j++){
+                setArista(seaPanel, graph.get(i).getAristas().get(j));
+            }
         }
     }
     
@@ -156,8 +161,7 @@ public class Game {
         Arista newArista = new Arista(origin, destiny);
         return newArista;
     }
-    public Arista createArista(Vertex origin, Vertex destiny, int x1, int y1,
-            int x2, int y2){
+    public Arista createArista(Vertex origin, Vertex destiny, int x1, int y1, int x2, int y2){
         Arista newArista = new Arista(origin, destiny, x1, y1, x2, y2);
         return newArista;
     }
@@ -202,6 +206,13 @@ public class Game {
             System.out.println("Set component invalid index");
         }
         
+    }
+    
+    public void setArista(JPanel seaPanel, Arista arista){
+        Graphics2D g2 =(Graphics2D) seaPanel.getGraphics();
+        g2.setColor(Color.WHITE);
+        g2.drawLine(arista.getCoord().get(0), arista.getCoord().get(1), arista.getCoord().get(2), arista.getCoord().get(3));
+        System.out.println("Se setea arista en :" + arista.getCoord().get(0) +":"+ arista.getCoord().get(1) +":"+ arista.getCoord().get(2) +":"+ arista.getCoord().get(3));
     }
     
     // quita el elemento grafico actual

@@ -60,7 +60,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         this.view.getBtnOpen().addActionListener(this);
         this.view.getBtnConfig().addActionListener(this);
 
-        setInitialPlayerSea();
+        setInitialPlayerSea(); // se inicia el oceano del jugador
         setPlayerInventory(); // seteo del inventario inicial
         
         addMouseListenerSea();
@@ -73,12 +73,12 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         //inicializacion del tablero
-        setInitialSea();
+        //setInitialSea();
     }
     
     // establece el grafo en la matriz y ademas inicia los thread de las minas que no han iniciado
     public void setInitialPlayerSea(){
-        game.setSea(view.getPlayerSea(), game.getGraph()); // seteo inicial del mar del jugador actual
+        game.setSea(view.getPnlSea(), view.getPlayerSea(), game.getGraph()); // seteo inicial del mar del jugador actual
         
         game.startMining(view.getLblSteel(), this);
         // comenzar el templo
@@ -301,7 +301,7 @@ public class GameController extends Controller implements KeyListener, MouseList
     
     // actualiza los cambios realizados desde la configuracion luego de haber comenzado el juego
     public void updateConfigSea(){
-        this.game.setSea(view.getPlayerSea(), this.game.getGraph());
+        this.game.setSea(view.getPnlSea(), view.getPlayerSea(), this.game.getGraph());
     }
     
     // --------------------------------------- METODOS PARA LA JUGABILIDAD --------------------------------------------------

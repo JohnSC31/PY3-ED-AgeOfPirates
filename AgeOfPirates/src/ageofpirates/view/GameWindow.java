@@ -1,6 +1,7 @@
 
 package ageofpirates.view;
 
+import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     
     private void initSea(){
         int x = 0, y = 0;
+        this.pnlSea.setBackground(PALLETE[1]);
         this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
