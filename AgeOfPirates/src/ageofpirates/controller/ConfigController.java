@@ -23,12 +23,14 @@ public class ConfigController extends Controller implements MouseListener{
     // variables
     private Vertex selectedElement;
     private boolean connectIsland;
+    private boolean updateGameGraph; // para determinar si actualiza el mar del jugador en la pantalla del juego
     
     public ConfigController(ConfigWindow view, Game game, MainController mainController) {
         super(game, mainController);
         this.view = view;
         this.selectedElement = null;
         this.connectIsland = false;
+        this.updateGameGraph = false;
         _init_();
     }
 
@@ -95,7 +97,13 @@ public class ConfigController extends Controller implements MouseListener{
         }
         
         if(e.getSource().equals(view.getBtnStartGame())){
-            startGame();
+            if(view.getBtnStartGame().getText().equals("Guardar")){
+                mainController.closeWindow(view);
+                mainController.getGameController().updateConfigSea();
+            }else{
+                startGame();
+            }
+
         }
             
         
@@ -171,6 +179,16 @@ public class ConfigController extends Controller implements MouseListener{
     
     }
     
+    public void udpatePlayerGraph(){
+        this.updateGameGraph = true;
+        this.view.getBtnStartGame().setText("Guardar");
+        this.view.getBtnStartGame().setEnabled(true);
+    
+    }
+    
     // ---------------------------------------------------------- GETTERS AND SETTERS ------------------------------------------
+
+    
+    
     
 }
