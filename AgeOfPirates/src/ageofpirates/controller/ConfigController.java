@@ -72,24 +72,28 @@ public class ConfigController extends Controller implements MouseListener{
         if(e.getSource().equals(view.getBtnMoveNorth())){
             if(this.selectedElement != null){
                 game.moveUpIsland(view.getPlayerSea(), this.selectedElement);
+                x1=x2=y1=y2=0;//Se evita que la arista quede en el lugar incorrecto
             }
         }
         
         if(e.getSource().equals(view.getBtnMoveSouth())){
             if(this.selectedElement != null){
                 game.moveDownIsland(view.getPlayerSea(), this.selectedElement);
+                x1=x2=y1=y2=0;
             }
         }
         
         if(e.getSource().equals(view.getBtnMoveEaste())){
             if(this.selectedElement != null){
                 game.moveRightIsland(view.getPlayerSea(), this.selectedElement);
+                x1=x2=y1=y2=0;
             }
         }
         
         if(e.getSource().equals(view.getBtnMoveWest())){
             if(this.selectedElement != null){
                 game.moveLeftIsland(view.getPlayerSea(), this.selectedElement);
+                x1=x2=y1=y2=0;
             }
         }
         
@@ -124,8 +128,6 @@ public class ConfigController extends Controller implements MouseListener{
                 view.getLblSelectedElement().setText(clickedLabel.getVertex().getIsland().getName());
                 if(this.connectIsland){
                     if(x2==0&y2==0){
-                        //System.out.println("X del 2"+clickedLabel.getX());
-                        //System.out.println("Y del 2"+clickedLabel.getY());
                         x2=clickedLabel.getX();
                         y2=clickedLabel.getY();
                     }
@@ -137,8 +139,6 @@ public class ConfigController extends Controller implements MouseListener{
                     //g2.drawLine(0, 0, 100, 100);
                 }
                 if(x1==0&y1==0){
-                    //System.out.println("X del 1"+clickedLabel.getX());
-                    //System.out.println("Y del 1"+clickedLabel.getY());
                     x1=clickedLabel.getX();
                     y1=clickedLabel.getY();
                 }

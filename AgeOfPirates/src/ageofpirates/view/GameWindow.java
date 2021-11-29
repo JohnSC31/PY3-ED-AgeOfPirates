@@ -54,7 +54,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
             x = 0;
             y += CELL_SIZE;
         }
-    }*/
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
