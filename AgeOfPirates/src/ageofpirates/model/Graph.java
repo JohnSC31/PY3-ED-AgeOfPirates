@@ -1,10 +1,11 @@
 
 package ageofpirates.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Graph extends ArrayList<Vertex>{
+public class Graph extends ArrayList<Vertex> implements Serializable{
     
     public Graph(){
         

@@ -4,6 +4,7 @@ package ageofpirates.view;
 import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,47 +19,29 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     
     private SeaCell[][] playerSea; // matriz de labels que reprensentan el oceano
     private SeaCell[][] enemySea;
+    private ArrayList<JButton> enemies;
 
     public GameWindow() {
         initComponents();
+        enemies = new ArrayList<>();
         initSea();
     }
     
     private void initSea(){
         int x = 0, y = 0;
         this.pnlSea.setBackground(PALLETE[1]);
+        this.pnlEnemySea.setBackground(PALLETE[1]);
+        
         this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
-        for(int i = 0; i < SEA_SIZE; i++){
-            for(int j = 0; j < SEA_SIZE; j++){
-                this.playerSea[i][j] = new SeaCell(i, j, false);
-                this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
-                this.pnlSea.add(this.playerSea[i][j]);
-                
-                x += CELL_SIZE;
-            }
-            x = 0;
-            y += CELL_SIZE;
-        }
-    }
-
-    private void initSeas(){
-        int x = 0, y = 0;
-        this.playerSea = new SeaCell[SEA_SIZE][SEA_SIZE];
-        for(int i = 0; i < SEA_SIZE; i++){
-            for(int j = 0; j < SEA_SIZE; j++){
-                this.playerSea[i][j] = new SeaCell(i, j, false);
-                this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
-                this.pnlSea.add(this.playerSea[i][j]);
-                
-                x += CELL_SIZE;
-            }
-            x = 0;
-            y += CELL_SIZE;
-        }
-        x =y =0;
         this.enemySea = new SeaCell[SEA_SIZE][SEA_SIZE];
+        
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
+                this.playerSea[i][j] = new SeaCell(i, j, false);
+                this.playerSea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
+                this.pnlSea.add(this.playerSea[i][j]);
+                
+                // se carga la matriz para los enemigos
                 this.enemySea[i][j] = new SeaCell(i, j, true);
                 this.enemySea[i][j].setBounds(x , y, CELL_SIZE, CELL_SIZE);
                 this.pnlEnemySea.add(this.enemySea[i][j]);
@@ -76,7 +59,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lblPlayerTurn = new javax.swing.JLabel();
-        pnlPlayersList = new javax.swing.JPanel();
+        pnlEnemies = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         txtfMessage = new javax.swing.JTextField();
@@ -146,20 +129,20 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         lblPlayerTurn.setText("Tu turno");
         getContentPane().add(lblPlayerTurn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 500, 20));
 
-        pnlPlayersList.setBackground(new java.awt.Color(204, 204, 255));
+        pnlEnemies.setBackground(new java.awt.Color(204, 204, 255));
 
-        javax.swing.GroupLayout pnlPlayersListLayout = new javax.swing.GroupLayout(pnlPlayersList);
-        pnlPlayersList.setLayout(pnlPlayersListLayout);
-        pnlPlayersListLayout.setHorizontalGroup(
-            pnlPlayersListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlEnemiesLayout = new javax.swing.GroupLayout(pnlEnemies);
+        pnlEnemies.setLayout(pnlEnemiesLayout);
+        pnlEnemiesLayout.setHorizontalGroup(
+            pnlEnemiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 60, Short.MAX_VALUE)
         );
-        pnlPlayersListLayout.setVerticalGroup(
-            pnlPlayersListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlEnemiesLayout.setVerticalGroup(
+            pnlEnemiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 500, Short.MAX_VALUE)
         );
 
-        getContentPane().add(pnlPlayersList, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, 60, 500));
+        getContentPane().add(pnlEnemies, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, 60, 500));
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -380,9 +363,9 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JLabel lblSelectedVertex3;
     private javax.swing.JLabel lblSteel;
     private javax.swing.JLabel lblWeaponSelected;
+    private javax.swing.JPanel pnlEnemies;
     private javax.swing.JPanel pnlEnemySea;
     private javax.swing.JPanel pnlItems;
-    private javax.swing.JPanel pnlPlayersList;
     private javax.swing.JPanel pnlSea;
     private javax.swing.JTextArea txtaChat;
     private javax.swing.JTextField txtfMessage;
@@ -451,6 +434,10 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         return playerSea;
     }
 
+    public SeaCell[][] getEnemySea() {
+        return enemySea;
+    }
+
     public JLabel getLblSelectedVertex() {
         return lblSelectedVertex;
     }
@@ -478,5 +465,16 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     public JLabel getLblWeaponSelected() {
         return lblWeaponSelected;
     }
+
+    public ArrayList<JButton> getEnemies() {
+        return enemies;
+    }
+
+    public JPanel getPnlEnemies() {
+        return pnlEnemies;
+    }
+    
+    
+    
 
 }

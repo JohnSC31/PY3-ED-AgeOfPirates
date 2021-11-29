@@ -1,10 +1,11 @@
 
 package ageofpirates.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Vertex {
+public class Vertex implements Serializable{
     
     private Island island;
     private ArrayList<Arista> aristas;

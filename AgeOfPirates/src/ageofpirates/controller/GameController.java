@@ -1,10 +1,13 @@
 
 package ageofpirates.controller;
 
+import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.Arista;
 import ageofpirates.model.Game;
 import ageofpirates.model.Game.ItemType;
+import ageofpirates.model.Graph;
 import ageofpirates.model.SeaCell;
+import ageofpirates.model.Target;
 import ageofpirates.model.Vertex;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
 import ageofpirates.view.GameWindow;
@@ -16,9 +19,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 
 
 public class GameController extends Controller implements KeyListener, MouseListener{
@@ -28,7 +34,10 @@ public class GameController extends Controller implements KeyListener, MouseList
     private Vertex selectedVertex;
     private int weaponTargetAmount; // la cantidad de objetivos targetables por el arma seleccionada (celdas en el mar enemigo)
     private ItemType weaponType;
+    private ArrayList<Target> targets;
     // cuando termina de disparar colocarlo en -1
+    
+    private ObjectOutputStream objOutputStream = null;
 
     public GameController(GameWindow view, Game game, MainController mainController) {
         super(game, mainController);
@@ -36,6 +45,10 @@ public class GameController extends Controller implements KeyListener, MouseList
         setPlayerTurn(game.getPlayer().isHost());
         this.selectedVertex = null;
         this.weaponTargetAmount = -1; // estado en el que esta disponble seleccionar una nueva arma
+        this.targets = new ArrayList<>();
+        
+        this.objOutputStream = game.getPlayer().getObjOutputStream();
+        
         _init_();
     }
 
@@ -64,12 +77,15 @@ public class GameController extends Controller implements KeyListener, MouseList
         setPlayerInventory(); // seteo del inventario inicial
         
         addMouseListenerSea();
+        
+        requestEnemies(); // peticion de mis enemigos
     }
     
     private void addMouseListenerSea(){
         for(int i = 0; i < SEA_SIZE; i++){
             for(int j = 0; j < SEA_SIZE; j++){
                 view.getPlayerSea()[i][j].addMouseListener(this);
+                view.getEnemySea()[i][j].addMouseListener(this);
             }
         }
         //inicializacion del tablero
@@ -152,6 +168,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         
         if(e.getSource().equals(view.getBtnAttack())){
             // se presiona atacar al rival
+            attackEnemySea();
         }
         
         if(e.getSource().equals(view.getBtnOpen())){
@@ -177,6 +194,12 @@ public class GameController extends Controller implements KeyListener, MouseList
             // se abre la configuracion
             mainController.showWindow(mainController.getConfigView());
             mainController.getConfigController().udpatePlayerGraph();
+        }
+        
+        if(this.view.getEnemies().indexOf(e.getSource()) != -1){
+            // se presiona un boton para cargar el oceano del enemigo
+            JButton clickedButton =  (JButton) e.getSource();
+            requestEnemySea(Integer.parseInt(clickedButton.getText()));
         }
         
     }
@@ -222,6 +245,15 @@ public class GameController extends Controller implements KeyListener, MouseList
                }
            }else{
                // se presiona una celda del enemigo
+               if(this.weaponTargetAmount > 0){
+                    // puede targetear
+                    clickedLabel.setBorder(BorderFactory.createLineBorder(PALLETE[3], 1));
+                    this.targets.add(new Target(clickedLabel.getI(), clickedLabel.getJ()));
+                    this.weaponTargetAmount--;
+                    if(this.weaponTargetAmount == 0){
+                        this.view.getBtnAttack().setEnabled(true); 
+                    }
+               }
            }
          
         }
@@ -305,15 +337,91 @@ public class GameController extends Controller implements KeyListener, MouseList
     }
     
     // --------------------------------------- METODOS PARA LA JUGABILIDAD --------------------------------------------------
-    // dependiendo del vertex seleccionado se ejecutara una cosa u otra (abrir mercado, mina, templo, armerias)
-    private void openIsland(){
-        
-    }
-    
+
+    // Realiza el ataque preparado al enemigo seleccionado
     private void attackEnemySea(){
+        System.out.println("Ataco bitch");
         
+        // enviar el arraylist de los targets
+ 
+        this.view.getBtnAttack().setEnabled(false);
+        this.weaponTargetAmount = -1;
+        this.view.getLblWeaponSelected().setText("Selecciona un arma");
+        resetEnemySeaTargets();
     }
     
+    private void resetEnemySeaTargets(){
+        this.targets.removeAll(targets);
+         for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                view.getEnemySea()[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            }
+        }
+    }
+    
+    // procesa y recibe los ataques
+    public void recieveAttack(){
+        // validar el escudo
+    }
+    
+    // pedir a mis enemigos para que se cargen sus botones respectivos en la pantalla
+    private void requestEnemies(){
+        try {
+            outputStream.writeInt(0); // opcion del helper server
+            outputStream.writeInt(2); // subipcion para pasar pedir a los enemigos
+            
+        } catch(IOException ex) {
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void loadEnemiesButtons(ArrayList enemies){
+        int x = 0, y = 0;
+        
+        for(int i = 0; i < enemies.size(); i++){
+            
+            JButton newEnemyButton = new JButton(enemies.get(i) + "");
+            newEnemyButton.setBounds(x, y, this.view.getPnlEnemies().getWidth(), 45);
+            newEnemyButton.addActionListener(this);
+            this.view.getEnemies().add(newEnemyButton);
+            this.view.getPnlEnemies().add(newEnemyButton);
+            
+            y += 50;
+        }
+    }
+    
+    
+    public void requestEnemySea(int enemyId){
+        try {
+            outputStream.writeInt(3); // opcion del helper server
+            outputStream.writeInt(2); // subipcion para pasar pedir la matriz y grafo del enemigo
+            outputStream.writeInt(enemyId);
+            
+        } catch(IOException ex) {
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void sendToEnemyMySea(int sendTo){
+        try {
+            outputStream.writeInt(3); // opcion del helper server
+            outputStream.writeInt(3); // subipcion para pasar enviar la matriz y grafo del enemigo
+            outputStream.writeInt(sendTo);
+            
+            objOutputStream.writeObject(this.view.getPlayerSea());
+            objOutputStream.writeObject(this.game.getGraph());
+            
+        } catch(IOException ex) {
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // setea los datos del mar en la matriz de labels
+    public void setEnemySea(SeaCell[][] enemySea, Graph enemyGraph){
+        
+        game.setEnemySea(view.getEnemySea(), enemySea, enemyGraph);
+        
+    }
     
     
     private void setInitialSea(){
