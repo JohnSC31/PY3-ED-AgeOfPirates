@@ -2,6 +2,8 @@
 package ageofpirates.model;
 
 import ageofpirates.controller.MainController;
+import ageofpirates.model.Game.ItemType;
+import static ageofpirates.view.ConfigWindow.SEA_SIZE;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -37,7 +39,7 @@ public class ClientThread extends Thread{
             int option = 0;
             
             while(true){
-                System.out.println("Cliente espera opcion");
+//                System.out.println("Cliente espera opcion");
                 option = inputStream.readInt();
                  
                 switch(option){
@@ -79,7 +81,7 @@ public class ClientThread extends Thread{
                 inputStream.readInt(); // ejemplificacion (no ha nada)
                 break;
             case 1: // setear el turno de todos los jugadores
-                boolean playerTurn = inputStream.readBoolean();
+                int playerTurn = inputStream.readInt();
                 
                 mainController.getGameController().setPlayerTurn(playerTurn);
                 break;
@@ -155,10 +157,37 @@ public class ClientThread extends Thread{
                 break;
             case 4: // recibir los datos de un jugador y cargarlo
                 
-                SeaCell[][] enemySea = (SeaCell[][]) objInputStream.readObject();
+                int enemyId = inputStream.readInt();
+                boolean enemyShield = inputStream.readBoolean();
+                
+                SeaCellData[][] enemySea = new SeaCellData[SEA_SIZE][SEA_SIZE];
+                
+                for(int iSea = 0; iSea < SEA_SIZE; iSea++){
+                    for(int jSea = 0; jSea < SEA_SIZE; jSea++){
+                        enemySea[iSea][jSea] = (SeaCellData) objInputStream.readObject(); // pasa el grafo
+                    }
+                }
                 Graph enemyGraph = (Graph) objInputStream.readObject();
                 
-                this.mainController.getGameController().setEnemySea(enemySea, enemyGraph);
+                this.mainController.getGameController().setEnemySea(enemyId, enemyShield, enemySea, enemyGraph);
+                
+                break;
+                
+            case 5: // recibir el ataque de un enemigo
+                int attacker = inputStream.readInt();
+                ItemType weapon = (ItemType) objInputStream.readObject();
+                ArrayList<Target> targets = (ArrayList<Target>) objInputStream.readUnshared();
+                
+                for(int i = 0; i < targets.size(); i++){
+                    System.out.println("Target recieved client " + targets.get(i).getI() +" : "+ targets.get(i).getJ());
+                }
+                
+                this.mainController.getGameController().recieveAttack(targets, weapon, attacker);
+
+                break;
+            case 6: // recibir la bitacora del enemigo
+                String binnacle = inputStream.readUTF();
+                this.mainController.getGameController().recieveBinnacle(binnacle);
                 
                 break;
             default:

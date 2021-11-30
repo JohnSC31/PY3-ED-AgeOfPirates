@@ -7,6 +7,7 @@ import ageofpirates.model.Game;
 import ageofpirates.model.Game.ItemType;
 import ageofpirates.model.Graph;
 import ageofpirates.model.SeaCell;
+import ageofpirates.model.SeaCellData;
 import ageofpirates.model.Target;
 import ageofpirates.model.Vertex;
 import static ageofpirates.view.ConfigWindow.SEA_SIZE;
@@ -25,6 +26,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 
@@ -36,17 +38,21 @@ public class GameController extends Controller implements KeyListener, MouseList
     private int weaponTargetAmount; // la cantidad de objetivos targetables por el arma seleccionada (celdas en el mar enemigo)
     private ItemType weaponType;
     private ArrayList<Target> targets;
+    private int enemyIdSelected;
     // cuando termina de disparar colocarlo en -1
+    private int shield; // comodin del escudo
     
     private ObjectOutputStream objOutputStream = null;
 
     public GameController(GameWindow view, Game game, MainController mainController) {
         super(game, mainController);
         this.view = view;
-        setPlayerTurn(game.getPlayer().isHost());
+        setPlayerTurn(1); // siempre inicia el jugador 1
         this.selectedVertex = null;
         this.weaponTargetAmount = -1; // estado en el que esta disponble seleccionar una nueva arma
         this.targets = new ArrayList<>();
+        this.enemyIdSelected = -1;
+        this.shield = 0;
         
         this.objOutputStream = game.getPlayer().getObjOutputStream();
         
@@ -89,8 +95,6 @@ public class GameController extends Controller implements KeyListener, MouseList
                 view.getEnemySea()[i][j].addMouseListener(this);
             }
         }
-        //inicializacion del tablero
-        //setInitialSea();
     }
     
     // establece el grafo en la matriz y ademas inicia los thread de las minas que no han iniciado
@@ -115,7 +119,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         
         if(e.getSource().equals(view.getBtnCannon())){
             
-            if(game.getPlayerInventory().getItemAmount(ItemType.CANNON) > 0 && weaponTargetAmount == -1){
+            if(game.getPlayerInventory().getItemAmount(ItemType.CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
                 game.getPlayerInventory().updateItemAmount(ItemType.CANNON, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
@@ -125,7 +129,7 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnMultipleCannon())){
-            if(game.getPlayerInventory().getItemAmount(ItemType.MULTIPLE_CANNON) > 0 && weaponTargetAmount == -1){
+            if(game.getPlayerInventory().getItemAmount(ItemType.MULTIPLE_CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
                 game.getPlayerInventory().updateItemAmount(ItemType.MULTIPLE_CANNON, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
@@ -135,7 +139,7 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnBomb())){
-            if(game.getPlayerInventory().getItemAmount(ItemType.CANNON) > 0 && weaponTargetAmount == -1){
+            if(game.getPlayerInventory().getItemAmount(ItemType.CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
                 game.getPlayerInventory().updateItemAmount(ItemType.CANNON, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
@@ -145,7 +149,7 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnRBCannon())){
-            if(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) > 0 && weaponTargetAmount == -1){
+            if(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
                 game.getPlayerInventory().updateItemAmount(Game.ItemType.CANNON, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
@@ -155,12 +159,12 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnGhostShip())){
-            if(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) > 0 && weaponTargetAmount == -1){
+            if(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
                 game.getPlayerInventory().updateItemAmount(Game.ItemType.CANNON, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
                 this.weaponTargetAmount = 1; // cantidad de targets 
-                this.view.getLblWeaponSelected().setText("Cañon");
+                this.view.getLblWeaponSelected().setText("Barco Fantasma");
             }
         }
         if(e.getSource().equals(view.getBtnComodin())){
@@ -246,7 +250,7 @@ public class GameController extends Controller implements KeyListener, MouseList
                }
            }else{
                // se presiona una celda del enemigo
-               if(this.weaponTargetAmount > 0){
+                if(this.weaponTargetAmount > 0){
                     // puede targetear
                     clickedLabel.setBorder(BorderFactory.createLineBorder(PALLETE[3], 1));
                     this.targets.add(new Target(clickedLabel.getI(), clickedLabel.getJ()));
@@ -297,13 +301,13 @@ public class GameController extends Controller implements KeyListener, MouseList
         this.view.getTxtaChat().setText(this.view.getTxtaChat().getText() + player + message + "\n");
     }
     
-    // metodos para el manejo del turno
-    public void setPlayerTurn(boolean turn){
-        this.playerTurn = turn;
+    // metodos para el manejo del turno (pasar el id)
+    public void setPlayerTurn(int playerInTurnId){
+        this.playerTurn = playerInTurnId == game.getPlayer().getPlayerId();
         if(playerTurn){
             view.getLblPlayerTurn().setText("Tu turno");
         }else{
-            view.getLblPlayerTurn().setText("Turno de Jugador x");
+            view.getLblPlayerTurn().setText("Turno de Jugador " + playerInTurnId);
         }
     }
 
@@ -312,6 +316,8 @@ public class GameController extends Controller implements KeyListener, MouseList
         try {
             outputStream.writeInt(0); // opcion del helper server
             outputStream.writeInt(1); // subipcion para pasar el siguiente turno
+            
+            System.out.println("Se actualiza turno");
             
         } catch(IOException ex) {
             Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
@@ -336,42 +342,70 @@ public class GameController extends Controller implements KeyListener, MouseList
 
     // Realiza el ataque preparado al enemigo seleccionado
     private void attackEnemySea(){
-        System.out.println("Ataco bitch");
-        
-        // enviar el arraylist de los targets
+        if(enemyIdSelected != -1){
+            
+            // enviar el arraylist de los targets
+            try {
+                outputStream.writeInt(3); // opcion del juego
+                outputStream.writeInt(4); // opcion de atacar a un enemigo
+                outputStream.writeInt(enemyIdSelected);
+                objOutputStream.writeObject(this.weaponType);
+                //objOutputStream.writeObject(this.targets); // los objetivos marcados
+                objOutputStream.writeUnshared(targets);
+                
+                for(int i = 0; i < targets.size(); i++){
+                    System.out.println("Target sent " + targets.get(i).getI() +" : "+ targets.get(i).getJ());
+                }
+                
+            } catch(IOException ex) {
+                Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            this.view.getBtnAttack().setEnabled(false);
+            this.weaponTargetAmount = -1;
+            this.view.getLblWeaponSelected().setText("Selecciona un arma");
+            resetEnemySeaTargets();
+            nextPlayerTurn(); // pasa al siguiente turno
+        }
  
-        this.view.getBtnAttack().setEnabled(false);
-        this.weaponTargetAmount = -1;
-        this.view.getLblWeaponSelected().setText("Selecciona un arma");
-        resetEnemySeaTargets();
     }
     
     private void resetEnemySeaTargets(){
-        this.targets.removeAll(targets);
-         for(int i = 0; i < SEA_SIZE; i++){
-            for(int j = 0; j < SEA_SIZE; j++){
-                view.getEnemySea()[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        this.targets.removeAll(this.targets);
+        for(int i = 0; i < SEA_SIZE; i++){
+           for(int j = 0; j < SEA_SIZE; j++){
+               view.getEnemySea()[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             }
         }
     }
     
     // procesa y recibe los ataques
-    public void recieveAttack(ArrayList<Target> targets, ItemType weapon, int enemyId){
-        // validar el escudo
+    public void recieveAttack(ArrayList<Target> targetsReceived, ItemType weapon, int enemyId){
+
         String binnacle = "", enemyBinnacle = "", str = "";
-        for(int i = 0; i < targets.size(); i++){
+        
+        for(int i = 0; i < targetsReceived.size(); i++){
+            System.out.println("Target recieved " + targetsReceived.get(i).getI() +" : "+ targetsReceived.get(i).getJ());
+        }
+        for(int i = 0; i < targetsReceived.size(); i++){
             
-            binnacle += "RECIBIDO: en " + targets.get(i).getI()+" : " + targets.get(i).getJ() + " ";
-            enemyBinnacle += "ATAQUE: en " + targets.get(i).getI()+" : " + targets.get(i).getJ() + " ";
+            binnacle += "RECIBIDO: en " + targetsReceived.get(i).getI()+" : " + targetsReceived.get(i).getJ() + " ";
+            enemyBinnacle += "ATAQUE: en " + targetsReceived.get(i).getI()+" : " + targetsReceived.get(i).getJ() + " ";
+            
+            if(this.shield > 0){
+                binnacle += " detenido por escudo";
+                enemyBinnacle += " detenido por escuco";
+                this.shield--;
+                continue;
+            }
             
             switch (weapon) {
                 case CANNON:
-                    if(view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex() != null){
-                        // le atina a algo
-                        view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].setDestroyed(true);
-                        game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex());
+                    if(view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex() != null){
+                        
+                        game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
                         // binacora
-                        str = "de cañon exploto parte de " + view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex().getIsland().getName();
+                        str = "de cañon exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
                         binnacle += str;
                         enemyBinnacle += str;
                     }else{
@@ -382,12 +416,11 @@ public class GameController extends Controller implements KeyListener, MouseList
                     }
                     break;
                 case MULTIPLE_CANNON:
-                    if(view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex() != null){
+                    if(view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex() != null){
                         // le atina a algo
-                        view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].setDestroyed(true);
-                        game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex());
+                        game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
                         // binacora
-                        str = "de cañon multiple exploto parte de " + view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex().getIsland().getName();
+                        str = "de cañon multiple exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
                         binnacle += str;
                         enemyBinnacle += str;
                         
@@ -403,18 +436,17 @@ public class GameController extends Controller implements KeyListener, MouseList
                     break;
                 case BOMB:
                     
-                    ArrayList binnaclesExplosion = explodeBomb(targets.get(i).getI(), targets.get(i).getJ());
+                    ArrayList binnaclesExplosion = explodeBomb(targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
                     binnacle += binnaclesExplosion.get(0);
                     enemyBinnacle += binnaclesExplosion.get(1);
                     
                     break;
                 case RED_BEARD_CANNON:
-                    if(view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex() != null){
+                    if(view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex() != null){
                         // le atina a algo
-                        view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].setDestroyed(true);
-                        game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex());
+                        game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
                         // binacora
-                        str = "de cañon barba roja exploto parte de " + view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex().getIsland().getName();
+                        str = "de cañon barba roja exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
                         binnacle += str;
                         enemyBinnacle += str;
                     }else{
@@ -431,7 +463,9 @@ public class GameController extends Controller implements KeyListener, MouseList
             
             binnacle += "\n";
             enemyBinnacle += "\n";
-        }
+        } // fin del for
+        
+        writeBinnacles(binnacle, enemyBinnacle, enemyId);
         
     }
     
@@ -450,8 +484,7 @@ public class GameController extends Controller implements KeyListener, MouseList
             
             if(view.getPlayerSea()[targetI][targetJ].getVertex() != null){
                 
-                view.getPlayerSea()[targetI][targetJ].setDestroyed(true);
-                game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targetI][targetJ].getVertex());
+                game.setDestroyedIsland(view.getPlayerSea(),targetI, targetJ);
                 
                 str = "de torpedo exploto parte de " + view.getPlayerSea()[targetI][targetJ].getVertex().getIsland().getName();
                 binnacle += str;
@@ -485,8 +518,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         
         if(view.getPlayerSea()[i][j].getVertex() != null){
             // le atina a algo
-            view.getPlayerSea()[i][j].setDestroyed(true);
-            game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i][j].getVertex());
+            game.setDestroyedIsland(view.getPlayerSea(),i, j);
             // bitacora
             str = "de bomba exploto parte de " + view.getPlayerSea()[i][j].getVertex().getIsland().getName();
             binnacle += str;
@@ -503,8 +535,8 @@ public class GameController extends Controller implements KeyListener, MouseList
             // explota de forma horizontal
             if(j + 1 < SEA_SIZE){
                 if(view.getPlayerSea()[i][j + 1].getVertex() != null){
-                    view.getPlayerSea()[i][j + 1].setDestroyed(true);
-                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i][j+1].getVertex());
+                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                    
                     binnacle += "y en "+ i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
                     enemyBinnacle += "y en " + i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
                 }else{
@@ -515,8 +547,8 @@ public class GameController extends Controller implements KeyListener, MouseList
 
             }else{
                 if(view.getPlayerSea()[i][j - 1].getVertex() != null){
-                    view.getPlayerSea()[i][j - 1].setDestroyed(true);
-                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i][j-1].getVertex());
+                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                    
                     binnacle += "y en "+ i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
                     enemyBinnacle += "y en " + i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
                 }else{
@@ -529,8 +561,8 @@ public class GameController extends Controller implements KeyListener, MouseList
             // explota de forma vertical
             if(i - 1 >= 0){
                 if(view.getPlayerSea()[i - 1][j].getVertex() != null){
-                    view.getPlayerSea()[i - 1][j].setDestroyed(true);
-                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i - 1][j].getVertex());
+                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                    
                     binnacle += "y en "+ (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
                     enemyBinnacle += "y en " + (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
                 }else{
@@ -540,8 +572,8 @@ public class GameController extends Controller implements KeyListener, MouseList
                 }
             }else{
                 if(view.getPlayerSea()[i + 1][j].getVertex() != null){
-                    view.getPlayerSea()[i + 1][j].setDestroyed(true);
-                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i + 1][j].getVertex());
+                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                    
                     binnacle += "y en "+ (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
                     enemyBinnacle += "y en " + (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
                 }else{
@@ -560,7 +592,29 @@ public class GameController extends Controller implements KeyListener, MouseList
         return binnacles;
         
     }
-    // pedir a mis enemigos para que se cargen sus botones respectivos en la pantalla
+    
+    // escribe en la bitacora de mi pantalla y en la del enemigo
+    private void writeBinnacles(String binnacle, String enemyBinnacle, int enemyId){
+        this.view.getTxtaBinnacle().setText(this.view.getTxtaBinnacle().getText() + binnacle);
+        
+        // enviar al enemigo la suyas
+        try {
+            outputStream.writeInt(3); // opcion del juego
+            outputStream.writeInt(5);
+            outputStream.writeInt(enemyId);
+            outputStream.writeUTF(enemyBinnacle); // subipcion para pasar el siguiente turno
+            
+        } catch(IOException ex) {
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // recibe la bitacora del atacado para imprimirla en pantalla
+    public void recieveBinnacle(String binnacle){
+        this.view.getTxtaBinnacle().setText(this.view.getTxtaBinnacle().getText() + binnacle);
+    }
+
+// pedir a mis enemigos para que se cargen sus botones respectivos en la pantalla
     private void requestEnemies(){
         try {
             outputStream.writeInt(0); // opcion del helper server
@@ -588,6 +642,8 @@ public class GameController extends Controller implements KeyListener, MouseList
     
     
     public void requestEnemySea(int enemyId){
+        this.view.getLblEnemy().setText("Cargando...");
+        this.enemyIdSelected = enemyId;
         try {
             outputStream.writeInt(3); // opcion del helper server
             outputStream.writeInt(2); // subipcion para pasar pedir la matriz y grafo del enemigo
@@ -604,7 +660,16 @@ public class GameController extends Controller implements KeyListener, MouseList
             outputStream.writeInt(3); // subipcion para pasar enviar la matriz y grafo del enemigo
             outputStream.writeInt(sendTo);
             
-            objOutputStream.writeObject(this.view.getPlayerSea());
+            outputStream.writeInt(game.getPlayer().getPlayerId());
+            outputStream.writeBoolean(shield > 0);
+            SeaCell[][] mySea = view.getPlayerSea();
+            
+            for(int i = 0; i < SEA_SIZE; i++){
+                for(int j = 0; j < SEA_SIZE; j++){
+                    SeaCellData seaCellData = new SeaCellData(i,j, mySea[i][j].isEnemySea(), mySea[i][j].getVertex(), mySea[i][j].isDestroyed());
+                    objOutputStream.writeObject(seaCellData);
+                }
+            }
             objOutputStream.writeObject(this.game.getGraph());
             
         } catch(IOException ex) {
@@ -613,11 +678,52 @@ public class GameController extends Controller implements KeyListener, MouseList
     }
     
     // setea los datos del mar en la matriz de labels
-    public void setEnemySea(SeaCell[][] enemySea, Graph enemyGraph){
+    public void setEnemySea(int enemyId, boolean enemyShiled, SeaCellData[][] enemySeaData, Graph enemyGraph){
+        String str = "Jugador " + enemyId;
+        str += enemyShiled ? " (Escudo)" : " ";
+        this.view.getLblEnemy().setText(str);
+        
+        SeaCell[][] enemySea = rebuildEnemySea(enemySeaData);
         
         game.setEnemySea(view.getEnemySea(), enemySea, enemyGraph);
         
     }
+    
+    private SeaCell[][] rebuildEnemySea(SeaCellData[][] enemySeaData){
+        SeaCell[][] enemySea = new SeaCell[SEA_SIZE][SEA_SIZE];
+        
+        for(int iSea = 0; iSea < SEA_SIZE; iSea++){
+            for(int jSea = 0; jSea < SEA_SIZE; jSea++){
+                enemySea[iSea][jSea] = new SeaCell(iSea,jSea, enemySeaData[iSea][jSea].isEnemySea());
+                enemySea[iSea][jSea].setVertex(enemySeaData[iSea][jSea].getVertex());
+                enemySea[iSea][jSea].setDestroyed(enemySeaData[iSea][jSea].isDestroyed());
+                
+            }
+        }
+        
+        return enemySea;
+    }
+    
+    private ArrayList<ImageIcon> getIslandIcons(String islandName){
+        if(islandName.equals("Armeria")){
+             return game.getArmoryIcons();
+        }else if(islandName.equals("Conector")){
+            return game.getConnectorIcons();
+        } else if(islandName.equals("Mercado")){
+             return game.getMarketIcons();
+        } else if(islandName.equals("Mina")){
+             return game.getMineIcons();
+        } else if(islandName.equals("Fuente de Energia")){
+             return game.getSourcePowerIcons();
+        } else if(islandName.equals("Remolino")){
+             return game.getSwirlIcons();
+        }else{
+            // Templo
+            return game.getTempleIcons();
+        }
+    
+    }
+    
     
     
     private void setInitialSea(){

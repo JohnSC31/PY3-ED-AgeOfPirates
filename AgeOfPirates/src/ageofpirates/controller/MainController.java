@@ -6,10 +6,11 @@ import ageofpirates.model.*; // se importan todos los modelos
 import interfaces.iWindow;
 import java.awt.Color;
 import java.awt.Image;
+import java.io.Serializable;
 import javax.swing.ImageIcon;
 
 
-public class MainController {
+public class MainController implements Serializable{
     
     // vistas del juego
     private LobbyWindow lobbyView;

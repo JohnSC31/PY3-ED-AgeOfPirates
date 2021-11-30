@@ -58,10 +58,9 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        lblPlayerTurn = new javax.swing.JLabel();
         pnlEnemies = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtaBinnacle = new javax.swing.JTextArea();
         txtfMessage = new javax.swing.JTextField();
         btnSendMessage = new javax.swing.JButton();
         pnlSea = new javax.swing.JPanel();
@@ -91,6 +90,8 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         jPanel1 = new javax.swing.JPanel();
         lblWeaponSelected = new javax.swing.JLabel();
         btnAttack = new javax.swing.JButton();
+        lblEnemy = new javax.swing.JLabel();
+        lblPlayerTurn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -125,10 +126,6 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, -1, -1));
 
-        lblPlayerTurn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPlayerTurn.setText("Tu turno");
-        getContentPane().add(lblPlayerTurn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 500, 20));
-
         pnlEnemies.setBackground(new java.awt.Color(204, 204, 255));
 
         javax.swing.GroupLayout pnlEnemiesLayout = new javax.swing.GroupLayout(pnlEnemies);
@@ -144,10 +141,10 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
         getContentPane().add(pnlEnemies, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, 60, 500));
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtaBinnacle.setEditable(false);
+        txtaBinnacle.setColumns(20);
+        txtaBinnacle.setRows(5);
+        jScrollPane1.setViewportView(txtaBinnacle);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 560, 500, 120));
         getContentPane().add(txtfMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 650, 420, 30));
@@ -329,6 +326,14 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 520, 500, 40));
 
+        lblEnemy.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEnemy.setText("Selecciona un enemigo");
+        getContentPane().add(lblEnemy, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, 500, 20));
+
+        lblPlayerTurn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPlayerTurn.setText("Tu turno");
+        getContentPane().add(lblPlayerTurn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 500, 20));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -354,8 +359,8 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblComodin;
+    private javax.swing.JLabel lblEnemy;
     private javax.swing.JLabel lblMoney;
     private javax.swing.JLabel lblPlayerTurn;
     private javax.swing.JLabel lblSelectedVertex;
@@ -367,6 +372,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JPanel pnlEnemySea;
     private javax.swing.JPanel pnlItems;
     private javax.swing.JPanel pnlSea;
+    private javax.swing.JTextArea txtaBinnacle;
     private javax.swing.JTextArea txtaChat;
     private javax.swing.JTextField txtfMessage;
     // End of variables declaration//GEN-END:variables
@@ -472,6 +478,14 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
     public JPanel getPnlEnemies() {
         return pnlEnemies;
+    }
+
+    public JTextArea getTxtaBinnacle() {
+        return txtaBinnacle;
+    }
+
+    public JLabel getLblEnemy() {
+        return lblEnemy;
     }
     
     

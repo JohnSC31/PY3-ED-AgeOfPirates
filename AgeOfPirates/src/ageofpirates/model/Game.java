@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
@@ -16,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class Game {
+public class Game implements Serializable{
 
     private Player player;
     private MainController mainController;
@@ -39,7 +40,7 @@ public class Game {
     private Inventory marketInventory; // el inventario del mercado
     
     // enumerable para los objetos del inventario
-    public enum ItemType{
+    public enum ItemType implements Serializable{
         CANNON(1000, "Cañon"),
         MULTIPLE_CANNON(2000, "Cañon Multiple"),
         BOMB(4000, "Bomba"),
@@ -129,10 +130,14 @@ public class Game {
     
     // crea un mercado, funete de poder y un connector y los setea en la matriz dada
     public void initGameGraph(){
-        PowerSource power = new PowerSource(-1,-1, sourcePowerIcons);
-        Market market = new Market(-1, -1, marketIcons);
+        PowerSource power = new PowerSource(-1,-1);
+        Market market = new Market(-1, -1);
+        Swirl swirl1 = new Swirl(-1,-1);
+        Swirl swirl2 = new Swirl(-1,-1);
         createVertex(power);
         createVertex(market);
+        createVertex(swirl1);
+        createVertex(swirl2);
     }
     
     public void setSea(JPanel seaPanel, SeaCell[][] playerSea, Graph graph){
@@ -196,7 +201,7 @@ public class Game {
             int iconCounter = 0; // posicion para recuperar la imagen
             for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
                 for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
-                    playerSea[iPos][jPos].setIcon(MainController.resizeIcon(island.getIcons().get(iconCounter), CELL_SIZE, CELL_SIZE));
+                    playerSea[iPos][jPos].setIcon(MainController.resizeIcon(getIconIsland(island.getName(), iconCounter), CELL_SIZE, CELL_SIZE));
                     playerSea[iPos][jPos].setVertex(vertex);
                     jPos++;
                     iconCounter++;
@@ -210,6 +215,26 @@ public class Game {
             System.out.println("Set component invalid index");
         }
         
+    }
+    
+    private ImageIcon getIconIsland(String islandName, int index){
+        if(islandName.equals("Armeria")){
+             return armoryIcons.get(index);
+        }else if(islandName.equals("Conector")){
+            return connectorIcons.get(index);
+        } else if(islandName.equals("Mercado")){
+             return marketIcons.get(index);
+        } else if(islandName.equals("Mina")){
+             return mineIcons.get(index);
+        } else if(islandName.equals("Fuente de Energia")){
+             return sourcePowerIcons.get(index);
+        } else if(islandName.equals("Remolino")){
+             return swirlIcons.get(index);
+        }else{
+            // Templo
+            return templeIcons.get(index);
+        }
+    
     }
     
     public void setDestroyedIsland(SeaCell[][] sea, Vertex vertex){
@@ -238,7 +263,6 @@ public class Game {
         Graphics2D g2 =(Graphics2D) seaPanel.getGraphics();
         g2.setColor(Color.WHITE);
         g2.drawLine(arista.getCoord().get(0), arista.getCoord().get(1), arista.getCoord().get(2), arista.getCoord().get(3));
-        System.out.println("Se setea arista en :" + arista.getCoord().get(0) +":"+ arista.getCoord().get(1) +":"+ arista.getCoord().get(2) +":"+ arista.getCoord().get(3));
     }
     
     // quita el elemento grafico actual
@@ -307,7 +331,7 @@ public class Game {
     public void moveUpIsland(SeaCell[][] playerSea, Vertex vertex){
         unSetIsland(playerSea, vertex);
         Island island = vertex.getIsland();
-        if(validIslandPosition(playerSea, island.getiPos() - 1, island.getiPos(), island.getxDimension(), island.getyDimension())){
+        if(validIslandPosition(playerSea, island.getiPos() - 1, island.getjPos(), island.getxDimension(), island.getyDimension())){
             island.setiPos(island.getiPos() - 1);
         }
         
@@ -342,12 +366,13 @@ public class Game {
     // valida si el vertice dado tiene conexion con la fuente de poder
     public boolean isConnectedToPower(Vertex vertex){
         if(vertex.getIsland().getName().equals("Fuente de Energia")) return true;
+        if(vertex.getIsland().getName().equals("Remolino")) return true;
         
         for(int i = 0; i < vertex.getAristas().size(); i++){
             if(vertex.getAristas().get(i).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
             
             for(int j = 0; j < vertex.getAristas().get(i).getDestiny().getAristas().size(); j++){
-                if(vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().equals("Fuente de Energia")) return true;
+                if(vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
             }
         }
         
@@ -357,20 +382,20 @@ public class Game {
     // setea oceano del enemigo
     public void setEnemySea(SeaCell[][] enemiesSea, SeaCell[][] enemySea, Graph enemyGraph){
         
-        // se recorre la matriz de celdas del enemigo para ver cual esta destruida y seterla
-        for(int i = 0; i < SEA_SIZE; i++){
-            for(int j = 0; j < SEA_SIZE; j++){
-                if(enemySea[i][j].isDestroyed()){
-                    enemiesSea[i][j].setIcon(destroyedIcons.get(0));
-                }
-            }
-        }
-        
         for(int i = 0; i < enemyGraph.size(); i++){
             if(!isConnectedToPower(enemyGraph.get(i))){
                 setIsland(enemiesSea, enemyGraph.get(i));
             }else if(enemyGraph.get(i).getIsland().isDestroyed()){
                 setDestroyedIsland(enemiesSea, enemyGraph.get(i));
+            }
+        }
+        
+        // se recorre la matriz de celdas del enemigo para ver cual esta destruida y seterla
+        for(int i = 0; i < SEA_SIZE; i++){
+            for(int j = 0; j < SEA_SIZE; j++){
+                if(enemySea[i][j].isDestroyed()){
+                    enemiesSea[i][j].setIcon(MainController.resizeIcon(destroyedIcons.get(0), CELL_SIZE, CELL_SIZE));
+                }
             }
         }
         
@@ -401,7 +426,36 @@ public class Game {
         }
         
         vertex.getIsland().setDestroyed(true);
+        vertex.getAristas().removeAll(vertex.getAristas()); // queda disconexo
         return true;
+    }
+    
+    public void setDestroyedIsland(SeaCell[][] sea, int i, int j){
+        Vertex vertex = sea[i][j].getVertex();
+        setDestroyedCell(sea, i, j);
+        
+        try{
+            int iPos = vertex.getIsland().getiPos(), jPos = vertex.getIsland().getjPos();
+            for(int yDimension = 0; yDimension < vertex.getIsland().getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < vertex.getIsland().getxDimension(); xDimension++){
+                    if(!sea[iPos][jPos].isDestroyed()) return;
+                    jPos++;
+                }
+                jPos = vertex.getIsland().getjPos();
+                iPos++;
+            }
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Set component invalid index");
+        }
+        
+        vertex.getIsland().setDestroyed(true);
+        vertex.getAristas().removeAll(vertex.getAristas()); // queda disconexo
+    }
+    
+    public void setDestroyedCell(SeaCell[][] sea, int i, int j){
+        sea[i][j].setDestroyed(true);
+        sea[i][j].setIcon(MainController.resizeIcon(destroyedIcons.get(0), CELL_SIZE, CELL_SIZE));
+        
     }
     
     // ------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------

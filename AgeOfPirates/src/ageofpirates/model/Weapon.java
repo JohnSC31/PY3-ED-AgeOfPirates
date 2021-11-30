@@ -2,9 +2,10 @@
 package ageofpirates.model;
 
 import ageofpirates.model.Game.ItemType;
+import java.io.Serializable;
 
 
-public abstract class Weapon {
+public abstract class Weapon implements Serializable{
     
     private int cost;
     private String type;

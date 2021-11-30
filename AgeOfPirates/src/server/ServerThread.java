@@ -1,7 +1,11 @@
 
 package server;
 
+import ageofpirates.model.Game.ItemType;
 import ageofpirates.model.Inventory;
+import ageofpirates.model.SeaCell;
+import ageofpirates.model.Target;
+import static ageofpirates.view.ConfigWindow.SEA_SIZE;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -56,7 +60,7 @@ public class ServerThread extends Thread{
             int option = 0;
             
             while(true){
-                System.out.println("Server espera opcion");
+//                System.out.println("Server espera opcion");
                 option = inputStream.readInt();
                 switch(option){
                     case 0: // opciones y ayuda del server
@@ -106,8 +110,9 @@ public class ServerThread extends Thread{
                 for(int i = 0; i < players.size(); i++){
                     players.get(i).outputStream.writeInt(0);
                     players.get(i).outputStream.writeInt(1);
-                    players.get(i).outputStream.writeBoolean(playerInTurnId == players.get(i).getPlayerId());
+                    players.get(i).outputStream.writeInt(playerInTurnId);
                 }
+                System.out.println("update turn");
                 break;
             case 2: // envia un arreglo con todos los enemigos del jugador que los pidio
                 ArrayList enemies = new ArrayList<>();
@@ -176,6 +181,7 @@ public class ServerThread extends Thread{
     public void game(int option) throws IOException, ClassNotFoundException{
         
         int enemyId = 0;
+        ArrayList<Target> targets = new ArrayList<>();
         
         switch(option){
             case 0:
@@ -203,16 +209,57 @@ public class ServerThread extends Thread{
                 break;
             case 3: // enviar mis datos a otro jugador
                 enemyId = inputStream.readInt();
+                SeaCell[][] sea = new SeaCell[SEA_SIZE][SEA_SIZE];
                 
                 for(int i = 0; i < players.size(); i++){
                     if(players.get(i).getPlayerId() == enemyId){
                         players.get(i).outputStream.writeInt(3); // opcion del juego
                         players.get(i).outputStream.writeInt(4); // enviar datos
-                        players.get(i).objOutputStream.writeObject(objInputStream.readObject()); // pasa la matriz
+                        
+                        players.get(i).outputStream.writeInt(inputStream.readInt()); // player Id
+                        players.get(i).outputStream.writeBoolean(inputStream.readBoolean()); // si tiene escudo o no
+                        
+                        for(int iSea = 0; iSea < SEA_SIZE; iSea++){
+                            for(int jSea = 0; jSea < SEA_SIZE; jSea++){
+                                players.get(i).objOutputStream.writeObject(objInputStream.readObject()); // pasa el grafo
+                            }
+                        }
+
                         players.get(i).objOutputStream.writeObject(objInputStream.readObject()); // pasa el grafo
                     }
                 }
                 
+                break;
+            case 4: // atacar a un enemigo
+                enemyId = inputStream.readInt(); // al jugador que se va atacar
+                ItemType weapon = (ItemType) objInputStream.readObject();
+                targets = (ArrayList) objInputStream.readUnshared();
+                
+                for(int i = 0; i < targets.size(); i++){
+                    System.out.println("Target recieved server  - " + targets.get(i).getI() +" : "+ targets.get(i).getJ());
+                }
+                
+                for(int i = 0; i < players.size(); i++){
+                    if(players.get(i).getPlayerId() == enemyId){
+                        players.get(i).outputStream.writeInt(3); // juego
+                        players.get(i).outputStream.writeInt(5);// recibir el ataque de un eemigo
+                        players.get(i).outputStream.writeInt(playerId); // el id del que lo ataca
+                        players.get(i).objOutputStream.writeObject(weapon);// el tipo de arma
+                        players.get(i).objOutputStream.writeUnshared(targets);// el arrayList de targets
+                    }
+                }
+                
+                break;
+                
+            case 5: // enviar la bitacora al enemigo
+                enemyId = inputStream.readInt();
+                for(int i = 0; i < players.size(); i++){
+                    if(players.get(i).getPlayerId() == enemyId){
+                        players.get(i).outputStream.writeInt(3); // juego
+                        players.get(i).outputStream.writeInt(6);// recibir la bitacora
+                        players.get(i).outputStream.writeUTF(inputStream.readUTF());
+                    }
+                }
                 break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");

@@ -2,8 +2,6 @@
 package ageofpirates.model;
 
 import ageofpirates.controller.GameController;
-import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 
 public class Mine extends Island{
@@ -11,19 +9,15 @@ public class Mine extends Island{
     private int steelPerTime; // (kg)
     private int time; // (segundos)
     // PASARLE UNA REFERENCIA DEL JUEGO PARA CON EL THREAD SUMAR EL STEEL,
-    private MineThread mineThread;
+    private transient MineThread mineThread;
     
-    public Mine(int iPos, int jPos, ArrayList<ImageIcon> icons) {
-        super(iPos, jPos, icons, 1, 2, "Mina", 1000);
+    public Mine(int iPos, int jPos) {
+        super(iPos, jPos, 1, 2, "Mina", 1000);
         this.steelPerTime = 50;
         this.time = 60; 
         this.mineThread = null;
     }
 
-    @Override
-    public void action() {
-        
-    }
     
     public void startMining(Game game, GameController gameController){
         // inicia el thread para minar

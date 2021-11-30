@@ -7,13 +7,9 @@ import javax.swing.ImageIcon;
 
 public class Connector extends Island{
 
-    public Connector(int iPos, int jPos, ArrayList<ImageIcon> icons) {
-        super(iPos, jPos, icons, 1, 1, "Conector", 100);
+    public Connector(int iPos, int jPos) {
+        super(iPos, jPos, 1, 1, "Conector", 100);
     }
 
-    @Override
-    public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

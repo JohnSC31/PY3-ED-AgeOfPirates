@@ -1,27 +1,21 @@
 
 package ageofpirates.model;
 
-import interfaces.iAction;
 import java.io.Serializable;
-import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
-
-abstract public class Island implements iAction, Serializable{
+abstract public class Island implements Serializable{
     
     private int iPos;
     private int jPos;
-    private ArrayList<ImageIcon> icons;
     private int yDimension; // dimesiones en columnas
     private int xDimension; // dimensiones en filas
     private String name;
     private int price;
     private boolean destroyed; // determina si todos sus cuadrantes estan destruidos
 
-    public Island(int iPos, int jPos, ArrayList<ImageIcon> icons, int yDimension, int xDimension, String name, int price) {
+    public Island(int iPos, int jPos, int yDimension, int xDimension, String name, int price) {
         this.iPos = iPos;
         this.jPos = jPos;
-        this.icons = icons;
         this.yDimension = yDimension;
         this.xDimension = xDimension;
         this.name = name;
@@ -29,10 +23,9 @@ abstract public class Island implements iAction, Serializable{
         this.destroyed = false;
     }
 
-    public Island(ArrayList<ImageIcon> icons, int yDimension, int xDimension, String name) {
+    public Island(int yDimension, int xDimension, String name) {
         this.iPos = -1;
         this.jPos = -1;
-        this.icons = icons;
         this.yDimension = yDimension;
         this.xDimension = xDimension;
         this.name = name;
@@ -71,11 +64,6 @@ abstract public class Island implements iAction, Serializable{
     public String getName() {
         return name;
     } 
-
-    public ArrayList<ImageIcon> getIcons() {
-        return icons;
-    }
-
     public int getPrice() {
         return price;
     }
