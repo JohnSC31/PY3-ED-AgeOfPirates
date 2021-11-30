@@ -21,6 +21,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -331,11 +332,6 @@ public class GameController extends Controller implements KeyListener, MouseList
         
     }
     
-    // actualiza los cambios realizados desde la configuracion luego de haber comenzado el juego
-    public void updateConfigSea(){
-        this.game.setSea(view.getPnlSea(), view.getPlayerSea(), this.game.getGraph());
-    }
-    
     // --------------------------------------- METODOS PARA LA JUGABILIDAD --------------------------------------------------
 
     // Realiza el ataque preparado al enemigo seleccionado
@@ -360,10 +356,210 @@ public class GameController extends Controller implements KeyListener, MouseList
     }
     
     // procesa y recibe los ataques
-    public void recieveAttack(){
+    public void recieveAttack(ArrayList<Target> targets, ItemType weapon, int enemyId){
         // validar el escudo
+        String binnacle = "", enemyBinnacle = "", str = "";
+        for(int i = 0; i < targets.size(); i++){
+            
+            binnacle += "RECIBIDO: en " + targets.get(i).getI()+" : " + targets.get(i).getJ() + " ";
+            enemyBinnacle += "ATAQUE: en " + targets.get(i).getI()+" : " + targets.get(i).getJ() + " ";
+            
+            switch (weapon) {
+                case CANNON:
+                    if(view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex() != null){
+                        // le atina a algo
+                        view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].setDestroyed(true);
+                        game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex());
+                        // binacora
+                        str = "de cañon exploto parte de " + view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex().getIsland().getName();
+                        binnacle += str;
+                        enemyBinnacle += str;
+                    }else{
+                        // perdio el tiro
+                        binnacle += "de cañon fallido ";
+                        
+                        enemyBinnacle += "de cañon fallido ";
+                    }
+                    break;
+                case MULTIPLE_CANNON:
+                    if(view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex() != null){
+                        // le atina a algo
+                        view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].setDestroyed(true);
+                        game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex());
+                        // binacora
+                        str = "de cañon multiple exploto parte de " + view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex().getIsland().getName();
+                        binnacle += str;
+                        enemyBinnacle += str;
+                        
+                        ArrayList subBinnacles = torpedoesAttack();
+                        binnacle += subBinnacles.get(0);
+                        enemyBinnacle += subBinnacles.get(1);
+                    }else{
+                        // perdio el tiro
+                        binnacle += "de cañon multiple fallido ";
+                        
+                        enemyBinnacle += "de cañon multiple fallido ";
+                    }    
+                    break;
+                case BOMB:
+                    
+                    ArrayList binnaclesExplosion = explodeBomb(targets.get(i).getI(), targets.get(i).getJ());
+                    binnacle += binnaclesExplosion.get(0);
+                    enemyBinnacle += binnaclesExplosion.get(1);
+                    
+                    break;
+                case RED_BEARD_CANNON:
+                    if(view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex() != null){
+                        // le atina a algo
+                        view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].setDestroyed(true);
+                        game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex());
+                        // binacora
+                        str = "de cañon barba roja exploto parte de " + view.getPlayerSea()[targets.get(i).getI()][targets.get(i).getJ()].getVertex().getIsland().getName();
+                        binnacle += str;
+                        enemyBinnacle += str;
+                    }else{
+                        // perdio el tiro
+                        binnacle += "de cañon barba roja fallido ";
+                        
+                        enemyBinnacle += "de cañon barba roja fallido ";
+                    }
+                    break;
+                default:
+                    System.out.println("el arma no existe");
+                    break;
+            }
+            
+            binnacle += "\n";
+            enemyBinnacle += "\n";
+        }
+        
     }
     
+    // generacion de los 4 torpedos aleatorios despues de acertar un canon multiple
+    private ArrayList torpedoesAttack(){
+        ArrayList binnacles = new ArrayList<>();
+        String binnacle = "\n", enemyBinnacle = "\n";
+        String str;
+        
+        for(int i = 0; i < 4; i++){
+            int targetI = new Random().nextInt(SEA_SIZE);
+            int targetJ =  new Random().nextInt(SEA_SIZE);
+            
+            binnacle += "RECIBIDO: en " + targetI +" : " + targetJ + " ";
+            enemyBinnacle += "ATAQUE: en " + targetI +" : " + targetJ + " ";
+            
+            if(view.getPlayerSea()[targetI][targetJ].getVertex() != null){
+                
+                view.getPlayerSea()[targetI][targetJ].setDestroyed(true);
+                game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[targetI][targetJ].getVertex());
+                
+                str = "de torpedo exploto parte de " + view.getPlayerSea()[targetI][targetJ].getVertex().getIsland().getName();
+                binnacle += str;
+                enemyBinnacle += str;
+            }else{
+                binnacle += "de torpedo fallido ";
+            }
+                    
+            binnacle += "\n";
+            enemyBinnacle += "\n";
+            
+        }
+
+        
+        binnacles.add(binnacle);
+        binnacles.add(enemyBinnacle);
+        
+        return binnacles;
+    }
+    
+    
+    private ArrayList explodeBomb(int i, int j){
+        
+        ArrayList binnacles = new ArrayList<>();
+        String binnacle = "\n", enemyBinnacle = "\n";
+        String str;
+        
+        binnacle += "RECIBIDO: en " + i+" : " + j + " ";
+        enemyBinnacle += "ATAQUE: en " + i+" : " + j + " ";
+            
+        
+        if(view.getPlayerSea()[i][j].getVertex() != null){
+            // le atina a algo
+            view.getPlayerSea()[i][j].setDestroyed(true);
+            game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i][j].getVertex());
+            // bitacora
+            str = "de bomba exploto parte de " + view.getPlayerSea()[i][j].getVertex().getIsland().getName();
+            binnacle += str;
+            enemyBinnacle += str;
+            
+        }else{
+            // perdio el tiro
+            binnacle += "de bomba fallido ";
+
+            enemyBinnacle += "de bomba fallido ";
+        }
+        
+        if(new Random().nextInt(2) == 1){
+            // explota de forma horizontal
+            if(j + 1 < SEA_SIZE){
+                if(view.getPlayerSea()[i][j + 1].getVertex() != null){
+                    view.getPlayerSea()[i][j + 1].setDestroyed(true);
+                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i][j+1].getVertex());
+                    binnacle += "y en "+ i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
+                    enemyBinnacle += "y en " + i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
+                }else{
+                    binnacle += "y en "+ i+" : " + (j + 1) + " fallido";
+
+                    enemyBinnacle += "y en "+ i+" : " + (j + 1) + " fallido ";
+                }
+
+            }else{
+                if(view.getPlayerSea()[i][j - 1].getVertex() != null){
+                    view.getPlayerSea()[i][j - 1].setDestroyed(true);
+                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i][j-1].getVertex());
+                    binnacle += "y en "+ i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
+                    enemyBinnacle += "y en " + i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
+                }else{
+                    binnacle += "y en "+ i+" : " + (j - 1) + " fallido";
+
+                    enemyBinnacle += "y en "+ i+" : " + (j - 1) + " fallido ";
+                }
+            }
+        }else{
+            // explota de forma vertical
+            if(i - 1 >= 0){
+                if(view.getPlayerSea()[i - 1][j].getVertex() != null){
+                    view.getPlayerSea()[i - 1][j].setDestroyed(true);
+                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i - 1][j].getVertex());
+                    binnacle += "y en "+ (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
+                    enemyBinnacle += "y en " + (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
+                }else{
+                    binnacle += "y en "+ (i - 1) +" : " + j + " fallido";
+
+                    enemyBinnacle += "y en "+ (i - 1) +" : " + j + " fallido ";
+                }
+            }else{
+                if(view.getPlayerSea()[i + 1][j].getVertex() != null){
+                    view.getPlayerSea()[i + 1][j].setDestroyed(true);
+                    game.setIslandDestroyed(view.getPlayerSea(), view.getPlayerSea()[i + 1][j].getVertex());
+                    binnacle += "y en "+ (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
+                    enemyBinnacle += "y en " + (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
+                }else{
+                    binnacle += "y en "+ (i + 1) +" : " + j + " fallido";
+
+                    enemyBinnacle += "y en "+ (i + 1) +" : " + j + " fallido ";
+                }
+            }
+        }
+        
+        binnacle += "\n";
+        enemyBinnacle += "\n";
+        
+        binnacles.add(binnacle);
+        binnacles.add(enemyBinnacle);
+        return binnacles;
+        
+    }
     // pedir a mis enemigos para que se cargen sus botones respectivos en la pantalla
     private void requestEnemies(){
         try {

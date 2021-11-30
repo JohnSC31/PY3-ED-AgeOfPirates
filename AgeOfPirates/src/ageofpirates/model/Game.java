@@ -282,20 +282,7 @@ public class Game {
             return false;
         }
 
-    }
-    
-    // dibuja una linea entre las islas dadas
-    public void setArista(Vertex location, Vertex destiny){
-    //uno de los 2 debe ser connector
-    //        if(location.getComponent().getName() == "connector" || destiny.getComponent().getName() == "connector"){
-    //            location.createArista(destiny);
-    //        }else{
-    //            System.out.println("Creacion de arista invalida");
-    //        }
-    }
-    
-    
-    
+    } 
     // mueve el componente hacia la direccion especificada
     public void moveLeftIsland(SeaCell[][] playerSea, Vertex vertex){
         unSetIsland(playerSea, vertex);
@@ -387,6 +374,34 @@ public class Game {
             }
         }
         
+    }
+    
+    public void setSeaCellDestroyed(SeaCell seaCell){
+        
+        seaCell.setDestroyed(true);
+        
+        
+    }
+    
+    // valida si una isla ha sido destruida por completo y coloca su vertice como destruido
+    public boolean setIslandDestroyed(SeaCell[][] sea, Vertex vertex){
+        try{
+            Island island = vertex.getIsland();
+            int iPos = island.getiPos(), jPos = island.getjPos();
+            for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
+                    if(!sea[iPos][jPos].isDestroyed()) return false;
+                    jPos++;
+                }
+                jPos = island.getjPos();
+                iPos++;
+            }
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Set component invalid index");
+        }
+        
+        vertex.getIsland().setDestroyed(true);
+        return true;
     }
     
     // ------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------
