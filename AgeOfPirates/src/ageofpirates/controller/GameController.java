@@ -383,10 +383,7 @@ public class GameController extends Controller implements KeyListener, MouseList
     public void recieveAttack(ArrayList<Target> targetsReceived, ItemType weapon, int enemyId){
 
         String binnacle = "", enemyBinnacle = "", str = "";
-        
-        for(int i = 0; i < targetsReceived.size(); i++){
-            System.out.println("Target recieved " + targetsReceived.get(i).getI() +" : "+ targetsReceived.get(i).getJ());
-        }
+
         for(int i = 0; i < targetsReceived.size(); i++){
             
             binnacle += "RECIBIDO: en " + targetsReceived.get(i).getI()+" : " + targetsReceived.get(i).getJ() + " ";
@@ -394,7 +391,7 @@ public class GameController extends Controller implements KeyListener, MouseList
             
             if(this.shield > 0){
                 binnacle += " detenido por escudo";
-                enemyBinnacle += " detenido por escuco";
+                enemyBinnacle += " detenido por escudo";
                 this.shield--;
                 continue;
             }
@@ -402,12 +399,18 @@ public class GameController extends Controller implements KeyListener, MouseList
             switch (weapon) {
                 case CANNON:
                     if(view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex() != null){
+                        if(!view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName().equals("Remolino")){
+                            game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
+                            // binacora
+                            str = "de cañon exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
+                            binnacle += str;
+                            enemyBinnacle += str;
+                        }else{
+                            // le pega a un remolino
+                            swirlTarget(targetsReceived.get(i).getI(), targetsReceived.get(i).getJ(), enemyId);
+                        }
                         
-                        game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
-                        // binacora
-                        str = "de cañon exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
-                        binnacle += str;
-                        enemyBinnacle += str;
+
                     }else{
                         // perdio el tiro
                         binnacle += "de cañon fallido ";
@@ -417,38 +420,47 @@ public class GameController extends Controller implements KeyListener, MouseList
                     break;
                 case MULTIPLE_CANNON:
                     if(view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex() != null){
-                        // le atina a algo
-                        game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
-                        // binacora
-                        str = "de cañon multiple exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
-                        binnacle += str;
-                        enemyBinnacle += str;
-                        
-                        ArrayList subBinnacles = torpedoesAttack();
-                        binnacle += subBinnacles.get(0);
-                        enemyBinnacle += subBinnacles.get(1);
+                        if(!view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName().equals("Remolino")){
+                            // le atina a algo
+                            game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
+                            // binacora
+                            str = "de cañon multiple exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
+                            binnacle += str;
+                            enemyBinnacle += str;
+
+                            ArrayList subBinnacles = torpedoesAttack();
+                            binnacle += subBinnacles.get(0);
+                            enemyBinnacle += subBinnacles.get(1);            
+                        }else{
+                            swirlTarget(targetsReceived.get(i).getI(), targetsReceived.get(i).getJ(), enemyId);
+                        }
+  
                     }else{
                         // perdio el tiro
                         binnacle += "de cañon multiple fallido ";
-                        
                         enemyBinnacle += "de cañon multiple fallido ";
                     }    
                     break;
                 case BOMB:
                     
-                    ArrayList binnaclesExplosion = explodeBomb(targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
+                    ArrayList binnaclesExplosion = explodeBomb(targetsReceived.get(i).getI(), targetsReceived.get(i).getJ(), enemyId);
                     binnacle += binnaclesExplosion.get(0);
                     enemyBinnacle += binnaclesExplosion.get(1);
                     
                     break;
                 case RED_BEARD_CANNON:
                     if(view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex() != null){
-                        // le atina a algo
-                        game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
-                        // binacora
-                        str = "de cañon barba roja exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
-                        binnacle += str;
-                        enemyBinnacle += str;
+                        if(!view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName().equals("Remolino")){
+                            // le atina a algo
+                            game.setDestroyedIsland(view.getPlayerSea(),targetsReceived.get(i).getI(), targetsReceived.get(i).getJ());
+                            // binacora
+                            str = "de cañon barba roja exploto parte de " + view.getPlayerSea()[targetsReceived.get(i).getI()][targetsReceived.get(i).getJ()].getVertex().getIsland().getName();
+                            binnacle += str;
+                            enemyBinnacle += str;
+                        }else{
+                            swirlTarget(targetsReceived.get(i).getI(), targetsReceived.get(i).getJ(), enemyId);
+                        }
+    
                     }else{
                         // perdio el tiro
                         binnacle += "de cañon barba roja fallido ";
@@ -506,7 +518,7 @@ public class GameController extends Controller implements KeyListener, MouseList
     }
     
     
-    private ArrayList explodeBomb(int i, int j){
+    private ArrayList explodeBomb(int i, int j, int enemyId){
         
         ArrayList binnacles = new ArrayList<>();
         String binnacle = "\n", enemyBinnacle = "\n";
@@ -517,12 +529,18 @@ public class GameController extends Controller implements KeyListener, MouseList
             
         
         if(view.getPlayerSea()[i][j].getVertex() != null){
-            // le atina a algo
-            game.setDestroyedIsland(view.getPlayerSea(),i, j);
-            // bitacora
-            str = "de bomba exploto parte de " + view.getPlayerSea()[i][j].getVertex().getIsland().getName();
-            binnacle += str;
-            enemyBinnacle += str;
+            if(!view.getPlayerSea()[i][j].getVertex().getIsland().getName().equals("Remolino")){
+                // le atina a algo
+                game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                // bitacora
+                str = "de bomba exploto parte de " + view.getPlayerSea()[i][j].getVertex().getIsland().getName();
+                binnacle += str;
+                enemyBinnacle += str;
+            
+            }else{
+                swirlTarget(i, j, enemyId);
+            }
+
             
         }else{
             // perdio el tiro
@@ -535,25 +553,31 @@ public class GameController extends Controller implements KeyListener, MouseList
             // explota de forma horizontal
             if(j + 1 < SEA_SIZE){
                 if(view.getPlayerSea()[i][j + 1].getVertex() != null){
-                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
-                    
-                    binnacle += "y en "+ i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
-                    enemyBinnacle += "y en " + i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
+                    if(!view.getPlayerSea()[i][j].getVertex().getIsland().getName().equals("Remolino")){
+                        game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                        binnacle += "y en "+ i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
+                        enemyBinnacle += "y en " + i+" : " + (j + 1) + " exploto parte de " + view.getPlayerSea()[i][j + 1].getVertex().getIsland().getName();
+                    }else{
+                        swirlTarget(i, j, enemyId);
+                    }
+
                 }else{
                     binnacle += "y en "+ i+" : " + (j + 1) + " fallido";
-
                     enemyBinnacle += "y en "+ i+" : " + (j + 1) + " fallido ";
                 }
 
             }else{
                 if(view.getPlayerSea()[i][j - 1].getVertex() != null){
-                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
-                    
-                    binnacle += "y en "+ i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
-                    enemyBinnacle += "y en " + i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
+                    if(!view.getPlayerSea()[i][j].getVertex().getIsland().getName().equals("Remolino")){
+                        game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                        binnacle += "y en "+ i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
+                        enemyBinnacle += "y en " + i+" : " + (j - 1) + " exploto parte de " + view.getPlayerSea()[i][j - 1].getVertex().getIsland().getName();
+                    }else{
+                        swirlTarget(i, j, enemyId);
+                    }
+   
                 }else{
                     binnacle += "y en "+ i+" : " + (j - 1) + " fallido";
-
                     enemyBinnacle += "y en "+ i+" : " + (j - 1) + " fallido ";
                 }
             }
@@ -561,10 +585,15 @@ public class GameController extends Controller implements KeyListener, MouseList
             // explota de forma vertical
             if(i - 1 >= 0){
                 if(view.getPlayerSea()[i - 1][j].getVertex() != null){
-                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                    if(!view.getPlayerSea()[i][j].getVertex().getIsland().getName().equals("Remolino")){
+                        game.setDestroyedIsland(view.getPlayerSea(),i, j);
                     
-                    binnacle += "y en "+ (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
-                    enemyBinnacle += "y en " + (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
+                        binnacle += "y en "+ (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
+                        enemyBinnacle += "y en " + (i - 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i - 1][j].getVertex().getIsland().getName();
+                    }else{
+                        swirlTarget(i, j, enemyId);
+                    }
+
                 }else{
                     binnacle += "y en "+ (i - 1) +" : " + j + " fallido";
 
@@ -572,10 +601,14 @@ public class GameController extends Controller implements KeyListener, MouseList
                 }
             }else{
                 if(view.getPlayerSea()[i + 1][j].getVertex() != null){
-                    game.setDestroyedIsland(view.getPlayerSea(),i, j);
-                    
-                    binnacle += "y en "+ (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
-                    enemyBinnacle += "y en " + (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
+                    if(!view.getPlayerSea()[i][j].getVertex().getIsland().getName().equals("Remolino")){
+                        game.setDestroyedIsland(view.getPlayerSea(),i, j);
+                        binnacle += "y en "+ (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
+                        enemyBinnacle += "y en " + (i + 1) +" : " + j + " exploto parte de " + view.getPlayerSea()[i + 1][j].getVertex().getIsland().getName();
+                    }else{
+                        swirlTarget(i, j, enemyId);
+                    }
+
                 }else{
                     binnacle += "y en "+ (i + 1) +" : " + j + " fallido";
 
@@ -591,6 +624,35 @@ public class GameController extends Controller implements KeyListener, MouseList
         binnacles.add(enemyBinnacle);
         return binnacles;
         
+    }
+    
+    // le han acertado a un remolino
+    private ArrayList swirlTarget(int iPos, int jPos, int enemyId){
+        ArrayList binnacles = new ArrayList<>();
+        String binnacle = "\n", enemyBinnacle = "\n";
+        
+        binnacle += " en remolino";
+        enemyBinnacle += "en remolino";
+        
+        for(int i = 0; i < 3; i++){
+            // generan 3 targets aleatorios para el rival
+            targets.add(new Target(new Random().nextInt(SEA_SIZE), new Random().nextInt(SEA_SIZE)));
+        }
+        
+        int lastEnemy = this.enemyIdSelected;
+        ItemType lastWeaponType = this.weaponType;
+        this.enemyIdSelected = enemyId;
+        this.weaponType = ItemType.CANNON;
+        
+        // enviar el ataque
+        attackEnemySea();
+        
+        this.enemyIdSelected = lastEnemy; // devuelve el que estaba
+        this.weaponType = lastWeaponType;
+        
+        binnacles.add(binnacle);
+        binnacles.add(enemyBinnacle);
+        return binnacles;
     }
     
     // escribe en la bitacora de mi pantalla y en la del enemigo
