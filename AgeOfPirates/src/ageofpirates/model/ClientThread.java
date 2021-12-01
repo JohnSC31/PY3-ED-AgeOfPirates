@@ -190,6 +190,11 @@ public class ClientThread extends Thread{
                 this.mainController.getGameController().recieveBinnacle(binnacle);
                 
                 break;
+            case 7: // se recibe al kraken
+                
+                this.mainController.getGameController().receiveKraken(inputStream.readInt(), inputStream.readInt());
+                
+                break;
             default:
                 System.out.println("Option " + option +" en game inexistente");
                 break;

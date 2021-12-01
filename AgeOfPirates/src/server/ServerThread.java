@@ -261,6 +261,17 @@ public class ServerThread extends Thread{
                     }
                 }
                 break;
+            case 6: // envio del kraken
+                enemyId = inputStream.readInt();
+                for(int i = 0; i < players.size(); i++){
+                    if(players.get(i).getPlayerId() == enemyId){
+                        players.get(i).outputStream.writeInt(3); // juego
+                        players.get(i).outputStream.writeInt(7);// recibir al kraken
+                        players.get(i).outputStream.writeInt(inputStream.readInt());
+                        players.get(i).outputStream.writeInt(playerId); // id de atacante
+                    }
+                }
+                break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");
                 break;

@@ -39,6 +39,7 @@ public class GameController extends Controller implements KeyListener, MouseList
     private ItemType weaponType;
     private ArrayList<Target> targets;
     private int enemyIdSelected;
+    private int enemyGraphSize;
     // cuando termina de disparar colocarlo en -1
     private int shield; // comodin del escudo
     
@@ -103,7 +104,6 @@ public class GameController extends Controller implements KeyListener, MouseList
         game.setSea(view.getPnlSea(), view.getPlayerSea(), game.getGraph()); // seteo inicial del mar del jugador actual
         game.startTemple(this);
         game.startMining(view.getLblSteel(), this);
-        // comenzar el templo
     }
 
     @Override
@@ -165,8 +165,17 @@ public class GameController extends Controller implements KeyListener, MouseList
                 this.view.getLblWeaponSelected().setText("Barco Fantasma");
             }
         }
+        // se utiliza uno de los comodines
         if(e.getSource().equals(view.getBtnComodin())){
+            if(view.getLblComodin().getText().equals("Kraken")){
+                sendPlayerKraken();
+                view.getLblComodin().setText("Comodin");
+            }
             
+            if(view.getLblComodin().getText().equals("Escudo")){
+                setPlayerShield();
+                view.getLblComodin().setText("Comodin");
+            }
         }
         
         if(e.getSource().equals(view.getBtnAttack())){
@@ -377,6 +386,42 @@ public class GameController extends Controller implements KeyListener, MouseList
         }
     }
     
+    private void sendPlayerKraken(){
+        int indexIsland = new Random().nextInt(enemyGraphSize);
+        // el index de la isla a destruir del enemigo
+        try {
+            outputStream.writeInt(3); // opcion del helper server
+            outputStream.writeInt(6); // subipcion para pasar el siguiente turno
+            
+            outputStream.writeInt(enemyIdSelected);
+            outputStream.writeInt(indexIsland);
+            
+            this.view.getBtnAttack().setEnabled(false);
+            this.weaponTargetAmount = -1;
+            this.view.getLblWeaponSelected().setText("Selecciona un arma");
+            resetEnemySeaTargets();
+            nextPlayerTurn(); // pasa al siguiente turno
+            
+            
+        } catch(IOException ex) {
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void receiveKraken(int islandIndex, int attackerId){
+        Vertex vertex = this.game.getGraph().get(islandIndex);
+        game.krakenDestroyIsland(this.view.getPlayerSea(), vertex);
+
+        String binnacle = "RECIBIDO: en " + vertex.getIsland().getiPos()+" : " + vertex.getIsland().getjPos() + " de Kraken ha destruido " + vertex.getIsland().getName();
+        String enemyBinnacle = "ATAQUE: en " + vertex.getIsland().getiPos()+" : " + vertex.getIsland().getjPos() + " de Kraken ha destruido " + vertex.getIsland().getName();
+    
+        writeBinnacles(binnacle, enemyBinnacle, attackerId);
+    }
+    
+    // coloca el comodin del escudo
+    private void setPlayerShield(){
+        this.shield += new Random().nextInt(5 - 2) + 2;
+    }
     // procesa y recibe los ataques
     public void recieveAttack(ArrayList<Target> targetsReceived, ItemType weapon, int enemyId){
 
@@ -742,6 +787,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         String str = "Jugador " + enemyId;
         str += enemyShiled ? " (Escudo)" : " ";
         this.view.getLblEnemy().setText(str);
+        this.enemyGraphSize = enemyGraph.size(); // establecer el tamano del grafo que tiene el enemigo seleccionado
         
         SeaCell[][] enemySea = rebuildEnemySea(enemySeaData);
         
@@ -783,8 +829,6 @@ public class GameController extends Controller implements KeyListener, MouseList
         }
     
     }
-    
-    
     
     private void setInitialSea(){
         for(int i = 0; i < game.getGraph().size(); i++){

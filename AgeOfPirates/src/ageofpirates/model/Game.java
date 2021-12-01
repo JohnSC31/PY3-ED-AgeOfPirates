@@ -259,6 +259,28 @@ public class Game implements Serializable{
         }
     }
     
+    public void krakenDestroyIsland(SeaCell[][] sea, Vertex vertex){
+         try{
+            Island island = vertex.getIsland();
+            int iPos = island.getiPos(), jPos = island.getjPos();
+            for(int yDimension = 0; yDimension < island.getyDimension(); yDimension++){
+                for(int xDimension = 0; xDimension < island.getxDimension(); xDimension++){
+                    sea[iPos][jPos].setIcon(MainController.resizeIcon(destroyedIcons.get(0), CELL_SIZE, CELL_SIZE));
+                    sea[iPos][jPos].setDestroyed(true);
+                    jPos++;
+                }
+                jPos = island.getjPos();
+                iPos++;
+            }
+            
+            vertex.getIsland().setDestroyed(true);
+            vertex.getAristas().removeAll(vertex.getAristas()); // queda disconexo
+
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Kakren can not destroy island");
+        }
+    }
+    
     public void setArista(JPanel seaPanel, Arista arista){
         Graphics2D g2 =(Graphics2D) seaPanel.getGraphics();
         g2.setColor(Color.WHITE);
