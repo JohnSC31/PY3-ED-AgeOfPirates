@@ -81,6 +81,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         this.view.getBtnConfig().addActionListener(this);
 
         setInitialPlayerSea(); // se inicia el oceano del jugador
+        showLines(); //Se dibujan las lineas
         setPlayerInventory(); // seteo del inventario inicial
         
         addMouseListenerSea();
@@ -100,7 +101,7 @@ public class GameController extends Controller implements KeyListener, MouseList
     // establece el grafo en la matriz y ademas inicia los thread de las minas que no han iniciado
     public void setInitialPlayerSea(){
         game.setSea(view.getPnlSea(), view.getPlayerSea(), game.getGraph()); // seteo inicial del mar del jugador actual
-        
+        game.startTemple(this);
         game.startMining(view.getLblSteel(), this);
         // comenzar el templo
     }
@@ -109,9 +110,6 @@ public class GameController extends Controller implements KeyListener, MouseList
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource().equals(this.view.getBtnSendMessage())){
-            if(game.getGraph()!=null){
-                System.out.println("El grafo tiene contenido");
-            }
             if(!this.view.getTxtfMessage().getText().equals("")){
                 sendMessage();
             }
@@ -797,8 +795,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         showLines();
     }
     private void showLines(){
-        Graphics2D g2 =(Graphics2D)view.getPnlSea().getGraphics();
-        g2.setColor(Color.WHITE);
+        int x1, x2, y1, y2 =0;
         ArrayList<Vertex> losVertex=game.getGraph();
         for (int i = 0; i < losVertex.size(); i++) {
             System.out.println("El elemento numero"+(i+1));
@@ -809,10 +806,19 @@ public class GameController extends Controller implements KeyListener, MouseList
                 System.out.println("Coordenada y1: "+coordenadas.get(1));
                 System.out.println("Coordenada x2: "+coordenadas.get(2));
                 System.out.println("Coordenada y2: "+coordenadas.get(3));
-                g2.drawLine(coordenadas.get(0), coordenadas.get(1),
-                        coordenadas.get(2), coordenadas.get(3));
+                x1=coordenadas.get(0);
+                y1=coordenadas.get(1);
+                x2=coordenadas.get(2);
+                y2=coordenadas.get(3);
+                Graphics2D g2 =(Graphics2D)view.getPnlSea().getGraphics();
+                g2.setColor(Color.WHITE);
+                g2.drawLine(x1, y1, x2, y2);
             }
         }
+    }
+    
+    public void setComodin(String comodin){
+        view.getLblComodin().setText(comodin);
     }
     // ----------------------------------------------- GETTERS AND SETTERS ------------------------------------------------------
 

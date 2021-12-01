@@ -362,6 +362,17 @@ public class Game implements Serializable{
         }
     }
    
+    // metodo para el inicio de los templos
+    public void startTemple(GameController gameController){
+        for(int i = 0; i < graph.size(); i++){
+            if(graph.get(i).getIsland().getName().equals("Templo")){
+                Temple temple = (Temple) graph.get(i).getIsland();
+                if(temple.getTempleThread() == null){
+                    temple.startTemple(this, gameController);
+                }
+            }
+        }
+    }
     
     // valida si el vertice dado tiene conexion con la fuente de poder
     public boolean isConnectedToPower(Vertex vertex){

@@ -4,6 +4,7 @@ package ageofpirates.view;
 import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,6 +26,8 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         initComponents();
         enemies = new ArrayList<>();
         initSea();
+        this.pnlSea.setBackground(PALLETE[1]);
+        this.pnlEnemySea.setBackground(PALLETE[1]);
     }
     
     private void initSea(){
@@ -337,6 +340,10 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnJugadorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugadorAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnJugadorAActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAttack;
@@ -345,6 +352,9 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JButton btnComodin;
     private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnGhostShip;
+    private javax.swing.JButton btnJugadorA;
+    private javax.swing.JButton btnJugadorB;
+    private javax.swing.JButton btnJugadorC;
     private javax.swing.JButton btnMultipleCannon;
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnRBCannon;
@@ -488,6 +498,9 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         return lblEnemy;
     }
     
+    public JButton getBtnPlayerA(){
+        return btnJugadorA;
+    }
     
     
 
