@@ -6,12 +6,9 @@ import javax.swing.ImageIcon;
 
 public class Swirl extends Island{
 
-    public Swirl(int iPos, int jPos, ArrayList<ImageIcon> icons) {
-        super(iPos, jPos, icons, 1, 1, "Remolino", 0);
+    public Swirl(int iPos, int jPos) {
+        super(iPos, jPos, 1, 1, "Remolino", 0);
     }
 
-    @Override
-    public void action() {
-    }
     
 }

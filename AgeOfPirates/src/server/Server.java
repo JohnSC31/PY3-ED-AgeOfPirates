@@ -63,10 +63,13 @@ public class Server {
     
     // pasa al siguiente turno y retorna el id del nuevo jugador en turno
     public int passPlayerTurn(){
-        playerIndexTurn++;
-        if(playerIndexTurn >= players.size()){
-            playerIndexTurn = 0;
-        }
+        do{
+            playerIndexTurn++;
+            if(playerIndexTurn >= players.size()){
+                playerIndexTurn = 0;
+            }
+        }while(players.get(playerIndexTurn).isLose());
+
         return players.get(playerIndexTurn).getPlayerId();
     }
 

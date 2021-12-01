@@ -2,9 +2,10 @@
 package ageofpirates.model;
 
 import ageofpirates.controller.GameController;
+import java.io.Serializable;
 
 
-public class MineThread extends Thread{
+public class MineThread extends Thread implements Serializable{
     
     private Mine mine;
     private boolean running;

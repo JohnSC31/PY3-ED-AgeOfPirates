@@ -1,8 +1,10 @@
 
 package ageofpirates.model;
 
+import java.io.Serializable;
 
-public class Target {
+
+public class Target implements Serializable{
     int i;
     int j;
 

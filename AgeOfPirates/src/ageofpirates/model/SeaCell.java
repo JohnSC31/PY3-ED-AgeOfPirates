@@ -1,11 +1,9 @@
 
 package ageofpirates.model;
 
-import static ageofpirates.controller.MainController.PALLETE;
 import java.awt.Color;
 import java.io.Serializable;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 

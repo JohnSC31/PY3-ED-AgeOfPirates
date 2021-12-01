@@ -127,7 +127,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuySourcePower())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuySourcePower().getText()) >= 0){
-                Vertex vertex = game.createVertex(new PowerSource(-1,-1, game.getSourcePowerIcons()));
+                Vertex vertex = game.createVertex(new PowerSource(-1,-1));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuySourcePower().getText()));
                 setBudget();
@@ -137,7 +137,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyConnector())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyConnector().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Connector(-1,-1, game.getConnectorIcons()));
+                Vertex vertex = game.createVertex(new Connector(-1,-1));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyConnector().getText()));
                 setBudget();
@@ -147,7 +147,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyMarket())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyMarket().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Market(-1,-1, game.getMarketIcons()));
+                Vertex vertex = game.createVertex(new Market(-1,-1));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyMarket().getText()));
                 setBudget();
@@ -157,7 +157,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyMine())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyMine().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Mine(-1,-1, game.getMineIcons()));
+                Vertex vertex = game.createVertex(new Mine(-1,-1));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyMine().getText()));
                 setBudget();
@@ -167,7 +167,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyTemple())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyTemple().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Temple(-1,-1, game.getTempleIcons()));
+                Vertex vertex = game.createVertex(new Temple(-1,-1));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyTemple().getText()));
                 setBudget();
@@ -177,7 +177,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyArmoryCannon())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryCannon().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Armory(-1,-1, game.getArmoryIcons(), ItemType.CANNON));
+                Vertex vertex = game.createVertex(new Armory(-1,-1, ItemType.CANNON));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryCannon().getText()));
                 setBudget();
@@ -187,7 +187,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyArmoryMultipleCannon())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryMultipleCannon().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Armory(-1,-1, game.getArmoryIcons(), ItemType.MULTIPLE_CANNON));
+                Vertex vertex = game.createVertex(new Armory(-1,-1, ItemType.MULTIPLE_CANNON));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryMultipleCannon().getText()));
                 setBudget();
@@ -197,7 +197,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyArmoryBomb())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryBomb().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Armory(-1,-1, game.getArmoryIcons(), ItemType.BOMB));
+                Vertex vertex = game.createVertex(new Armory(-1,-1, ItemType.BOMB));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryBomb().getText()));
                 setBudget();
@@ -207,7 +207,7 @@ public class MarketController extends Controller{
         if(e.getSource().equals(view.getBtnBuyArmoryBRCannon())){
             
             if(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryBRCannon().getText()) >= 0){
-                Vertex vertex = game.createVertex(new Armory(-1,-1, game.getArmoryIcons(), ItemType.RED_BEARD_CANNON));
+                Vertex vertex = game.createVertex(new Armory(-1,-1, ItemType.RED_BEARD_CANNON));
                 game.setIslandRandomPosition(mainController.getConfigView().getPlayerSea(), vertex);
                 game.setBudget(game.getBudget() - Integer.parseInt(view.getBtnBuyArmoryBRCannon().getText()));
                 setBudget();

@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ageofpirates.model;
 
 import ageofpirates.controller.GameController;
 import java.util.Random;
 
-/**
- *
- * @author PC
- */
 public class TempleThread extends Thread{
     private Temple temple;
     private boolean running;

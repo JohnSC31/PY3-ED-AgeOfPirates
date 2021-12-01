@@ -4,18 +4,17 @@
 package ageofpirates.controller;
 
 import ageofpirates.model.Game;
-import ageofpirates.view.LobbyWindow;
-import interfaces.iWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
+import java.io.Serializable;
 
 
-public abstract class Controller implements ActionListener{
+public abstract class Controller implements ActionListener, Serializable{
     
     public Game game;
     public MainController mainController;
-    public DataOutputStream outputStream;
+    public transient DataOutputStream outputStream;
     
     public Controller(Game game, MainController mainController){
         this.game = game;
