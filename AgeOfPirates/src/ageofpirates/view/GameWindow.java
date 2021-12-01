@@ -491,9 +491,6 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         return lblEnemy;
     }
     
-    public JButton getBtnPlayerA(){
-        return btnJugadorA;
-    }
     
     
 
