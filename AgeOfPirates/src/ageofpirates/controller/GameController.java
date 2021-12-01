@@ -161,7 +161,14 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnComodin())){
-            
+            if ((view.getLblComodin().getText()).equals("Kraken")){
+                //Se llama al procedimiento que activa al Kraken
+                System.out.println("Se activo el Kraken");
+            } else if ((view.getLblComodin().getText()).equals("Escudo")){
+                //Se llama al procedimiento que crea el escudo
+                System.out.println("Se activo el escudo");
+            }
+            view.getLblComodin().setText("Comodin");
         }
         
         if(e.getSource().equals(view.getBtnAttack())){

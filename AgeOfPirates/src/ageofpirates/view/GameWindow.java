@@ -5,6 +5,9 @@ import static ageofpirates.controller.MainController.PALLETE;
 import ageofpirates.model.SeaCell;
 import interfaces.iWindow;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,8 +29,16 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         initComponents();
         enemies = new ArrayList<>();
         initSea();
-        this.pnlSea.setBackground(PALLETE[1]);
-        this.pnlEnemySea.setBackground(PALLETE[1]);
+        /*
+        this.jPanel4.setBackground(Color.red);
+        Graphics2D grafico=(Graphics2D) this.jPanel4.getGraphics();
+        grafico.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        grafico.draw(new Line2D.Double(0, 0, 30, 40));
+        grafico.setColor(Color.black);
+        grafico.drawLine(0, 0, 50, 50);
+        this.jPanel4.getGraphics().drawLine(0, 0, 50, 50);
+        this.jPanel4.repaint();
+        */
     }
     
     private void initSea(){
@@ -133,18 +144,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         getContentPane().add(lblPlayerTurn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 500, 20));
 
         pnlEnemies.setBackground(new java.awt.Color(204, 204, 255));
-
-        javax.swing.GroupLayout pnlEnemiesLayout = new javax.swing.GroupLayout(pnlEnemies);
-        pnlEnemies.setLayout(pnlEnemiesLayout);
-        pnlEnemiesLayout.setHorizontalGroup(
-            pnlEnemiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-        pnlEnemiesLayout.setVerticalGroup(
-            pnlEnemiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-
+        pnlEnemies.setLayout(null);
         getContentPane().add(pnlEnemies, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, 60, 500));
 
         jTextArea1.setEditable(false);
@@ -335,10 +335,6 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnJugadorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugadorAActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnJugadorAActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAttack;
@@ -347,9 +343,6 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
     private javax.swing.JButton btnComodin;
     private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnGhostShip;
-    private javax.swing.JButton btnJugadorA;
-    private javax.swing.JButton btnJugadorB;
-    private javax.swing.JButton btnJugadorC;
     private javax.swing.JButton btnMultipleCannon;
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnRBCannon;
@@ -482,12 +475,6 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
     public JPanel getPnlEnemies() {
         return pnlEnemies;
-    }
-    
-    public JButton getBtnPlayerA(){
-        return btnJugadorA;
-    }
-    
-    
+    }    
 
 }
