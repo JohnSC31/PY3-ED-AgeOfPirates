@@ -31,6 +31,7 @@ public class ServerThread extends Thread{
     
     private int playerId;
     private boolean host;
+    private boolean lose;
     
     public ServerThread(Socket socketPlayer, Server server, ArrayList<ServerThread> players, boolean host, int playerId){
         this.socketPlayer = socketPlayer;
@@ -39,6 +40,7 @@ public class ServerThread extends Thread{
         this.players = players;
         this.host = host;
         this.players.add(this); // se agrega a si mismo al array de jugadores
+        this.lose = false;
         this.start();
     }
     
@@ -106,13 +108,22 @@ public class ServerThread extends Thread{
                 inputStream.readInt(); // ejemplificacion (no ha nada)
                 break;
             case 1: // setear el turno de todos los jugadores
+                int currentIndexPlayerTurn = server.getPlayerIndexTurn();
+                
                 int playerInTurnId = server.passPlayerTurn();
-                for(int i = 0; i < players.size(); i++){
-                    players.get(i).outputStream.writeInt(0);
-                    players.get(i).outputStream.writeInt(1);
-                    players.get(i).outputStream.writeInt(playerInTurnId);
+                if(players.get(currentIndexPlayerTurn).getPlayerId() == playerInTurnId){
+                    // volvio al mismo turno, lo que quiere decir que gano
+                    players.get(currentIndexPlayerTurn).outputStream.writeInt(0);
+                    players.get(currentIndexPlayerTurn).outputStream.writeInt(2);
+                    
+                }else{
+                    for(int i = 0; i < players.size(); i++){
+                        players.get(i).outputStream.writeInt(0);
+                        players.get(i).outputStream.writeInt(1);
+                        players.get(i).outputStream.writeInt(playerInTurnId);
+                    }
                 }
-                System.out.println("update turn");
+
                 break;
             case 2: // envia un arreglo con todos los enemigos del jugador que los pidio
                 ArrayList enemies = new ArrayList<>();
@@ -125,6 +136,10 @@ public class ServerThread extends Thread{
                 outputStream.writeInt(2);
                 objOutputStream.writeObject(enemies);
                 
+                break;
+                
+            case 3: // he perdido
+                    lose = true;
                 break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");
@@ -340,6 +355,10 @@ public class ServerThread extends Thread{
 
     public boolean isHost() {
         return host;
+    }
+
+    public boolean isLose() {
+        return lose;
     }
     
     

@@ -324,8 +324,6 @@ public class GameController extends Controller implements KeyListener, MouseList
             outputStream.writeInt(0); // opcion del helper server
             outputStream.writeInt(1); // subipcion para pasar el siguiente turno
             
-            System.out.println("Se actualiza turno");
-            
         } catch(IOException ex) {
             Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -372,7 +370,6 @@ public class GameController extends Controller implements KeyListener, MouseList
             this.weaponTargetAmount = -1;
             this.view.getLblWeaponSelected().setText("Selecciona un arma");
             resetEnemySeaTargets();
-            nextPlayerTurn(); // pasa al siguiente turno
         }
  
     }
@@ -400,9 +397,7 @@ public class GameController extends Controller implements KeyListener, MouseList
             this.weaponTargetAmount = -1;
             this.view.getLblWeaponSelected().setText("Selecciona un arma");
             resetEnemySeaTargets();
-            nextPlayerTurn(); // pasa al siguiente turno
-            
-            
+ 
         } catch(IOException ex) {
             Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -519,6 +514,8 @@ public class GameController extends Controller implements KeyListener, MouseList
             binnacle += "\n";
             enemyBinnacle += "\n";
         } // fin del for
+        
+        verifyGame();
         
         writeBinnacles(binnacle, enemyBinnacle, enemyId);
         
@@ -717,6 +714,7 @@ public class GameController extends Controller implements KeyListener, MouseList
     // recibe la bitacora del atacado para imprimirla en pantalla
     public void recieveBinnacle(String binnacle){
         this.view.getTxtaBinnacle().setText(this.view.getTxtaBinnacle().getText() + binnacle);
+        nextPlayerTurn(); // pasa al siguiente turno
     }
 
 // pedir a mis enemigos para que se cargen sus botones respectivos en la pantalla
@@ -863,6 +861,34 @@ public class GameController extends Controller implements KeyListener, MouseList
     
     public void setComodin(String comodin){
         view.getLblComodin().setText(comodin);
+    }
+    
+    
+    // setea si es ganador o si ha perdido
+    public void setWinner(boolean winner){
+        if(winner){
+            view.getLblPlayerTurn().setText("Has ganado");
+        }else{
+            view.getLblPlayerTurn().setText("Has perdido");
+        }
+    }
+    
+    // verifica si ha perdido el juego o no
+    private void verifyGame(){
+        for(int i = 0; i < game.getGraph().size(); i++){
+            if(!game.getGraph().get(i).getIsland().isDestroyed()) return;
+        }
+        
+        // todas las islas estan destruidas y seteo que perdi
+        setWinner(false);
+        try {
+            outputStream.writeInt(0); // opcion del helper server
+            outputStream.writeInt(3); // subipcion para pasar pedir la matriz y grafo del enemigo
+            
+            
+        } catch(IOException ex) {
+            Logger.getLogger(LobbyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     // ----------------------------------------------- GETTERS AND SETTERS ------------------------------------------------------
 

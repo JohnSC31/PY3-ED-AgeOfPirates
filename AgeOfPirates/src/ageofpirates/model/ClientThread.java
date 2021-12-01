@@ -85,6 +85,9 @@ public class ClientThread extends Thread{
                 
                 mainController.getGameController().setPlayerTurn(playerTurn);
                 break;
+            case 2: // eres ganador
+                mainController.getGameController().setWinner(true);
+                break;
             default:
                 System.out.println("Option " + option +" en serverHelper inexistente");
                 break;
