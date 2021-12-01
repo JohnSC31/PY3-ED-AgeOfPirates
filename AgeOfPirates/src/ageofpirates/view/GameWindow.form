@@ -310,7 +310,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblComodin">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Comodin"/>
+            <Property name="text" type="java.lang.String" value="Kraken"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnGhostShip">

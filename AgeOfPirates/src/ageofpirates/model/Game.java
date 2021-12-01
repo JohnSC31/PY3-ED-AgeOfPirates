@@ -73,8 +73,10 @@ public class Game implements Serializable{
         this.playerInventory = new Inventory();
         this.marketInventory = new Inventory();
         
+        this.playerInventory.updateItemAmount(ItemType.CANNON, 5);
+        this.playerInventory.updateItemAmount(ItemType.MULTIPLE_CANNON, 5);
         this.playerInventory.updateItemAmount(ItemType.BOMB, 5);
-        this.playerInventory.updateItemAmount(ItemType.CANNON, 10);
+        this.playerInventory.updateItemAmount(ItemType.RED_BEARD_CANNON, 5);
         this.playerInventory.updateItemAmount(ItemType.STEEL, 1000);
         
         this.budget = 4000; // se inicia con 4000 (dolares)
@@ -400,16 +402,47 @@ public class Game implements Serializable{
     
     // valida si el vertice dado tiene conexion con la fuente de poder
     public boolean isConnectedToPower(Vertex vertex){
-        if(vertex.getIsland().getName().equals("Fuente de Energia")) return true;
+//        if(vertex.getIsland().getName().equals("Fuente de Energia") && !vertex.getIsland().isDestroyed()) return true;
+//        
+//        if(vertex.getIsland().getName().equals("Remolino")) return true;
+//        
+//        for(int i = 0; i < vertex.getAristas().size(); i++){
+//            if(vertex.getAristas().get(i).getDestiny().getIsland().getName().equals("Fuente de Energia") && !vertex.getAristas().get(i).getDestiny().getIsland().isDestroyed()) return true;
+//            
+//            for(int j = 0; j < vertex.getAristas().get(i).getDestiny().getAristas().size(); j++){
+//                if(vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().getIsland().getName().equals("Fuente de Energia") &&
+//                      !vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().getIsland().isDestroyed()) return true;
+//            }
+//        }
+//        
+//        return false;
+        
         if(vertex.getIsland().getName().equals("Remolino")) return true;
         
-        for(int i = 0; i < vertex.getAristas().size(); i++){
-            if(vertex.getAristas().get(i).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
+        if(vertex.getIsland().getName().equals("Fuente de Energia")) return true;
+
+        if(!vertex.getIsland().isDestroyed()){
             
-            for(int j = 0; j < vertex.getAristas().get(i).getDestiny().getAristas().size(); j++){
-                if(vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
-            }
-        }
+            for(int i = 0; i < vertex.getAristas().size(); i++){
+                
+                if(!vertex.getAristas().get(i).getDestiny().getIsland().isDestroyed()){
+                    if(vertex.getAristas().get(i).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
+                    
+                        for(int j = 0; j < vertex.getAristas().get(i).getDestiny().getAristas().size(); j++){
+                            if(!vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().getIsland().isDestroyed()){
+                                
+                                if(vertex.getAristas().get(i).getDestiny().getAristas().get(j).getDestiny().getIsland().getName().equals("Fuente de Energia")) return true;
+                                
+                            } // if subasrista destino no destruido
+
+
+                        } // for subarista
+                    
+                } // if arista destino no destruido
+                
+            } // for arista
+            
+        } // if no destruido
         
         return false;
     }
@@ -461,7 +494,7 @@ public class Game implements Serializable{
         }
         
         vertex.getIsland().setDestroyed(true);
-        vertex.getAristas().removeAll(vertex.getAristas()); // queda disconexo
+//        vertex.getAristas().removeAll(vertex.getAristas()); // queda disconexo
         return true;
     }
     
@@ -484,7 +517,7 @@ public class Game implements Serializable{
         }
         
         vertex.getIsland().setDestroyed(true);
-        vertex.getAristas().removeAll(vertex.getAristas()); // queda disconexo
+//        vertex.getAristas().removeAll(vertex.getAristas()); // queda disconexo
     }
     
     public void setDestroyedCell(SeaCell[][] sea, int i, int j){

@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 
 public class Temple extends Island{
-    private TempleThread templeThread;
+    private transient TempleThread templeThread;
 
     public Temple(int iPos, int jPos) {
         super(iPos, jPos, 1, 2, "Templo", 2500);

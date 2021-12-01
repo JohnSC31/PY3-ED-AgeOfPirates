@@ -127,6 +127,7 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnMultipleCannon())){
+            
             if(game.getPlayerInventory().getItemAmount(ItemType.MULTIPLE_CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
                 game.getPlayerInventory().updateItemAmount(ItemType.MULTIPLE_CANNON, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
@@ -137,8 +138,8 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnBomb())){
-            if(game.getPlayerInventory().getItemAmount(ItemType.CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
-                game.getPlayerInventory().updateItemAmount(ItemType.CANNON, -1);
+            if(game.getPlayerInventory().getItemAmount(ItemType.BOMB) > 0 && weaponTargetAmount == -1 && playerTurn){
+                game.getPlayerInventory().updateItemAmount(ItemType.BOMB, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
                 this.weaponTargetAmount = 3; // cantidad de targets 
@@ -147,8 +148,8 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnRBCannon())){
-            if(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
-                game.getPlayerInventory().updateItemAmount(Game.ItemType.CANNON, -1);
+            if(game.getPlayerInventory().getItemAmount(Game.ItemType.RED_BEARD_CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
+                game.getPlayerInventory().updateItemAmount(Game.ItemType.RED_BEARD_CANNON, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
                 this.weaponTargetAmount = 10; // cantidad de targets 
@@ -157,8 +158,8 @@ public class GameController extends Controller implements KeyListener, MouseList
             }
         }
         if(e.getSource().equals(view.getBtnGhostShip())){
-            if(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) > 0 && weaponTargetAmount == -1 && playerTurn){
-                game.getPlayerInventory().updateItemAmount(Game.ItemType.CANNON, -1);
+            if(game.getPlayerInventory().getItemAmount(Game.ItemType.GHOST_SHIP) > 0 && weaponTargetAmount == -1 && playerTurn){
+                game.getPlayerInventory().updateItemAmount(Game.ItemType.GHOST_SHIP, -1);
                 setPlayerInventory(); // se actualiza todo el inventario
                 
                 this.weaponTargetAmount = 1; // cantidad de targets 
@@ -335,7 +336,7 @@ public class GameController extends Controller implements KeyListener, MouseList
         view.getBtnCannon().setText(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) + "");
         view.getBtnMultipleCannon().setText(game.getPlayerInventory().getItemAmount(Game.ItemType.MULTIPLE_CANNON) + "");
         view.getBtnBomb().setText(game.getPlayerInventory().getItemAmount(Game.ItemType.BOMB) + "");
-        view.getBtnRBCannon().setText(game.getPlayerInventory().getItemAmount(Game.ItemType.CANNON) + "");
+        view.getBtnRBCannon().setText(game.getPlayerInventory().getItemAmount(Game.ItemType.RED_BEARD_CANNON) + "");
         view.getBtnGhostShip().setText(game.getPlayerInventory().getItemAmount(Game.ItemType.GHOST_SHIP) + "");
         
         view.getLblSteel().setText(game.getPlayerInventory().getItemAmount(Game.ItemType.STEEL) + "");
@@ -428,8 +429,8 @@ public class GameController extends Controller implements KeyListener, MouseList
             enemyBinnacle += "ATAQUE: en " + targetsReceived.get(i).getI()+" : " + targetsReceived.get(i).getJ() + " ";
             
             if(this.shield > 0){
-                binnacle += " detenido por escudo";
-                enemyBinnacle += " detenido por escudo";
+                binnacle += " detenido por escudo\n";
+                enemyBinnacle += " detenido por escudo\n";
                 this.shield--;
                 continue;
             }

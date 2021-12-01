@@ -202,7 +202,7 @@ public class GameWindow extends javax.swing.JFrame implements iWindow{
 
         jLabel10.setText("Barco Fantasma");
 
-        lblComodin.setText("Comodin");
+        lblComodin.setText("Kraken");
 
         btnGhostShip.setText("0");
 
